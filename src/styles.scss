@@ -2,3 +2,22 @@
 html {
   scroll-behavior: smooth;
 }
+body::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+body::-webkit-scrollbar-track {
+  background: #15161b;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgb(73, 72, 72);
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

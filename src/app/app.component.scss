@@ -1,7 +1,7 @@
 @import "~swiper/swiper";
 @import "~swiper/components/navigation/navigation";
 @import "~swiper/components/pagination/pagination";
-
+//---------------------- Fonts-----------------------
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 @font-face {
@@ -117,7 +117,6 @@ p {
   align-items: center;
   height: 90vh;
 }
-
 #home .uil-location-arrow-alt::before {
   transform: rotate(90deg);
 }
@@ -180,7 +179,6 @@ p {
   list-style-type: none;
 }
 #skills .wrapper .row ul li p {
-  // margin-top: 25px;
   margin-bottom: 0;
 }
 #skills .contents {
@@ -189,12 +187,6 @@ p {
 #skills .contents .mb-3 {
   margin-bottom: 25px !important;
 }
-// @media screen and (min-width: 992px) {
-//   #skills .contents {
-//     padding: 20px;
-//     background-color: #272b41;
-//   }
-// }
 // =========================================
 
 // ================Service==================
@@ -207,9 +199,6 @@ p {
 #service .wrapper .row {
   width: 100%;
 }
-// #service .card-wrapper {
-//   padding: 10px 40px 10px 40px;
-// }
 #service .card {
   background-color: $card-color;
   min-width: 0px;
@@ -257,7 +246,6 @@ p {
   font-size: 20px;
   font-weight: 300;
 }
-
 #service .card-wrapper {
   height: 350px;
   width: 280px;
@@ -309,10 +297,6 @@ p {
 }
 
 // -------------------------------------------
-// .swiper-container {
-//   margin-right: 50px;
-//   margin-left: 50px;
-// }
 .swip-pad {
   padding: 0 70px;
 }
@@ -335,8 +319,6 @@ p {
   text-align: center;
   font-size: 18px;
   color: #fff;
-
-  /* Center slide text vertically */
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -350,28 +332,12 @@ p {
   -webkit-align-items: center;
   align-items: center;
 }
-
 .swiper-slide img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
-// #projects {
-//   position: relative;
-//   height: 100%;
-// }
-
-// #projects {
-//   // background: #eee;
-//   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-//   font-size: 14px;
-//   // color: #000;
-//   margin: 0;
-//   padding: 0;
-// }
-
 // -------------------------------------------
 
 // =========================================
@@ -426,7 +392,6 @@ p {
 #contact .wrapper .detail-container a {
   text-decoration: none;
 }
-
 // =========================================
 
 // ================Footer===================
@@ -473,6 +438,7 @@ p {
 // =========================================
 ////////////////////BUTTONS/////////////////
 // =========================================
+
 // --------------More about me--------------
 .btn-detail {
   border-radius: 10px;
@@ -493,14 +459,12 @@ p {
   text-decoration: none;
   color: white;
 }
-
 .btn-detail span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .btn-detail span:after {
   font-family: "FontAwesome";
   content: "\f101";
@@ -511,11 +475,9 @@ p {
   right: -20px;
   transition: 0.5s;
 }
-
 .btn-detail:hover span {
   padding-right: 25px;
 }
-
 .btn-detail:hover span:after {
   opacity: 1;
   right: 0;
@@ -541,14 +503,12 @@ p {
   text-decoration: none;
   color: white;
 }
-
 .btn-cv span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .btn-cv span:after {
   font-family: "FontAwesome";
   content: "\f019";
@@ -559,11 +519,9 @@ p {
   right: -20px;
   transition: 0.5s;
 }
-
 .btn-cv:hover span {
   padding-right: 25px;
 }
-
 .btn-cv:hover span:after {
   opacity: 1;
   right: 0;
@@ -588,14 +546,12 @@ p {
   text-decoration: none;
   color: white;
 }
-
 .btn-send span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .btn-send span:after {
   font-family: "FontAwesome";
   content: "\f135";
@@ -606,15 +562,14 @@ p {
   right: -20px;
   transition: 0.5s;
 }
-
 .btn-send:hover span {
   padding-right: 25px;
 }
-
 .btn-send:hover span:after {
   opacity: 1;
   right: 0;
 }
+
 // -------------Demo Button---------------
 .btn-demo {
   border-radius: 10px;
@@ -634,14 +589,12 @@ p {
   text-decoration: none;
   color: white;
 }
-
 .btn-demo span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .btn-demo span:after {
   font-family: "FontAwesome";
   content: "\f124";
@@ -652,19 +605,17 @@ p {
   right: -20px;
   transition: 0.5s;
 }
-
 .btn-demo:hover span {
   padding-right: 25px;
 }
-
 .btn-demo:hover span:after {
   opacity: 1;
   right: 0;
 }
+
 // =========================================
 /////////////Responive Design///////////////
 // =========================================
-
 @media screen and (max-width: 1400px) {
   #home h1 {
     font-size: 65px;
@@ -794,7 +745,6 @@ p {
   .btn-detail span:after {
     font-size: 15px;
   }
-
   .btn-cv {
     font-size: 14px;
     padding: 13px;
@@ -803,7 +753,6 @@ p {
   .btn-cv span:after {
     font-size: 16px;
   }
-
   #contact .wrapper .detail-container h2 {
     font-size: 23px;
     padding-left: 10px;
@@ -815,7 +764,9 @@ p {
     margin-top: 20px;
   }
 }
+
 // -----------------------------------------------------
+
 // ================SVG Animations=======================
 #avatar-red-shoe_to {
   animation: avatar-red-shoe_to__to 3000ms linear infinite normal forwards;
@@ -855,21 +806,17 @@ p {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   23.333333% {
     transform: rotate(15deg);
     animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   }
-
   50% {
     transform: rotate(0deg);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   76.666667% {
     transform: rotate(15deg);
   }
-
   100% {
     transform: rotate(0deg);
   }
@@ -884,21 +831,17 @@ p {
     transform: translate(-43.423828px, -216.236328px);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   23.333333% {
     transform: translate(-43.423828px, -223px);
     animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   }
-
   50% {
     transform: translate(-43.423828px, -216.24px);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   76.666667% {
     transform: translate(-43.423828px, -223px);
   }
-
   100% {
     transform: translate(-43.423828px, -216.24px);
   }
