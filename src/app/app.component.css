@@ -1,45 +1,30 @@
-@import "~swiper/swiper";
-@import "~swiper/components/navigation/navigation";
-@import "~swiper/components/pagination/pagination";
-//---------------------- Fonts-----------------------
+/* @import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination"; */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 @font-face {
   font-family: archiev;
-  src: url("./../assets/Fonts/Archive-Regular.ttf");
+  src: url(/Fonts/Archive-Regular.ttf);
 }
-// -------------------------------------------//
-//---------------- Fonts--------------------
-$poppins: "Poppins", sans-serif;
-$quicksand: "Quicksand", sans-serif;
-//---------------- Colors-------------------
-$bg-color: #1f2235;
-$nav-bg: #23263a;
-$heading: #fff;
-$sub-heading: #c3bebe;
-$para: #aaaaaa;
-$red: #ff4a57;
-$card-color: #2b2f47;
-// -------------------------------------------//
-/////////////////////COMMON///////////////
 #overall {
   overflow-x: hidden;
 }
 section {
-  font-family: $poppins !important;
+  font-family: "Poppins", sans-serif !important;
   background-color: #1f2235;
 }
 h1 {
   color: white;
 }
 h2 {
-  color: $sub-heading !important;
+  color: #c3bebe !important;
 }
 p {
-  color: $para;
+  color: #aaa;
 }
 .progress-bg {
-  background-color: $red;
+  background-color: #ff4a57;
 }
 .title {
   text-align: center;
@@ -55,25 +40,22 @@ p {
   padding: 13px 0px 13px 0;
   border: none;
   border-radius: 10px;
-  background-color: $red;
+  background-color: #ff4a57;
 }
-///////////////////////////////////////////
-
-// ===========Header-Navbar=================
 #header .bg-dark {
-  background-color: $nav-bg !important;
+  background-color: #23263a !important;
 }
 #header .navbar {
   padding-top: 15px;
   padding-bottom: 15px;
-  box-shadow: 0 1px 15px 0px #00000047;
+  box-shadow: 0 1px 15px 0px #000 47;
 }
 #header .navbar-dark .navbar-nav .nav-link {
   color: white !important;
   transition: 0.2s all ease-in-out;
 }
 #header .navbar-dark .navbar-nav .nav-link:hover {
-  color: $red !important;
+  color: #ff4a57 !important;
   transition: 0.2s all ease-in-out;
 }
 @media screen and (min-width: 992px) {
@@ -83,9 +65,6 @@ p {
     justify-content: flex-end !important;
   }
 }
-// =========================================
-
-// ================Home=====================
 #home {
   color: white;
   height: 100vh;
@@ -98,7 +77,7 @@ p {
   background: linear-gradient(90deg, #8cdddd 0, #d694b4);
   background-clip: inherit;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: #0000;
+  -webkit-text-fill-color: #000 0;
 }
 #home h2 {
   font-weight: 500;
@@ -120,9 +99,6 @@ p {
 #home .uil-location-arrow-alt::before {
   transform: rotate(90deg);
 }
-// =========================================
-
-// ================About====================
 #about .wrapper {
   display: flex;
   height: 90vh;
@@ -148,19 +124,16 @@ p {
   font-weight: 500;
 }
 #about .counting h4 {
-  font-family: $poppins;
+  font-family: "Poppins", sans-serif;
   color: white;
   font-size: 60px;
   margin-bottom: 0;
 }
 #about .counting .ctn-lable {
-  font-family: $poppins;
-  color: $para;
+  font-family: "Poppins", sans-serif;
+  color: #aaa;
   font-size: 15px;
 }
-// =========================================
-
-// ================Skills===================
 #skills .wrapper {
   height: 90vh;
   width: 100%;
@@ -187,9 +160,6 @@ p {
 #skills .contents .mb-3 {
   margin-bottom: 25px !important;
 }
-// =========================================
-
-// ================Service==================
 #service .wrapper {
   display: flex;
   align-items: center;
@@ -200,7 +170,7 @@ p {
   width: 100%;
 }
 #service .card {
-  background-color: $card-color;
+  background-color: #2b2f47;
   min-width: 0px;
   max-width: 270px;
   width: 100%;
@@ -216,20 +186,20 @@ p {
   width: 100%;
 }
 .card-svg {
-  fill: $red;
+  fill: #ff4a57;
   transition: 0.2s all ease-in-out;
 }
 #service .card:hover {
-  background-color: $red;
+  background-color: #ff4a57;
   transition: 0.2s all ease-in-out;
 }
 #service .card:hover .card-svg {
-  fill: $card-color;
+  fill: #2b2f47;
   transition: 0.2s all ease-in-out;
 }
 #service .card .detail-modal-link a {
   text-decoration: none;
-  color: $para;
+  color: #aaa;
   transition: 0.2s all ease-in-out;
 }
 #service .card .detail-modal-link a:hover {
@@ -242,7 +212,7 @@ p {
 }
 #service .card-title {
   color: white;
-  font-family: $poppins;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 300;
 }
@@ -250,18 +220,14 @@ p {
   height: 350px;
   width: 280px;
   text-align: center;
-  background-color: $card-color;
+  background-color: #2b2f47;
 }
 #service .card-wrapper h3 {
   color: white;
-  font-family: $poppins;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   font-weight: 300;
 }
-
-// =========================================
-
-// ================Projects=================
 #projects h5 {
   color: white;
 }
@@ -287,7 +253,7 @@ p {
 #projects .wrapper .text-container h5 {
   color: white;
   font-size: 40px;
-  font-family: $poppins;
+  font-family: "Poppins", sans-serif;
 }
 #projects .mar-l {
   margin-left: auto;
@@ -295,22 +261,20 @@ p {
 #projects .mar-r {
   margin-right: auto;
 }
-
-// -------------------------------------------
 .swip-pad {
   padding: 0 70px;
 }
-@media screen and(max-width:1400px) {
+@media screen and (max-width: 1400px) {
   .swip-pad {
     padding: 0 50px;
   }
 }
-@media screen and(max-width:1140px) {
+@media screen and (max-width: 1140px) {
   .swip-pad {
     padding: 0 30px;
   }
 }
-@media screen and(max-width:1060px) {
+@media screen and (max-width: 1060px) {
   .swip-pad {
     padding: 0 10px;
   }
@@ -338,11 +302,6 @@ p {
   height: 100%;
   object-fit: cover;
 }
-// -------------------------------------------
-
-// =========================================
-
-// ================Contact==================
 #contact .wrapper {
   display: flex;
   align-items: center;
@@ -366,7 +325,7 @@ p {
   border: none;
   padding: 15px 20px;
   color: white;
-  background-color: $card-color;
+  background-color: #2b2f47;
   border-radius: 7px;
 }
 #contact .form-container textarea {
@@ -375,7 +334,7 @@ p {
   width: 100%;
   padding: 15px 20px;
   color: white;
-  background-color: $card-color;
+  background-color: #2b2f47;
   border: none;
   border-radius: 7px;
 }
@@ -383,7 +342,7 @@ p {
   color: white !important;
 }
 #contact .wrapper .detail-container h2 span {
-  color: $red;
+  color: #ff4a57;
 }
 #contact .wrapper .detail-container h2 span i {
   width: 35px;
@@ -392,12 +351,9 @@ p {
 #contact .wrapper .detail-container a {
   text-decoration: none;
 }
-// =========================================
-
-// ================Footer===================
 #footer {
   height: 200px;
-  background-color: $card-color;
+  background-color: #2b2f47;
 }
 #footer .gotop {
   text-align: center;
@@ -427,26 +383,19 @@ p {
 }
 #footer .wrapper span a i:hover {
   transform: translateY(-2px);
-  color: $red;
+  color: #ff4a57;
   transition: 0.2s all ease-in-out;
 }
 #footer .cpy {
   text-align: center;
 }
-// =========================================
-
-// =========================================
-////////////////////BUTTONS/////////////////
-// =========================================
-
-// --------------More about me--------------
 .btn-detail {
   border-radius: 10px;
-  background-color: $red;
+  background-color: #ff4a57;
   border: none;
   color: white;
   text-align: center;
-  font-family: $quicksand;
+  font-family: "Quicksand", sans-serif;
   font-size: 16px;
   font-weight: 600;
   padding: 15px;
@@ -482,15 +431,13 @@ p {
   opacity: 1;
   right: 0;
 }
-
-// -------------Resume Button---------------
 .btn-cv {
   border-radius: 10px;
-  background-color: $red;
+  background-color: #ff4a57;
   border: none;
   color: white;
   text-align: center;
-  font-family: $quicksand;
+  font-family: "Quicksand", sans-serif;
   font-size: 16px;
   font-weight: 600;
   padding: 15px;
@@ -526,15 +473,13 @@ p {
   opacity: 1;
   right: 0;
 }
-
-// -------------Send Button---------------
 .btn-send {
   border-radius: 10px;
-  background-color: $red;
+  background-color: #ff4a57;
   border: none;
   color: white;
   text-align: center;
-  font-family: $quicksand;
+  font-family: "Quicksand", sans-serif;
   font-size: 16px;
   font-weight: 600;
   padding: 10px 0;
@@ -569,15 +514,13 @@ p {
   opacity: 1;
   right: 0;
 }
-
-// -------------Demo Button---------------
 .btn-demo {
   border-radius: 10px;
-  background-color: $red;
+  background-color: #ff4a57;
   border: none;
   color: white;
   text-align: center;
-  font-family: $quicksand;
+  font-family: "Quicksand", sans-serif;
   font-size: 16px;
   font-weight: 600;
   padding: 10px 0;
@@ -612,10 +555,6 @@ p {
   opacity: 1;
   right: 0;
 }
-
-// =========================================
-/////////////Responive Design///////////////
-// =========================================
 @media screen and (max-width: 1400px) {
   #home h1 {
     font-size: 65px;
@@ -623,7 +562,6 @@ p {
   #home h2 {
     font-size: 30px;
   }
-
   #contact .wrapper .detail-container h2 {
     font-size: 25px;
   }
@@ -667,7 +605,7 @@ p {
     font-size: 15px;
   }
 }
-@media screen and(max-width:768px) {
+@media screen and (max-width: 768px) {
   #about .row .brief-text p {
     font-size: 15px;
     font-weight: 300;
@@ -764,43 +702,32 @@ p {
     margin-top: 20px;
   }
 }
-
-// -----------------------------------------------------
-
-// ================SVG Animations=======================
 #avatar-red-shoe_to {
   animation: avatar-red-shoe_to__to 3000ms linear infinite normal forwards;
 }
-
 @keyframes avatar-red-shoe_to__to {
   0% {
     transform: translate(43.423828px, 216.236328px);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   23.333333% {
     transform: translate(43.423828px, 216.236328px);
     animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
   }
-
   50% {
     transform: translate(43.423828px, 216.236328px);
     animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-
   76.666667% {
     transform: translate(43.423828px, 216.236328px);
   }
-
   100% {
     transform: translate(43.423828px, 216.236328px);
   }
 }
-
 #avatar-red-shoe_tr {
   animation: avatar-red-shoe_tr__tr 3000ms linear infinite normal forwards;
 }
-
 @keyframes avatar-red-shoe_tr__tr {
   0% {
     transform: rotate(0deg);
@@ -821,11 +748,9 @@ p {
     transform: rotate(0deg);
   }
 }
-
 #avatar-red-shoe {
   animation: avatar-red-shoe__tt 3000ms linear infinite normal forwards;
 }
-
 @keyframes avatar-red-shoe__tt {
   0% {
     transform: translate(-43.423828px, -216.236328px);
