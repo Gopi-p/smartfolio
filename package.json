@@ -24,14 +24,7 @@
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10",
-    "sweetalert2": "^11.0.18",
-    "swiper": "^6.8.0",
-    "@iconscout/unicons": "^4.0.0",
-    "@popperjs/core": "^2.9.2",
-    "bootstrap": "^5.0.2",
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.6.0"
+    "zone.js": "~0.14.10"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.14",
