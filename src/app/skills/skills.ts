@@ -103,32 +103,28 @@ interface Tool {
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-lg p-8">
-          <h3 class="text-2xl font-bold text-white text-center mb-8">Skill Overview</h3>
-          <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+          <h3 class="text-2xl font-bold text-white text-center mb-8">Snapshot</h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div class="text-center">
-              <div class="text-2xl font-bold text-blue-400">Angular</div>
-              <div class="text-sm text-gray-400">95%</div>
+              <div class="text-2xl font-bold text-blue-400">5</div>
+              <div class="text-sm text-gray-400">Years experience</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-blue-400">TypeScript</div>
-              <div class="text-sm text-gray-400">95%</div>
+              <div class="text-2xl font-bold text-blue-400">7</div>
+              <div class="text-sm text-gray-400">Engineers led</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-blue-400">Node.js</div>
-              <div class="text-sm text-gray-400">85%</div>
+              <div class="text-2xl font-bold text-blue-400">11 → 17</div>
+              <div class="text-sm text-gray-400">Angular migration</div>
             </div>
             <div class="text-center">
-              <div class="text-2xl font-bold text-blue-400">MongoDB</div>
-              <div class="text-sm text-gray-400">85%</div>
-            </div>
-            <div class="text-center">
-              <div class="text-2xl font-bold text-blue-400">ME</div>
-              <div class="text-sm text-gray-400">100%</div>
+              <div class="text-2xl font-bold text-blue-400">1000s</div>
+              <div class="text-sm text-gray-400">Stores configured</div>
             </div>
           </div>
           <p class="text-gray-400 text-center">
-            My technical expertise forms a well-rounded foundation across the modern web development stack,
-            with deep specialization in Angular and TypeScript ecosystems.
+            Deep specialization in Angular and TypeScript, with a strong backend foundation in Node.js,
+            MongoDB, and GraphQL — built on real-world SaaS workloads.
           </p>
         </div>
       </div>
@@ -162,57 +158,73 @@ export class SkillsComponent {
     {
       name: 'Angular',
       level: 'Expert',
-      description: 'Complex UI development, performance optimization, state management, and modern Angular patterns including signals, standalone components, and SSR.',
-      technologies: ['RxJS', 'Signals', 'SSR', 'Standalone Components', 'Angular Material'],
-      icon: '???',
+      description: 'Complex UI development, performance optimization, and modern Angular patterns including signals, standalone components, and OnPush change detection.',
+      technologies: ['RxJS', 'Signals', 'Standalone Components', 'OnPush', 'Reactive Forms'],
+      icon: '🅰️',
       color: 'red',
       gradient: 'from-red-500 to-red-600'
     },
     {
       name: 'TypeScript',
       level: 'Expert',
-      description: 'Type-safe development, advanced types, generics, and modern JavaScript patterns with comprehensive type definitions.',
-      technologies: ['Advanced Types', 'Generics', 'Decorators', 'Utility Types', 'Mapped Types'],
-      icon: '??',
+      description: 'Type-safe development with advanced types, generics, and modern JavaScript patterns across large frontend and backend codebases.',
+      technologies: ['Advanced Types', 'Generics', 'Decorators', 'Utility Types', 'Strict Mode'],
+      icon: '🟦',
       color: 'blue',
       gradient: 'from-blue-500 to-blue-600'
     },
     {
+      name: 'Fabric.js',
+      level: 'Advanced',
+      description: 'Canvas-based interactive UIs — drag-and-drop layouts, zoom and pan, dynamic positioning, and state synchronization for large-scale configurations.',
+      technologies: ['Canvas', 'Drag & Drop', 'Zoom & Pan', 'Layout Persistence'],
+      icon: '🎨',
+      color: 'purple',
+      gradient: 'from-purple-500 to-pink-500'
+    },
+    {
       name: 'Node.js',
       level: 'Advanced',
-      description: 'Backend API development, server-side rendering, and scalable application architecture with Express and modern Node.js patterns.',
-      technologies: ['Express', 'SSR', 'APIs', 'Microservices', 'REST/GraphQL'],
-      icon: '??',
+      description: 'Backend API development, schema design, and scalable application architecture with REST and GraphQL services.',
+      technologies: ['Express', 'REST APIs', 'GraphQL', 'Schema Modeling'],
+      icon: '🟢',
       color: 'green',
       gradient: 'from-green-500 to-green-600'
     },
     {
       name: 'MongoDB',
       level: 'Advanced',
-      description: 'NoSQL database design, schema modeling, aggregation pipelines, and performance optimization for scalable applications.',
-      technologies: ['Aggregation', 'Indexing', 'Schema Design', 'Atlas', 'Compass'],
-      icon: '??',
+      description: 'NoSQL database design, schema modeling, aggregation pipelines, and query optimization for scalable SaaS workloads.',
+      technologies: ['Aggregation', 'Indexing', 'Schema Design', 'Atlas'],
+      icon: '🍃',
       color: 'green',
       gradient: 'from-green-600 to-emerald-600'
+    },
+    {
+      name: 'GraphQL',
+      level: 'Advanced',
+      description: 'Flexible data fetching with schema-first design — drove REST-to-GraphQL migration on a multi-tenant SaaS platform.',
+      technologies: ['Schema Design', 'Resolvers', 'Multi-tenant', 'Apollo'],
+      icon: '🔷',
+      color: 'pink',
+      gradient: 'from-pink-500 to-pink-600'
     }
   ]);
 
   tools = signal<Tool[]>([
-    { name: 'AWS', category: 'Cloud Services', icon: '??', color: 'from-orange-400 to-orange-500' },
-    { name: 'Docker', category: 'Containerization', icon: '??', color: 'from-blue-400 to-blue-500' },
-    { name: 'Git', category: 'Version Control', icon: '??', color: 'from-gray-600 to-gray-700' },
-    { name: 'Firebase', category: 'Backend Services', icon: '??', color: 'from-orange-500 to-red-500' },
-    { name: 'GraphQL', category: 'API Design', icon: '??', color: 'from-pink-500 to-pink-600' },
-    { name: 'Flutter', category: 'Cross-platform', icon: '??', color: 'from-blue-400 to-cyan-500' }
+    { name: 'JavaScript', category: 'Language', icon: '🟨', color: 'from-yellow-400 to-yellow-500' },
+    { name: 'Flutter', category: 'Cross-platform', icon: '📱', color: 'from-blue-400 to-cyan-500' },
+    { name: 'AWS S3', category: 'Cloud Storage', icon: '☁️', color: 'from-orange-400 to-orange-500' },
+    { name: 'Firebase', category: 'Backend Services', icon: '🔥', color: 'from-orange-500 to-red-500' },
+    { name: 'Docker', category: 'Containerization', icon: '🐳', color: 'from-blue-400 to-blue-500' },
+    { name: 'Git', category: 'Version Control', icon: '🔀', color: 'from-gray-600 to-gray-700' }
   ]);
 
   additionalExpertise = signal<string[]>([
-    'SQL Databases',
+    'SQL',
     'REST APIs',
     'Unit Testing',
-    'Agile Methodologies',
-    'CI/CD Pipelines',
-    'Performance Optimization'
+    'Agile Methodologies'
   ]);
 
   getProficiencyPercentage(level: string): number {

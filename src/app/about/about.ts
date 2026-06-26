@@ -22,7 +22,8 @@ interface TimelineItem {
             About <span class="text-blue-400">Me</span>
           </h2>
           <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-            My journey from Angular developer to Team Lead, building scalable SaaS applications and complex frontend systems.
+            5 years of building scalable SaaS applications — from Angular developer to Team Lead,
+            architecting complex frontend systems and end-to-end product features.
           </p>
         </div>
 
@@ -43,14 +44,16 @@ interface TimelineItem {
                   <h3 class="text-xl font-bold text-white mb-2">Software Engineer</h3>
                   <p class="text-blue-400 font-medium mb-3">Tango Eye, Chennai</p>
                   <p class="text-gray-400 text-sm leading-relaxed">
-                    Leading frontend development on a large-scale enterprise SaaS application for retail store management.
-                    Building canvas-based store layout systems with complex UI interactions, real-time data integration, and performance optimization at scale.
+                    Architected a canvas-based store layout system from scratch with Angular and Fabric.js,
+                    enabling drag-and-drop configuration of fixtures and product placements across thousands
+                    of retail locations. Designed planogram backend APIs and improved frontend performance
+                    with OnPush, signals, standalone components, lazy loading, and modular architecture.
                   </p>
                   <div class="flex flex-wrap gap-2 mt-4 justify-end">
                     <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Angular</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Canvas API</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">TypeScript</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">RxJS</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Fabric.js</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Signals</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Node.js</span>
                   </div>
                 </div>
               </div>
@@ -76,14 +79,16 @@ interface TimelineItem {
                   <h3 class="text-xl font-bold text-white mb-2">Team Lead / Software Engineer</h3>
                   <p class="text-blue-400 font-medium mb-3">Tandemloop Technologies, Bangalore</p>
                   <p class="text-gray-400 text-sm leading-relaxed">
-                    Led a team of 7 engineers across frontend, backend, and QA. Drove migration from REST to GraphQL,
-                    implemented multi-tenant architecture, and established coding standards. Managed sprint planning, technical interviews, and cross-team coordination.
+                    Led a team of 7 engineers to redesign and rebuild a SaaS platform from scratch.
+                    Drove architectural decisions across frontend and backend, including REST-to-GraphQL
+                    migration and multi-tenant architecture. Established coding standards, ran code
+                    reviews, and managed end-to-end delivery with design, QA, and DevOps.
                   </p>
                   <div class="flex flex-wrap gap-2 mt-4">
                     <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Angular</span>
                     <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">GraphQL</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Node.js</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Leadership</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Multi-tenant</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Team Leadership</span>
                   </div>
                 </div>
               </div>
@@ -99,13 +104,15 @@ interface TimelineItem {
                   <h3 class="text-xl font-bold text-white mb-2">Software Engineer</h3>
                   <p class="text-blue-400 font-medium mb-3">Tandemloop Technologies, Bangalore</p>
                   <p class="text-gray-400 text-sm leading-relaxed">
-                    Started as Angular developer, contributed to building core SaaS modules. Led Angular 11 to 17 migration,
-                    built authentication systems, RBAC, and order fulfillment workflows. Improved performance and reduced bundle size.
+                    Revamped a legacy Angular app by rewriting from Angular 11 to 17 using modern
+                    architecture patterns and standalone components. Built core modules: authentication,
+                    organization management, role-based access control, and order fulfilment workflows.
+                    Restructured frontend architecture and reduced bundle size.
                   </p>
                   <div class="flex flex-wrap gap-2 mt-4 justify-end">
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Angular</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Angular 11 → 17</span>
                     <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">TypeScript</span>
-                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">RxJS</span>
+                    <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">RBAC</span>
                     <span class="text-xs bg-slate-800 text-gray-300 px-2 py-1 rounded">Performance</span>
                   </div>
                 </div>
@@ -173,48 +180,20 @@ interface TimelineItem {
           </div>
         </div>
 
-        <!-- Skills overview -->
-        <div class="mt-20 text-center">
-          <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
-            What I <span class="text-purple-600 dark:text-purple-400">Enjoy Working On</span>
+        <!-- What I enjoy working on -->
+        <div class="mt-20">
+          <h3 class="text-3xl font-bold text-white text-center mb-12">
+            What I <span class="text-blue-400">Enjoy Working On</span>
           </h3>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @for (skill of skills(); track skill.title) {
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border border-gray-100 dark:border-gray-700 group">
-                <div class="text-4xl mb-4 group-hover:animate-bounce">{{ skill.icon }}</div>
-                <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">{{ skill.title }}</h4>
-                <p class="text-gray-600 dark:text-gray-300">{{ skill.description }}</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @for (interest of interests(); track interest.title) {
+              <div class="bg-slate-900 border border-slate-800 rounded-lg p-6 hover:border-blue-500/50 transition-colors duration-300">
+                <div class="text-3xl mb-4">{{ interest.icon }}</div>
+                <h4 class="text-lg font-semibold text-white mb-2">{{ interest.title }}</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">{{ interest.description }}</p>
               </div>
             }
-          </div>
-        </div>
-
-        <!-- Fun facts section -->
-        <div class="mt-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
-          <h3 class="text-3xl font-bold mb-8">Fun Facts</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="group cursor-pointer" (click)="toggleFunFact(0)">
-              <div class="text-4xl mb-4 group-hover:animate-spin">🚀</div>
-              <h4 class="text-xl font-semibold mb-2">Problem Solver</h4>
-              <p class="opacity-90" [class.hidden]="!funFactsVisible()[0]">
-                I love tackling complex challenges and finding elegant solutions that make a real impact.
-              </p>
-            </div>
-            <div class="group cursor-pointer" (click)="toggleFunFact(1)">
-              <div class="text-4xl mb-4 group-hover:animate-bounce">🎨</div>
-              <h4 class="text-xl font-semibold mb-2">Creative Thinker</h4>
-              <p class="opacity-90" [class.hidden]="!funFactsVisible()[1]">
-                I believe great software is both functional and beautiful, combining technical excellence with thoughtful design.
-              </p>
-            </div>
-            <div class="group cursor-pointer" (click)="toggleFunFact(2)">
-              <div class="text-4xl mb-4 group-hover:animate-pulse">🌱</div>
-              <h4 class="text-xl font-semibold mb-2">Continuous Learner</h4>
-              <p class="opacity-90" [class.hidden]="!funFactsVisible()[2]">
-                Technology evolves rapidly, and I'm always excited to learn new tools and approaches to stay ahead.
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -294,15 +273,13 @@ interface TimelineItem {
   `]
 })
 export class AboutComponent {
-  funFactsVisible = signal([false, false, false]);
-
   timelineItems = signal<TimelineItem[]>([
     {
       year: '2025',
       title: 'Software Engineer',
       company: 'Tango Eye, Chennai',
-      description: 'Leading frontend development on a large-scale enterprise SaaS application for retail store management. Building canvas-based store layout systems with complex UI interactions, real-time data integration, and performance optimization at scale.',
-      technologies: ['Angular', 'Canvas API', 'TypeScript', 'RxJS'],
+      description: 'Architected a canvas-based store layout system with Angular and Fabric.js for fixture and product placement across thousands of retail locations. Designed planogram backend APIs and improved frontend performance with OnPush, signals, standalone components, and modular architecture.',
+      technologies: ['Angular', 'Fabric.js', 'Signals', 'Node.js'],
       type: 'work',
       icon: '💼'
     },
@@ -344,42 +321,26 @@ export class AboutComponent {
     }
   ]);
 
-  skills = signal([
+  interests = signal([
     {
       icon: '🖥️',
       title: 'Complex UI Systems',
-      description: 'Building canvas-based interfaces, dynamic layouts, and state-heavy applications with smooth user interactions.'
+      description: 'Canvas-based interfaces, dynamic layouts, and state-heavy applications with smooth interactions.'
     },
     {
       icon: '⚡',
-      title: 'Performance Optimization',
-      description: 'Scaling applications to handle thousands of users, optimizing bundle sizes, and implementing efficient data flow patterns.'
+      title: 'Performance & Scalability',
+      description: 'Optimizing rendering paths, bundle size, and data flow patterns for large-scale SaaS workloads.'
     },
     {
       icon: '🏗️',
       title: 'System-Level Thinking',
-      description: 'Designing end-to-end product architectures, API schemas, database modeling, and scalable backend solutions.'
+      description: 'API design, schema modeling, and end-to-end architecture decisions across frontend and backend.'
     },
     {
-      icon: '👨‍💼',
-      title: 'Team Leadership',
-      description: 'Leading engineering teams, mentoring developers, and driving technical excellence across organizations.'
-    },
-    {
-      icon: '🔄',
-      title: 'Migration & Modernization',
-      description: 'Successfully migrating legacy systems to modern frameworks and establishing scalable development practices.'
-    },
-    {
-      icon: '🎯',
-      title: 'Problem Solving',
-      description: 'Breaking down complex business challenges into elegant technical solutions that deliver real value.'
+      icon: '🚀',
+      title: 'End-to-End Product Work',
+      description: 'Owning features from problem framing through delivery — from data model to deployed UI.'
     }
   ]);
-
-  toggleFunFact(index: number) {
-    const current = this.funFactsVisible();
-    current[index] = !current[index];
-    this.funFactsVisible.set([...current]);
-  }
 }

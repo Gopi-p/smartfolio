@@ -44,16 +44,17 @@ import { Component, ElementRef, HostListener, inject, signal } from '@angular/co
           <!-- Description -->
           <div class="max-w-2xl mx-auto mb-12 animate-fade-in" style="animation-delay: 0.6s;">
             <p class="text-lg md:text-xl text-gray-400 leading-relaxed">
-              Building scalable frontend systems and high-performance user interfaces with Angular. 
-              Strong foundation in backend architecture and enterprise-scale SaaS applications.
+              Software Engineer with 5 years of experience building scalable SaaS applications
+              and performance-critical frontend systems with Angular. Strong foundation in
+              backend architecture, API design, and large-scale data handling.
             </p>
           </div>
 
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-in" style="animation-delay: 0.9s;">
             <a
-              href="/assets/resume.txt"
-              download
+              href="/assets/Gopinath_P_Software_Developer.pdf"
+              download="Gopinath_P_Software_Developer.pdf"
               class="group px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/50 flex items-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +189,7 @@ export class HeroComponent {
   particles = signal(this.generateParticles());
 
   // Typing animation
-  fullText = "Software Engineer • Frontend Systems • Scalable SaaS Applications";
+  fullText = "Software Engineer | Frontend Expert • Scalable Systems & SaaS";
   displayText = signal('');
   currentIndex = 0;
 

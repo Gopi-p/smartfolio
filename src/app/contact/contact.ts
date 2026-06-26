@@ -137,8 +137,8 @@ interface SocialLink {
                   </div>
                   <div>
                     <h4 class="text-lg font-semibold text-white mb-1">Phone</h4>
-                    <a href="tel:+916369327257" class="text-blue-400 hover:text-blue-300 transition-colors duration-300">
-                      +91 6369 327 257
+                    <a href="tel:+916369326257" class="text-blue-400 hover:text-blue-300 transition-colors duration-300">
+                      +91 63693 26257
                     </a>
                   </div>
                 </div>
@@ -208,8 +208,8 @@ interface SocialLink {
               <h3 class="text-2xl font-bold text-white mb-6">Download My Resume</h3>
               <p class="text-gray-400 mb-6">Get the full details of my experience and skills</p>
               <a
-                href="/assets/resume.txt"
-                download
+                href="/assets/Gopinath_P_Software_Developer.pdf"
+                download="Gopinath_P_Software_Developer.pdf"
                 class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300 gap-2"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

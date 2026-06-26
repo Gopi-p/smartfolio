@@ -148,49 +148,55 @@ export class ProjectsComponent {
     {
       id: 'planogram',
       title: 'Planogram System',
-      subtitle: 'Canvas-Based Store Layout Designer',
-      description: 'A sophisticated canvas-based system for designing and managing retail store layouts at scale. Built for Tango Eye\'s enterprise SaaS platform, handling thousands of stores with complex product placement rules and real-time compliance tracking.',
+      subtitle: 'Canvas-Based Store Layout Designer — Tango Eye',
+      description:
+        'Architected and built a canvas-based store layout system from scratch with Angular and Fabric.js, enabling drag-and-drop configuration of fixtures and product placements across thousands of retail locations. Designed backend APIs and schema for planogram management, and integrated near real-time store data for compliance and operational insights.',
       features: [
-        'Drag-and-drop fixture configuration',
-        'Real-time compliance and placement tracking',
-        'Zoom, pan, and dynamic positioning',
-        'Multi-tenant architecture support'
+        'Drag-and-drop fixture and product placement',
+        'Zoom, pan, dynamic positioning, and layout persistence',
+        'Near real-time compliance and placement tracking',
+        'Frontend perf via OnPush, signals, standalone components, lazy loading'
       ],
-      technologies: ['Angular', 'Fabric.js', 'Node.js', 'MongoDB', 'TypeScript'],
-      impact: 'Handles store-level configurations at scale, processing thousands of stores with complex product placement rules and real-time operational insights.',
-      icon: '??',
+      technologies: ['Angular', 'Fabric.js', 'TypeScript', 'Node.js', 'MongoDB'],
+      impact:
+        'Powers store-level configurations at scale, with state synchronization and layout persistence across thousands of retail locations.',
+      icon: '🗺️',
       gradient: 'from-blue-500 to-indigo-600'
     },
     {
-      id: 'swift-crm',
-      title: 'Swift CRM',
-      subtitle: 'Customizable Business CRM Platform',
-      description: 'A lightweight, customizable CRM solution designed specifically for MSMEs. Completely rebuilt from Angular 11 to 17, featuring adaptive workflows that cater to different business models and industry requirements.',
+      id: 'zone-platform',
+      title: 'Zone Platform',
+      subtitle: 'Multi-Module SaaS Suite — Tandemloop',
+      description:
+        'Co-led the ground-up rebuild of a multi-tenant SaaS platform as Team Lead with a team of 7 engineers. Drove the REST-to-GraphQL migration, defined coding standards, and ran code reviews. The suite spans CRM, order fulfilment, accounting, and communication tools used by small and medium businesses.',
       features: [
-        'Industry-specific workflow templates',
-        'Customizable lead conversion pipelines',
-        'Integrated communication tools',
-        'Affordable alternative to enterprise CRMs'
+        'CRM with lead-to-customer lifecycle',
+        'Order fulfilment workflows',
+        'Role-based access control & organization management',
+        'Multi-tenant architecture'
       ],
-      technologies: ['Angular', 'TypeScript', 'Node.js', 'MongoDB', 'GraphQL'],
-      impact: 'Transformed how small businesses manage customer relationships, providing customizable workflows that adapt to different industry needs and business sizes.',
-      icon: '??',
+      technologies: ['Angular', 'TypeScript', 'GraphQL', 'Node.js', 'MongoDB'],
+      impact:
+        'Rebuilt the platform from scratch to improve scalability and feature velocity; the REST-to-GraphQL migration and multi-tenant architecture set the foundation for the suite.',
+      icon: '🧩',
       gradient: 'from-green-500 to-emerald-600'
     },
     {
-      id: 'zonebooks',
-      title: 'ZoneBooks',
-      subtitle: 'Accounting & Invoicing Software',
-      description: 'A comprehensive accounting solution integrated with Swift CRM. Handles invoicing, expense tracking, financial reporting, and document management for small and medium businesses.',
+      id: 'ng-modernization',
+      title: 'Angular 11 → 17 Modernization',
+      subtitle: 'Legacy Codebase Rewrite — Tandemloop',
+      description:
+        'Rewrote a legacy Angular application from version 11 to 17 using modern architecture patterns and standalone components. Built core modules (authentication, organization management, RBAC, order fulfilment) and standardized data handling patterns across the SaaS suite.',
       features: [
-        'Automated invoice generation',
-        'CRM integration for customer data',
-        'PDF generation and document management',
-        'Multi-currency support'
+        'Modern patterns: standalone components, modular architecture',
+        'Auth, RBAC, and organization management modules',
+        'Reusable UI component library',
+        'Restructured architecture with reduced bundle size'
       ],
-      technologies: ['Angular', 'Node.js', 'MongoDB', 'PDF.js', 'TypeScript'],
-      impact: 'Streamlined financial operations for businesses using Swift CRM, providing seamless integration between customer management and accounting workflows.',
-      icon: '??',
+      technologies: ['Angular', 'TypeScript', 'RxJS'],
+      impact:
+        'Modernized the entire frontend foundation, reduced bundle size, and standardized data flow — accelerating feature delivery across multiple SaaS modules.',
+      icon: '⚙️',
       gradient: 'from-purple-500 to-pink-600'
     }
   ]);
