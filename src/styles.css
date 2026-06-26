@@ -1,3 +1,104 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+
+@theme {
+  --color-ink: #1a1614;
+  --color-ink-2: #221d1a;
+  --color-ink-3: #2d2622;
+  --color-rule: #3a302a;
+  --color-paper: #f5efe6;
+  --color-paper-muted: #c9bdab;
+  --color-paper-dim: #8a8073;
+  --color-accent: #d4844a;
+  --color-accent-soft: #c9a96e;
+  --color-accent-deep: #a85f2a;
+
+  --font-display: 'Fraunces', 'Times New Roman', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+}
+
+html, body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Editorial display type */
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Eyebrow / kicker text */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Hairline rule */
+.rule {
+  border-color: var(--color-rule);
+}
+
+/* Editorial drop shadow on portrait */
+.portrait-frame {
+  position: relative;
+}
+.portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translate(12px, 12px);
+  border: 1px solid var(--color-accent);
+  pointer-events: none;
+}
+
+/* Marquee for the masthead strip */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+/* Subtle paper grain */
+.grain {
+  background-image:
+    radial-gradient(rgba(245, 239, 230, 0.025) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* Link underline transition */
+.link-editorial {
+  position: relative;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 250ms ease;
+}
+.link-editorial:hover {
+  background-size: 0 1px;
+}
