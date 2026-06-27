@@ -1,197 +1,226 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { TiltDirective } from '../shared/tilt.directive';
+import { RevealDirective } from '../shared/reveal.directive';
 
-interface Project {
+type Tag = 'all' | 'canvas' | 'leadership' | 'modernization' | 'infra';
+
+interface CaseStudy {
   id: string;
+  no: string;
   title: string;
-  subtitle: string;
-  description: string;
-  features: string[];
-  technologies: string[];
-  impact: string;
-  icon: string;
-  gradient: string;
+  org: string;
+  years: string;
+  lead: string;
+  highlights: string[];
+  stack: string[];
+  category: Exclude<Tag, 'all'>;
+  emoji: string;
 }
 
 @Component({
   selector: 'app-projects',
-  standalone: true,
+  imports: [TiltDirective, RevealDirective],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="projects" class="py-24 bg-slate-950">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Section Header -->
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
-            Featured <span class="text-blue-400">Projects</span>
-          </h2>
-          <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-            Deep dives into the systems I\'ve built, from canvas-based enterprise applications to scalable SaaS platforms.
-          </p>
+    <section id="work" class="relative py-24 md:py-32 bg-night-2/30">
+      <div class="max-w-7xl mx-auto px-6 md:px-10">
+        <!-- Header -->
+        <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+          <div class="md:col-span-6">
+            <span class="eyebrow">02 · Work</span>
+            <h2 class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
+              Selected<br/>
+              <span class="text-coral italic">case studies.</span>
+            </h2>
+          </div>
+          <div class="md:col-span-5 md:col-start-8 self-end">
+            <p class="text-mist leading-relaxed">
+              Click a card for details. Filter by what you're hiring for.
+            </p>
+          </div>
         </div>
 
-        <!-- Project Cards -->
-        <div class="space-y-16">
-          @for (project of projects(); track project.id) {
-            <div class="group relative">
-              <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-blue-500/50 transition-colors duration-300">
-                <div class="md:flex">
-                  <!-- Content Section -->
-                  <div class="md:w-1/2 p-8 md:p-12">
-                    <!-- Project Header -->
-                    <div class="flex items-center mb-6">
-                      <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mr-4">
-                        <span class="text-xl">{{ project.icon }}</span>
-                      </div>
-                      <div>
-                        <h3 class="text-2xl font-bold text-white mb-1">{{ project.title }}</h3>
-                        <p class="text-blue-400 font-medium">{{ project.subtitle }}</p>
-                      </div>
-                    </div>
+        <!-- Filter chips -->
+        <div appReveal class="mb-10 flex flex-wrap items-center gap-2">
+          @for (filter of filters; track filter.id) {
+            <button
+              type="button"
+              (click)="setFilter(filter.id)"
+              class="chip"
+              [class.is-active]="active() === filter.id"
+            >
+              {{ filter.label }}
+              <span class="ml-2 text-[10px] opacity-70">{{ filter.count }}</span>
+            </button>
+          }
+        </div>
 
-                    <!-- Description -->
-                    <p class="text-gray-400 mb-6 leading-relaxed">{{ project.description }}</p>
+        <!-- Cases grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          @for (study of visible(); track study.id) {
+            <article
+              appReveal
+              appTilt
+              (click)="toggle(study.id)"
+              class="relative bg-night-2 border border-edge rounded-2xl p-6 md:p-7 cursor-pointer hover:border-coral/60 transition-colors flex flex-col"
+              [class.lg:col-span-3]="opened() === study.id"
+            >
+              <div class="tilt-card-inner flex flex-col h-full">
+                <!-- Top row -->
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <div class="font-mono text-[10px] uppercase tracking-widest text-fog">Case {{ study.no }}</div>
+                    <div class="font-mono text-[11px] text-coral mt-1">{{ study.org }}</div>
+                  </div>
+                  <div class="text-3xl">{{ study.emoji }}</div>
+                </div>
 
-                    <!-- Features -->
-                    <div class="mb-6">
-                      <h4 class="text-lg font-semibold text-white mb-3">Key Features</h4>
+                <h3 class="mt-6 font-display text-2xl font-bold leading-tight">
+                  {{ study.title }}
+                </h3>
+                <p class="mt-3 text-sm text-mist italic">{{ study.lead }}</p>
+
+                <div class="mt-6 font-mono text-[11px] text-fog">{{ study.years }}</div>
+
+                <!-- Expanded details -->
+                @if (opened() === study.id) {
+                  <div class="mt-6 pt-6 border-t border-edge grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div>
+                      <div class="eyebrow mb-3">What I did</div>
                       <ul class="space-y-2">
-                        @for (feature of project.features; track feature) {
-                          <li class="flex items-start text-gray-400">
-                            <svg class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            {{ feature }}
+                        @for (item of study.highlights; track item) {
+                          <li class="text-mist leading-relaxed">
+                            <span class="text-coral mr-2">▸</span>{{ item }}
                           </li>
                         }
                       </ul>
                     </div>
-
-                    <!-- Technologies -->
-                    <div class="mb-6">
-                      <h4 class="text-lg font-semibold text-white mb-3">Technologies</h4>
+                    <div>
+                      <div class="eyebrow mb-3">Stack</div>
                       <div class="flex flex-wrap gap-2">
-                        @for (tech of project.technologies; track tech) {
-                          <span class="px-3 py-1 bg-slate-800 text-gray-300 text-sm rounded-full">{{ tech }}</span>
+                        @for (tech of study.stack; track tech) {
+                          <span class="px-2.5 py-1 rounded-md bg-night-3 border border-edge font-mono text-[11px] text-mist">{{ tech }}</span>
                         }
                       </div>
                     </div>
-
-                    <!-- Impact -->
-                    <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                      <h4 class="text-lg font-semibold text-blue-400 mb-2">Impact</h4>
-                      <p class="text-gray-300">{{ project.impact }}</p>
-                    </div>
                   </div>
+                }
 
-                  <!-- Visual Section -->
-                  <div class="md:w-1/2 bg-slate-800 p-8 md:p-12 flex items-center justify-center">
-                    <div class="text-center">
-                      <div class="w-24 h-24 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 mx-auto">
-                        <span class="text-4xl">{{ project.icon }}</span>
-                      </div>
-                      <h4 class="text-xl font-bold text-white mb-2">{{ project.title }} Interface</h4>
-                      <p class="text-gray-400">{{ project.subtitle }}</p>
-                    </div>
-                  </div>
+                <!-- Toggle hint -->
+                <div class="mt-auto pt-6 flex items-center justify-between text-fog">
+                  <span class="font-mono text-[10px] uppercase tracking-widest">
+                    {{ opened() === study.id ? 'click to collapse' : 'click to read' }}
+                  </span>
+                  <span class="font-mono text-base text-coral transition-transform"
+                        [class.rotate-45]="opened() === study.id">+</span>
                 </div>
               </div>
-            </div>
+            </article>
           }
-        </div>
-
-        <!-- Call to Action -->
-        <div class="text-center mt-16">
-          <p class="text-gray-400 mb-6">Interested in working together?</p>
-          <a href="#contact" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-            Get In Touch
-          </a>
         </div>
       </div>
     </section>
   `,
-  styles: [
-    `
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .animate-fade-in-up {
-        animation: fadeInUp 1s ease-out;
-      }
-
-      @keyframes float {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
-    `
-  ]
 })
 export class ProjectsComponent {
-  projects = signal<Project[]>([
+  readonly active = signal<Tag>('all');
+  readonly opened = signal<string | null>(null);
+
+  readonly studies: CaseStudy[] = [
     {
       id: 'planogram',
-      title: 'Planogram System',
-      subtitle: 'Canvas-Based Store Layout Designer',
-      description: 'A sophisticated canvas-based system for designing and managing retail store layouts at scale. Built for Tango Eye\'s enterprise SaaS platform, handling thousands of stores with complex product placement rules and real-time compliance tracking.',
-      features: [
-        'Drag-and-drop fixture configuration',
-        'Real-time compliance and placement tracking',
-        'Zoom, pan, and dynamic positioning',
-        'Multi-tenant architecture support'
+      no: '01',
+      title: 'A canvas for shelving a thousand stores.',
+      org: 'Tango Eye',
+      years: '2025 to Now',
+      lead: 'Drag and drop, not a form, for retail planograms.',
+      highlights: [
+        'Architected a canvas system from scratch with Angular + Fabric.js',
+        'Drag-and-drop fixtures, zoom, pan, layout persistence',
+        'Backend APIs + schema design for planogram management',
+        'OnPush, signals, standalone components, lazy loading',
+        'Integrated near real-time compliance + placement data',
       ],
-      technologies: ['Angular', 'Fabric.js', 'Node.js', 'MongoDB', 'TypeScript'],
-      impact: 'Handles store-level configurations at scale, processing thousands of stores with complex product placement rules and real-time operational insights.',
-      icon: '??',
-      gradient: 'from-blue-500 to-indigo-600'
+      stack: ['Angular', 'Fabric.js', 'TypeScript', 'Signals', 'Node.js', 'MongoDB'],
+      category: 'canvas',
+      emoji: '🗺️',
     },
     {
-      id: 'swift-crm',
-      title: 'Swift CRM',
-      subtitle: 'Customizable Business CRM Platform',
-      description: 'A lightweight, customizable CRM solution designed specifically for MSMEs. Completely rebuilt from Angular 11 to 17, featuring adaptive workflows that cater to different business models and industry requirements.',
-      features: [
-        'Industry-specific workflow templates',
-        'Customizable lead conversion pipelines',
-        'Integrated communication tools',
-        'Affordable alternative to enterprise CRMs'
+      id: 'zone',
+      no: '02',
+      title: 'Rebuilding a SaaS, with a team of seven.',
+      org: 'Tandemloop · Zone Platform',
+      years: '2023 to 2025',
+      lead: 'Standards, reviews, and a shift from REST to GraphQL.',
+      highlights: [
+        'Led seven engineers across frontend, backend, and QA',
+        'Redesigned and rebuilt the platform from scratch',
+        'Drove REST → GraphQL migration on a multi-tenant base',
+        'Defined coding standards, ran reviews, owned releases',
+        'Coordinated design + QA + DevOps end to end',
       ],
-      technologies: ['Angular', 'TypeScript', 'Node.js', 'MongoDB', 'GraphQL'],
-      impact: 'Transformed how small businesses manage customer relationships, providing customizable workflows that adapt to different industry needs and business sizes.',
-      icon: '??',
-      gradient: 'from-green-500 to-emerald-600'
+      stack: ['Angular', 'TypeScript', 'GraphQL', 'Node.js', 'MongoDB', 'Multi-tenant'],
+      category: 'leadership',
+      emoji: '🧭',
     },
     {
-      id: 'zonebooks',
-      title: 'ZoneBooks',
-      subtitle: 'Accounting & Invoicing Software',
-      description: 'A comprehensive accounting solution integrated with Swift CRM. Handles invoicing, expense tracking, financial reporting, and document management for small and medium businesses.',
-      features: [
-        'Automated invoice generation',
-        'CRM integration for customer data',
-        'PDF generation and document management',
-        'Multi-currency support'
+      id: 'ng-modernize',
+      no: '03',
+      title: 'Angular 11 → 17, without stopping the ship.',
+      org: 'Tandemloop · Zone Platform',
+      years: '2021 to 2023',
+      lead: 'Modernize the app while it is still shipping.',
+      highlights: [
+        'Rewrote legacy app from Angular 11 to 17',
+        'Migrated to standalone components and modern patterns',
+        'Built auth, org management, RBAC, order fulfilment',
+        'Reusable component library + standardized data flow',
+        'Cut bundle size, improved render performance',
       ],
-      technologies: ['Angular', 'Node.js', 'MongoDB', 'PDF.js', 'TypeScript'],
-      impact: 'Streamlined financial operations for businesses using Swift CRM, providing seamless integration between customer management and accounting workflows.',
-      icon: '??',
-      gradient: 'from-purple-500 to-pink-600'
-    }
-  ]);
+      stack: ['Angular 11→17', 'TypeScript', 'RxJS', 'Standalone', 'RBAC'],
+      category: 'modernization',
+      emoji: '🛠',
+    },
+    {
+      id: 'home-cloud',
+      no: '04',
+      title: 'A self hosted cloud, on a laptop with a tired battery.',
+      org: 'Personal · Home Lab',
+      years: '2025 to Now',
+      lead: 'Family photos off the external drive, into something I can reach from anywhere.',
+      highlights: [
+        'Repurposed an old laptop (dead battery, decent CPU and storage) as a 24/7 home server',
+        'Ubuntu Server with static IP and systemd services that survive crashes and reboots',
+        'CasaOS for GUI management, Immich for photo and video backup with mobile sync',
+        'Cloudflare Tunnel for remote access without exposing IP or opening router ports',
+        'Cloudflare Zero Trust to allowlist specific email addresses for access and shared albums',
+      ],
+      stack: ['Ubuntu Server', 'CasaOS', 'Immich', 'Cloudflare Tunnel', 'Zero Trust', 'systemd'],
+      category: 'infra',
+      emoji: '🏠',
+    },
+  ];
+
+  readonly filters = [
+    { id: 'all' as const, label: 'All', count: this.studies.length },
+    { id: 'canvas' as const, label: 'Canvas', count: this.studies.filter((s) => s.category === 'canvas').length },
+    { id: 'leadership' as const, label: 'Leadership', count: this.studies.filter((s) => s.category === 'leadership').length },
+    { id: 'modernization' as const, label: 'Modernization', count: this.studies.filter((s) => s.category === 'modernization').length },
+    { id: 'infra' as const, label: 'Infra', count: this.studies.filter((s) => s.category === 'infra').length },
+  ];
+
+  readonly visible = computed(() => {
+    const filter = this.active();
+    if (filter === 'all') return this.studies;
+    return this.studies.filter((s) => s.category === filter);
+  });
+
+  setFilter(tag: Tag) {
+    this.active.set(tag);
+    this.opened.set(null);
+  }
+
+  toggle(id: string) {
+    this.opened.update((curr) => (curr === id ? null : id));
+  }
 }

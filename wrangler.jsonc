@@ -2,15 +2,5 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "smartfolio",
   "compatibility_date": "2026-05-03",
-  "observability": {
-    "enabled": true
-  },
-  "main": "./dist/server/server.mjs",
-  "assets": {
-    "binding": "ASSETS",
-    "directory": "dist/browser"
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "pages_build_output_dir": "dist/smartfolio/browser"
 }
