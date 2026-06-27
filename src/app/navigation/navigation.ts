@@ -1,123 +1,164 @@
-import { Component, signal, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router } from '@angular/router';
-import { NgIf } from '@angular/common';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  signal,
+} from '@angular/core';
+
+interface NavTarget {
+  id: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-navigation',
-  standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgIf],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nav class="fixed top-0 w-full bg-slate-900/95 backdrop-blur-md z-50 border-b border-slate-800">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <div class="flex-shrink-0">
-            <a [routerLink]="['/']" class="text-xl font-bold text-white hover:text-blue-400 transition-colors duration-300">
-              GP
-            </a>
-          </div>
+    <!-- Top bar -->
+    <header class="fixed top-0 inset-x-0 z-50 border-b border-edge bg-night/85 backdrop-blur">
+      <div class="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        <a
+          href="#top"
+          (click)="closeMenu(); scrollToId('top', $event)"
+          class="font-display font-bold text-xl text-ivory flex items-center gap-2"
+        >
+          <span class="inline-block w-2 h-2 rounded-full bg-coral"></span>
+          gopinath<span class="text-coral">.</span>
+        </a>
 
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-1">
-              <a routerLink="/" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}"
-                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer hover:bg-slate-800/50 rounded-md">
-                Home
-              </a>
-              <a (click)="scrollToSection('about')"
-                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer hover:bg-slate-800/50 rounded-md">
-                About
-              </a>
-              <a (click)="scrollToSection('projects')"
-                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer hover:bg-slate-800/50 rounded-md">
-                Projects
-              </a>
-              <a (click)="scrollToSection('skills')"
-                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer hover:bg-slate-800/50 rounded-md">
-                Skills
-              </a>
-              <a (click)="scrollToSection('contact')"
-                 class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer hover:bg-slate-800/50 rounded-md">
-                Contact
-              </a>
-            </div>
-          </div>
+        <nav class="hidden md:flex items-center gap-7">
+          @for (target of targets; track target.id) {
+            <a
+              [href]="'#' + target.id"
+              (click)="scrollToId(target.id, $event)"
+              class="link-slide font-mono text-xs uppercase tracking-widest transition-colors"
+              [class.text-coral]="active() === target.id"
+              [class.text-mist]="active() !== target.id"
+            >
+              {{ target.label }}
+            </a>
+          }
+        </nav>
 
-          <!-- Mobile menu button -->
-          <div class="md:hidden">
-            <button (click)="toggleMobileMenu()"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-slate-800 focus:outline-none transition-colors duration-300">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path *ngIf="!isMobileMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                <path *ngIf="isMobileMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            (click)="openPalette()"
+            class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-edge-hi text-fog hover:text-ivory transition-colors text-xs font-mono"
+          >
+            <span>jump to</span>
+            <span class="kbd">⌘</span><span class="kbd">K</span>
+          </button>
 
-        <!-- Mobile menu -->
-        <div *ngIf="isMobileMenuOpen()" class="md:hidden">
-          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-800 border-t border-slate-700">
-            <a routerLink="/" routerLinkActive="text-blue-400" [routerLinkActiveOptions]="{exact: true}"
-               (click)="closeMobileMenu()"
-               class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors duration-300">
-              Home
-            </a>
-            <a (click)="scrollToSection('about'); closeMobileMenu()"
-               class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors duration-300">
-              About
-            </a>
-            <a (click)="scrollToSection('projects'); closeMobileMenu()"
-               class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors duration-300">
-              Projects
-            </a>
-            <a (click)="scrollToSection('skills'); closeMobileMenu()"
-               class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors duration-300">
-              Skills
-            </a>
-            <a (click)="scrollToSection('contact'); closeMobileMenu()"
-               class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors duration-300">
-              Contact
-            </a>
-          </div>
+          <button
+            type="button"
+            (click)="toggleMenu()"
+            class="md:hidden font-mono text-xs uppercase tracking-widest text-mist hover:text-coral"
+            [attr.aria-expanded]="isOpen()"
+          >
+            {{ isOpen() ? 'close' : 'menu' }}
+          </button>
         </div>
       </div>
-    </nav>
+
+      @if (isOpen()) {
+        <nav class="md:hidden border-t border-edge bg-night-2 px-6 py-5 flex flex-col gap-4">
+          @for (target of targets; track target.id) {
+            <a
+              [href]="'#' + target.id"
+              (click)="closeMenu(); scrollToId(target.id, $event)"
+              class="font-display text-3xl text-ivory hover:text-coral transition-colors"
+            >
+              {{ target.label }}
+            </a>
+          }
+          <button
+            type="button"
+            (click)="closeMenu(); openPalette()"
+            class="self-start mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-edge text-mist text-xs font-mono"
+          >
+            <span>open palette</span>
+            <span class="kbd">⌘K</span>
+          </button>
+        </nav>
+      }
+    </header>
+
+    <!-- Side rail progress dots (desktop only) -->
+    <aside
+      class="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-4"
+      aria-hidden="true"
+    >
+      @for (target of targets; track target.id) {
+        <a
+          [href]="'#' + target.id"
+          (click)="scrollToId(target.id, $event)"
+          class="group relative flex items-center justify-end gap-3"
+        >
+          <span
+            class="opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[10px] uppercase tracking-widest text-mist"
+          >{{ target.label }}</span>
+          <span
+            class="block w-2 h-2 rounded-full transition-all"
+            [class.bg-coral]="active() === target.id"
+            [class.bg-edge-hi]="active() !== target.id"
+            [class.scale-150]="active() === target.id"
+          ></span>
+        </a>
+      }
+    </aside>
   `,
-  styles: []
 })
-export class NavigationComponent {
-  private router = inject(Router);
-  isMobileMenuOpen = signal(false);
+export class NavigationComponent implements AfterViewInit, OnDestroy {
+  readonly targets: NavTarget[] = [
+    { id: 'about', label: 'about' },
+    { id: 'work', label: 'work' },
+    { id: 'skills', label: 'stack' },
+    { id: 'contact', label: 'contact' },
+  ];
 
-  toggleMobileMenu() {
-    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
-  }
+  readonly isOpen = signal(false);
+  readonly active = signal<string>('about');
 
-  closeMobileMenu() {
-    this.isMobileMenuOpen.set(false);
-  }
+  private observer?: IntersectionObserver;
 
-  scrollToSection(sectionId: string) {
-    // If we're not on the home page, navigate there first
-    if (this.router.url !== '/home' && this.router.url !== '/') {
-      this.router.navigate(['/']).then(() => {
-        setTimeout(() => this.scrollToElement(sectionId), 100);
-      });
-    } else {
-      this.scrollToElement(sectionId);
+  ngAfterViewInit() {
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) this.active.set(visible.target.id);
+      },
+      { rootMargin: '-30% 0px -50% 0px', threshold: [0.1, 0.25, 0.5] },
+    );
+
+    for (const target of this.targets) {
+      const el = document.getElementById(target.id);
+      if (el) this.observer.observe(el);
     }
   }
 
-  private scrollToElement(sectionId: string) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerOffset = 80; // Account for fixed navigation
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  ngOnDestroy() {
+    this.observer?.disconnect();
+  }
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+  toggleMenu() { this.isOpen.update((v) => !v); }
+  closeMenu() { this.isOpen.set(false); }
+
+  scrollToId(id: string, event: Event) {
+    event.preventDefault();
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  openPalette() {
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }),
+    );
   }
 }
