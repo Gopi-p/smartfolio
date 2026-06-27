@@ -37,8 +37,8 @@ import { RevealDirective } from '../shared/reveal.directive';
               I'm <span class="text-ivory">Gopinath</span>. Software engineer with
               <span class="text-ivory"> five years</span> in scalable SaaS and Angular.
               Currently at <span class="text-ivory">Tango Eye</span> building canvas
-              based store layouts. Before that I led a team of seven on a REST to
-              GraphQL migration.
+              based store layouts. Before that I led a team of seven rebuilding a
+              multi tenant SaaS platform.
             </p>
 
             <div appReveal class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-4">
@@ -108,7 +108,7 @@ import { RevealDirective } from '../shared/reveal.directive';
           </div>
           <div>
             <div class="flex items-baseline gap-1">
-              <span class="font-display text-5xl md:text-6xl font-bold text-ivory" [appCounter]="3">0</span>
+              <span class="font-display text-5xl md:text-6xl font-bold text-ivory" [appCounter]="4">0</span>
             </div>
             <div class="mt-2 font-mono text-[10px] uppercase tracking-widest text-fog">Case studies</div>
           </div>

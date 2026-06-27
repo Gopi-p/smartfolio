@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { TiltDirective } from '../shared/tilt.directive';
 import { RevealDirective } from '../shared/reveal.directive';
 
-type Tag = 'all' | 'canvas' | 'leadership' | 'modernization';
+type Tag = 'all' | 'canvas' | 'leadership' | 'modernization' | 'infra';
 
 interface CaseStudy {
   id: string;
@@ -181,6 +181,24 @@ export class ProjectsComponent {
       category: 'modernization',
       emoji: '🛠',
     },
+    {
+      id: 'home-cloud',
+      no: '04',
+      title: 'A self hosted cloud, on a laptop with a tired battery.',
+      org: 'Personal · Home Lab',
+      years: '2025 to Now',
+      lead: 'Family photos off the external drive, into something I can reach from anywhere.',
+      highlights: [
+        'Repurposed an old laptop (dead battery, decent CPU and storage) as a 24/7 home server',
+        'Ubuntu Server with static IP and systemd services that survive crashes and reboots',
+        'CasaOS for GUI management, Immich for photo and video backup with mobile sync',
+        'Cloudflare Tunnel for remote access without exposing IP or opening router ports',
+        'Cloudflare Zero Trust to allowlist specific email addresses for access and shared albums',
+      ],
+      stack: ['Ubuntu Server', 'CasaOS', 'Immich', 'Cloudflare Tunnel', 'Zero Trust', 'systemd'],
+      category: 'infra',
+      emoji: '🏠',
+    },
   ];
 
   readonly filters = [
@@ -188,6 +206,7 @@ export class ProjectsComponent {
     { id: 'canvas' as const, label: 'Canvas', count: this.studies.filter((s) => s.category === 'canvas').length },
     { id: 'leadership' as const, label: 'Leadership', count: this.studies.filter((s) => s.category === 'leadership').length },
     { id: 'modernization' as const, label: 'Modernization', count: this.studies.filter((s) => s.category === 'modernization').length },
+    { id: 'infra' as const, label: 'Infra', count: this.studies.filter((s) => s.category === 'infra').length },
   ];
 
   readonly visible = computed(() => {
