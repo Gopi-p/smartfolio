@@ -1,18 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeroComponent } from '../hero/hero';
 import { AboutComponent } from '../about/about';
+import { BuiltComponent } from '../built/built';
 import { ProjectsComponent } from '../projects/projects';
+import { PhilosophyComponent } from '../philosophy/philosophy';
 import { SkillsComponent } from '../skills/skills';
 import { ContactComponent } from '../contact/contact';
 
 @Component({
   selector: 'app-home',
-  imports: [HeroComponent, AboutComponent, ProjectsComponent, SkillsComponent, ContactComponent],
+  imports: [
+    HeroComponent,
+    AboutComponent,
+    BuiltComponent,
+    ProjectsComponent,
+    PhilosophyComponent,
+    SkillsComponent,
+    ContactComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-hero />
     <app-about />
+    <app-built />
     <app-projects />
+    <app-philosophy />
     <app-skills />
     <app-contact />
 

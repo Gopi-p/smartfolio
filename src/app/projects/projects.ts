@@ -22,13 +22,13 @@ interface CaseStudy {
   imports: [TiltDirective, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="work" class="relative py-24 md:py-32 bg-night-2/30">
+    <section id="work" class="relative py-24 md:py-32 bg-night-2/30" aria-labelledby="work-heading">
       <div class="max-w-7xl mx-auto px-6 md:px-10">
         <!-- Header -->
         <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
           <div class="md:col-span-6">
-            <span class="eyebrow">02 · Work</span>
-            <h2 class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
+            <span class="eyebrow">03 · Work</span>
+            <h2 id="work-heading" class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
               Selected<br/>
               <span class="text-coral italic">case studies.</span>
             </h2>

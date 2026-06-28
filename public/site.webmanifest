@@ -1,0 +1,17 @@
+{
+  "name": "Gopinath P · Software Engineer",
+  "short_name": "Gopinath P",
+  "description": "Software engineer building scalable SaaS and canvas-heavy frontends with Angular.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0e17",
+  "theme_color": "#0f0e17",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}
