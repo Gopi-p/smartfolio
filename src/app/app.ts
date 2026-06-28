@@ -10,8 +10,9 @@ import { ToastOutletComponent } from './shared/toast-outlet';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="relative min-h-screen text-ivory">
+      <a href="#main-content" class="skip-link">Skip to content</a>
       <app-navigation />
-      <main class="relative z-10">
+      <main id="main-content" class="relative z-10" tabindex="-1">
         <router-outlet />
       </main>
       <app-command-palette />

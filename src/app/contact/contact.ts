@@ -15,13 +15,13 @@ interface Channel {
   imports: [RevealDirective, MagneticDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="contact" class="relative py-24 md:py-32 bg-night-2/30">
+    <section id="contact" class="relative py-24 md:py-32 bg-night-2/30" aria-labelledby="contact-heading">
       <div class="max-w-7xl mx-auto px-6 md:px-10">
         <!-- Header -->
         <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
           <div class="md:col-span-7">
-            <span class="eyebrow">04 · Contact</span>
-            <h2 class="mt-4 font-display text-5xl md:text-7xl font-bold leading-[0.95]">
+            <span class="eyebrow">06 · Contact</span>
+            <h2 id="contact-heading" class="mt-4 font-display text-5xl md:text-7xl font-bold leading-[0.95]">
               Got a problem<br/>
               worth <span class="text-coral italic">solving?</span>
             </h2>

@@ -34,6 +34,13 @@ export class CounterDirective implements AfterViewInit, OnDestroy {
     const target = this.to();
     const duration = this.duration();
     const suffix = this.suffix();
+
+    // Respect reduced-motion: show the final value without counting up.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.host.nativeElement.textContent = target + suffix;
+      return;
+    }
+
     const start = performance.now();
 
     const step = (now: number) => {

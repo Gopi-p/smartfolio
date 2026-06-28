@@ -5,7 +5,7 @@ interface Chapter {
   years: string;
   role: string;
   org: string;
-  body: string;
+  points: string[];
   tags: string[];
   accent: 'coral' | 'amber' | 'ivory';
 }
@@ -15,23 +15,23 @@ interface Chapter {
   imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="about" class="relative py-24 md:py-32">
+    <section id="about" class="relative py-24 md:py-32" aria-labelledby="about-heading">
       <div class="max-w-7xl mx-auto px-6 md:px-10">
         <!-- Section header -->
         <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
           <div class="md:col-span-4">
             <span class="eyebrow">01 · About</span>
-            <h2 class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
+            <h2 id="about-heading" class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
               The <span class="text-coral">why</span><br/>
               behind the work.
             </h2>
           </div>
           <div class="md:col-span-7 md:col-start-6 self-end">
             <p class="text-mist text-lg leading-relaxed">
-              Five years of SaaS work, mostly Angular. I like the parts
-              everyone else skips: schemas, render paths, and migrations
-              that don't have to be rewrites. Below is the short version
-              of how I got here.
+              Five years in, mostly Angular and SaaS. The work I enjoy most sits
+              between the frontend and the system behind it: data models, render
+              performance, and upgrades that don't turn into rewrites. Here's the
+              short version of how I got here.
             </p>
           </div>
         </div>
@@ -61,8 +61,15 @@ interface Chapter {
                       {{ chapter.role }}
                     </h3>
                     <div class="mt-1 font-mono text-xs text-coral">{{ chapter.org }}</div>
-                    <p class="mt-4 text-mist leading-relaxed">{{ chapter.body }}</p>
-                    <div class="mt-4 flex flex-wrap gap-2 md:justify-end">
+                    <ul class="mt-4 space-y-2">
+                      @for (point of chapter.points; track point) {
+                        <li class="text-sm text-mist leading-relaxed flex gap-2.5 md:flex-row-reverse md:text-right">
+                          <span class="text-coral mt-px shrink-0" aria-hidden="true">▸</span>
+                          <span>{{ point }}</span>
+                        </li>
+                      }
+                    </ul>
+                    <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1 md:justify-end">
                       @for (tag of chapter.tags; track tag) {
                         <span class="font-mono text-[10px] uppercase tracking-widest text-fog">· {{ tag }}</span>
                       }
@@ -77,8 +84,15 @@ interface Chapter {
                       {{ chapter.role }}
                     </h3>
                     <div class="mt-1 font-mono text-xs text-coral">{{ chapter.org }}</div>
-                    <p class="mt-4 text-mist leading-relaxed">{{ chapter.body }}</p>
-                    <div class="mt-4 flex flex-wrap gap-2">
+                    <ul class="mt-4 space-y-2">
+                      @for (point of chapter.points; track point) {
+                        <li class="text-sm text-mist leading-relaxed flex gap-2.5">
+                          <span class="text-coral mt-px shrink-0" aria-hidden="true">▸</span>
+                          <span>{{ point }}</span>
+                        </li>
+                      }
+                    </ul>
+                    <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1">
                       @for (tag of chapter.tags; track tag) {
                         <span class="font-mono text-[10px] uppercase tracking-widest text-fog">· {{ tag }}</span>
                       }
@@ -118,7 +132,11 @@ export class AboutComponent {
       years: '2025 to Now',
       role: 'Software Engineer',
       org: 'Tango Eye · Chennai',
-      body: 'Built a canvas based store layout system with Angular and Fabric.js. Drag and drop fixtures and product placements across thousands of stores. Designed the planogram backend APIs and schema. Tuned the frontend with OnPush, signals, standalone components, and lazy loading.',
+      points: [
+        'Built a canvas-based store layout system from scratch with Angular + Fabric.js',
+        'Designed the planogram backend APIs, schema, and data model',
+        'Tuned the frontend with OnPush, signals, standalone components, and lazy loading',
+      ],
       tags: ['Angular', 'Fabric.js', 'Signals', 'Schema design'],
       accent: 'coral',
     },
@@ -126,7 +144,11 @@ export class AboutComponent {
       years: '2023 to 2025',
       role: 'Team Lead',
       org: 'Tandemloop Technologies',
-      body: 'Led seven engineers to rebuild a multi tenant SaaS platform. Drove the REST to GraphQL migration. Set coding standards, ran code reviews, and shipped releases with design, QA, and DevOps.',
+      points: [
+        'Led seven engineers to rebuild a SaaS platform from scratch',
+        'Drove the REST → GraphQL migration and multi-tenant architecture',
+        'Set coding standards, ran reviews, and owned releases with design, QA, and DevOps',
+      ],
       tags: ['Leadership', 'REST to GraphQL', 'Multi-tenant'],
       accent: 'amber',
     },
@@ -134,7 +156,11 @@ export class AboutComponent {
       years: '2021 to 2023',
       role: 'Software Engineer',
       org: 'Tandemloop Technologies',
-      body: 'Rewrote a legacy Angular app from version 11 to 17. Standalone components, modern patterns. Built auth, organization management, RBAC, and order fulfilment. Cut bundle size and standardized data handling along the way.',
+      points: [
+        'Rewrote a legacy Angular app from v11 to v17 with modern patterns',
+        'Built auth, organization management, RBAC, and order fulfilment',
+        'Cut bundle size and standardized data handling across modules',
+      ],
       tags: ['Angular 11 to 17', 'RBAC', 'Bundle perf'],
       accent: 'ivory',
     },

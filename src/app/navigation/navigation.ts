@@ -22,12 +22,13 @@ interface NavTarget {
           href="#top"
           (click)="closeMenu(); scrollToId('top', $event)"
           class="font-display font-bold text-xl text-ivory flex items-center gap-2"
+          aria-label="Gopinath, back to top"
         >
-          <span class="inline-block w-2 h-2 rounded-full bg-coral"></span>
-          gopinath<span class="text-coral">.</span>
+          <span class="inline-block w-2 h-2 rounded-full bg-coral" aria-hidden="true"></span>
+          gopinath<span class="text-coral" aria-hidden="true">.</span>
         </a>
 
-        <nav class="hidden md:flex items-center gap-7">
+        <nav class="hidden md:flex items-center gap-7" aria-label="Primary">
           @for (target of targets; track target.id) {
             <a
               [href]="'#' + target.id"
@@ -35,6 +36,7 @@ interface NavTarget {
               class="link-slide font-mono text-xs uppercase tracking-widest transition-colors"
               [class.text-coral]="active() === target.id"
               [class.text-mist]="active() !== target.id"
+              [attr.aria-current]="active() === target.id ? 'true' : null"
             >
               {{ target.label }}
             </a>
@@ -48,14 +50,16 @@ interface NavTarget {
             class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-edge-hi text-fog hover:text-ivory transition-colors text-xs font-mono"
           >
             <span>jump to</span>
-            <span class="kbd">⌘</span><span class="kbd">K</span>
+            <span class="kbd" aria-hidden="true">⌘</span><span class="kbd" aria-hidden="true">K</span>
           </button>
 
           <button
             type="button"
             (click)="toggleMenu()"
             class="md:hidden font-mono text-xs uppercase tracking-widest text-mist hover:text-coral"
+            aria-controls="mobile-menu"
             [attr.aria-expanded]="isOpen()"
+            [attr.aria-label]="isOpen() ? 'Close menu' : 'Open menu'"
           >
             {{ isOpen() ? 'close' : 'menu' }}
           </button>
@@ -63,12 +67,17 @@ interface NavTarget {
       </div>
 
       @if (isOpen()) {
-        <nav class="md:hidden border-t border-edge bg-night-2 px-6 py-5 flex flex-col gap-4">
+        <nav
+          id="mobile-menu"
+          class="md:hidden border-t border-edge bg-night-2 px-6 py-5 flex flex-col gap-4"
+          aria-label="Mobile navigation"
+        >
           @for (target of targets; track target.id) {
             <a
               [href]="'#' + target.id"
               (click)="closeMenu(); scrollToId(target.id, $event)"
               class="font-display text-3xl text-ivory hover:text-coral transition-colors"
+              [attr.aria-current]="active() === target.id ? 'true' : null"
             >
               {{ target.label }}
             </a>
@@ -79,13 +88,13 @@ interface NavTarget {
             class="self-start mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-edge text-mist text-xs font-mono"
           >
             <span>open palette</span>
-            <span class="kbd">⌘K</span>
+            <span class="kbd" aria-hidden="true">⌘K</span>
           </button>
         </nav>
       }
     </header>
 
-    <!-- Side rail progress dots (desktop only) -->
+    <!-- Side rail progress dots (desktop only, decorative duplicate of primary nav) -->
     <aside
       class="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-4"
       aria-hidden="true"
@@ -94,6 +103,7 @@ interface NavTarget {
         <a
           [href]="'#' + target.id"
           (click)="scrollToId(target.id, $event)"
+          tabindex="-1"
           class="group relative flex items-center justify-end gap-3"
         >
           <span
@@ -113,13 +123,18 @@ interface NavTarget {
 export class NavigationComponent implements AfterViewInit, OnDestroy {
   readonly targets: NavTarget[] = [
     { id: 'about', label: 'about' },
+    { id: 'built', label: 'built' },
     { id: 'work', label: 'work' },
+    { id: 'philosophy', label: 'approach' },
     { id: 'skills', label: 'stack' },
     { id: 'contact', label: 'contact' },
   ];
 
+  /** Sections tracked for active highlight + URL hash, including the hero ("top"). */
+  private readonly trackedIds = ['top', ...this.targets.map((t) => t.id)];
+
   readonly isOpen = signal(false);
-  readonly active = signal<string>('about');
+  readonly active = signal<string>('');
 
   private observer?: IntersectionObserver;
 
@@ -129,13 +144,17 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) this.active.set(visible.target.id);
+        if (!visible) return;
+        const id = visible.target.id;
+        // Hero is "top": nothing highlighted, and the URL drops back to the base path.
+        this.active.set(id === 'top' ? '' : id);
+        this.syncHash(id);
       },
       { rootMargin: '-30% 0px -50% 0px', threshold: [0.1, 0.25, 0.5] },
     );
 
-    for (const target of this.targets) {
-      const el = document.getElementById(target.id);
+    for (const id of this.trackedIds) {
+      const el = document.getElementById(id);
       if (el) this.observer.observe(el);
     }
   }
@@ -151,9 +170,21 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    this.active.set(id === 'top' ? '' : id);
+    this.syncHash(id);
+  }
+
+  /** Reflect the current section in the address bar without polluting history. */
+  private syncHash(id: string) {
+    const base = location.pathname + location.search;
+    const next = id === 'top' ? base : `${base}#${id}`;
+    const current = location.pathname + location.search + location.hash;
+    if (current !== next) {
+      history.replaceState(history.state, '', next);
+    }
   }
 
   openPalette() {

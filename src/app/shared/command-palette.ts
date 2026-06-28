@@ -110,7 +110,9 @@ export class CommandPaletteComponent implements AfterViewInit {
   private readonly actions: Action[] = [
     { id: 'go-home', kind: 'jump', label: 'Top of the page', hint: 'section', payload: 'top', keywords: 'hero home start' },
     { id: 'go-about', kind: 'jump', label: 'About', hint: 'section', payload: 'about', keywords: 'bio chapters experience' },
+    { id: 'go-built', kind: 'jump', label: 'Things I\'ve Built', hint: 'section', payload: 'built', keywords: 'systems canvas graphql rbac auth notification multi tenant' },
     { id: 'go-work', kind: 'jump', label: 'Work', hint: 'section', payload: 'work', keywords: 'projects portfolio cases home server cloud infra immich cloudflare' },
+    { id: 'go-philosophy', kind: 'jump', label: 'Engineering Philosophy', hint: 'section', payload: 'philosophy', keywords: 'approach principles values how i build maintainable scalable performance' },
     { id: 'go-skills', kind: 'jump', label: 'Stack', hint: 'section', payload: 'skills', keywords: 'skills tools technologies' },
     { id: 'go-contact', kind: 'jump', label: 'Contact', hint: 'section', payload: 'contact', keywords: 'email phone reach' },
     { id: 'copy-email', kind: 'copy', label: 'Copy email address', hint: 'clipboard', payload: 'p.gopinath.work@gmail.com', keywords: 'mail gmail address' },

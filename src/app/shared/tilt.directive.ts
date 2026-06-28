@@ -1,16 +1,19 @@
-import { Directive, ElementRef, HostListener, inject } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[appTilt]',
-  host: { class: 'tilt-card' },
+  host: {
+    class: 'tilt-card',
+    '(pointermove)': 'onMove($event)',
+    '(pointerleave)': 'onLeave()',
+  },
 })
 export class TiltDirective {
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly maxTilt = 8;
 
-  @HostListener('pointermove', ['$event'])
   onMove(event: PointerEvent) {
-    if (event.pointerType !== 'mouse') return;
+    if (event.pointerType !== 'mouse' || this.prefersReducedMotion()) return;
     const el = this.host.nativeElement;
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -22,8 +25,11 @@ export class TiltDirective {
     el.style.transform = `perspective(900px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
   }
 
-  @HostListener('pointerleave')
   onLeave() {
     this.host.nativeElement.style.transform = 'perspective(900px) rotateX(0) rotateY(0)';
+  }
+
+  private prefersReducedMotion(): boolean {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 }

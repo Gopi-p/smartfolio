@@ -127,15 +127,31 @@ body::before {
 .polaroid {
   background: #f6f3ee;
   padding: 14px 14px 56px 14px;
+  border-radius: 3px;
   box-shadow:
-    0 1px 1px rgba(0,0,0,0.4),
-    0 12px 30px rgba(0,0,0,0.45),
-    0 0 0 1px rgba(255, 111, 97, 0.08);
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 18px 44px -12px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
   transform: rotate(-3deg);
-  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.polaroid:hover { transform: rotate(-1deg) translateY(-4px); }
-.polaroid img { display: block; width: 100%; height: auto; }
+.polaroid:hover {
+  transform: rotate(-1deg) translateY(-6px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 30px 64px -14px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 111, 97, 0.14);
+}
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 1px;
+  background: #e7e3dc;
+}
 
 /* Cmd palette overlay */
 .kbd {
@@ -221,4 +237,52 @@ section[id] { scroll-margin-top: 96px; }
 .link-slide:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* Skip-to-content link (visible only on keyboard focus) */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--color-coral);
+  color: var(--color-night);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Visible focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-coral);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+/* Don't show the focus outline when focus is moved programmatically to <main> */
+main:focus { outline: none; }
+
+/* Respect reduced-motion: keep the experience calm and static */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .marquee-track { animation: none !important; }
+  .pulse-dot::after { animation: none !important; }
+  .polaroid:hover { transform: rotate(-3deg); }
 }
