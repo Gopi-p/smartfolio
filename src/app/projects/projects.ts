@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { TiltDirective } from '../shared/tilt.directive';
 import { RevealDirective } from '../shared/reveal.directive';
 
@@ -15,11 +16,13 @@ interface CaseStudy {
   stack: string[];
   category: Exclude<Tag, 'all'>;
   emoji: string;
+  /** Route of a dedicated story page; the card becomes a link instead of expanding. */
+  page?: string;
 }
 
 @Component({
   selector: 'app-projects',
-  imports: [TiltDirective, RevealDirective],
+  imports: [RouterLink, TiltDirective, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="work" class="relative py-24 md:py-32 bg-night-2/30" aria-labelledby="work-heading">
@@ -28,8 +31,11 @@ interface CaseStudy {
         <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
           <div class="md:col-span-6">
             <span class="eyebrow">03 · Work</span>
-            <h2 id="work-heading" class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
-              Selected<br/>
+            <h2
+              id="work-heading"
+              class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none"
+            >
+              Selected<br />
               <span class="text-coral italic">case studies.</span>
             </h2>
           </div>
@@ -69,7 +75,9 @@ interface CaseStudy {
                 <!-- Top row -->
                 <div class="flex items-start justify-between gap-4">
                   <div>
-                    <div class="font-mono text-[10px] uppercase tracking-widest text-fog">Case {{ study.no }}</div>
+                    <div class="font-mono text-[10px] uppercase tracking-widest text-fog">
+                      Case {{ study.no }}
+                    </div>
                     <div class="font-mono text-[11px] text-coral mt-1">{{ study.org }}</div>
                   </div>
                   <div class="text-3xl">{{ study.emoji }}</div>
@@ -84,7 +92,9 @@ interface CaseStudy {
 
                 <!-- Expanded details -->
                 @if (opened() === study.id) {
-                  <div class="mt-6 pt-6 border-t border-edge grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                  <div
+                    class="mt-6 pt-6 border-t border-edge grid grid-cols-1 md:grid-cols-2 gap-6 text-sm"
+                  >
                     <div>
                       <div class="eyebrow mb-3">What I did</div>
                       <ul class="space-y-2">
@@ -99,7 +109,10 @@ interface CaseStudy {
                       <div class="eyebrow mb-3">Stack</div>
                       <div class="flex flex-wrap gap-2">
                         @for (tech of study.stack; track tech) {
-                          <span class="px-2.5 py-1 rounded-md bg-night-3 border border-edge font-mono text-[11px] text-mist">{{ tech }}</span>
+                          <span
+                            class="px-2.5 py-1 rounded-md bg-night-3 border border-edge font-mono text-[11px] text-mist"
+                            >{{ tech }}</span
+                          >
                         }
                       </div>
                     </div>
@@ -109,12 +122,27 @@ interface CaseStudy {
                 <!-- Toggle hint -->
                 <div class="mt-auto pt-6 flex items-center justify-between text-fog">
                   <span class="font-mono text-[10px] uppercase tracking-widest">
-                    {{ opened() === study.id ? 'click to collapse' : 'click to read' }}
+                    {{ hintFor(study) }}
                   </span>
-                  <span class="font-mono text-base text-coral transition-transform"
-                        [class.rotate-45]="opened() === study.id">+</span>
+                  @if (study.page) {
+                    <span class="font-mono text-base text-coral" aria-hidden="true">↗</span>
+                  } @else {
+                    <span
+                      class="font-mono text-base text-coral transition-transform"
+                      [class.rotate-45]="opened() === study.id"
+                      >+</span
+                    >
+                  }
                 </div>
               </div>
+
+              @if (study.page) {
+                <a
+                  [routerLink]="study.page"
+                  class="absolute inset-0 z-10 rounded-2xl"
+                  [attr.aria-label]="'Read the full case study: ' + study.title"
+                ></a>
+              }
             </article>
           }
         </div>
@@ -123,6 +151,8 @@ interface CaseStudy {
   `,
 })
 export class ProjectsComponent {
+  private readonly router = inject(Router);
+
   readonly active = signal<Tag>('all');
   readonly opened = signal<string | null>(null);
 
@@ -198,15 +228,32 @@ export class ProjectsComponent {
       stack: ['Ubuntu Server', 'CasaOS', 'Immich', 'Cloudflare Tunnel', 'Zero Trust', 'systemd'],
       category: 'infra',
       emoji: '🏠',
+      page: '/work/home-server',
     },
   ];
 
   readonly filters = [
     { id: 'all' as const, label: 'All', count: this.studies.length },
-    { id: 'canvas' as const, label: 'Canvas', count: this.studies.filter((s) => s.category === 'canvas').length },
-    { id: 'leadership' as const, label: 'Leadership', count: this.studies.filter((s) => s.category === 'leadership').length },
-    { id: 'modernization' as const, label: 'Modernization', count: this.studies.filter((s) => s.category === 'modernization').length },
-    { id: 'infra' as const, label: 'Infra', count: this.studies.filter((s) => s.category === 'infra').length },
+    {
+      id: 'canvas' as const,
+      label: 'Canvas',
+      count: this.studies.filter((s) => s.category === 'canvas').length,
+    },
+    {
+      id: 'leadership' as const,
+      label: 'Leadership',
+      count: this.studies.filter((s) => s.category === 'leadership').length,
+    },
+    {
+      id: 'modernization' as const,
+      label: 'Modernization',
+      count: this.studies.filter((s) => s.category === 'modernization').length,
+    },
+    {
+      id: 'infra' as const,
+      label: 'Infra',
+      count: this.studies.filter((s) => s.category === 'infra').length,
+    },
   ];
 
   readonly visible = computed(() => {
@@ -221,6 +268,18 @@ export class ProjectsComponent {
   }
 
   toggle(id: string) {
+    const study = this.studies.find((s) => s.id === id);
+    // The tilted card content renders in front of the stretched link (preserve-3d),
+    // so clicks land here: navigate cards that have a dedicated page.
+    if (study?.page) {
+      this.router.navigateByUrl(study.page);
+      return;
+    }
     this.opened.update((curr) => (curr === id ? null : id));
+  }
+
+  hintFor(study: CaseStudy): string {
+    if (study.page) return 'read the full story';
+    return this.opened() === study.id ? 'click to collapse' : 'click to read';
   }
 }

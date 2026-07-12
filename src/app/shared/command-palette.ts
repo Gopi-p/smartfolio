@@ -9,6 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastService } from './toast.service';
 
 interface Action {
@@ -81,13 +82,17 @@ interface Action {
                   {{ kindLabel(action.kind) }}
                 </span>
                 <span class="flex-1 font-display text-base text-ivory">{{ action.label }}</span>
-                <span class="font-mono text-[11px] text-fog hidden sm:inline">{{ action.hint }}</span>
+                <span class="font-mono text-[11px] text-fog hidden sm:inline">{{
+                  action.hint
+                }}</span>
               </button>
             }
           </div>
 
           <!-- Footer hints -->
-          <div class="px-5 py-3 border-t border-edge flex items-center justify-between text-[10px] font-mono text-haze">
+          <div
+            class="px-5 py-3 border-t border-edge flex items-center justify-between text-[10px] font-mono text-haze"
+          >
             <div class="flex items-center gap-3">
               <span><span class="kbd">↑</span> <span class="kbd">↓</span> navigate</span>
               <span><span class="kbd">↵</span> select</span>
@@ -101,6 +106,7 @@ interface Action {
 })
 export class CommandPaletteComponent implements AfterViewInit {
   private readonly toast = inject(ToastService);
+  private readonly router = inject(Router);
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   readonly isOpen = signal(false);
@@ -108,20 +114,118 @@ export class CommandPaletteComponent implements AfterViewInit {
   readonly cursor = signal(0);
 
   private readonly actions: Action[] = [
-    { id: 'go-home', kind: 'jump', label: 'Top of the page', hint: 'section', payload: 'top', keywords: 'hero home start' },
-    { id: 'go-about', kind: 'jump', label: 'About', hint: 'section', payload: 'about', keywords: 'bio chapters experience' },
-    { id: 'go-built', kind: 'jump', label: 'Things I\'ve Built', hint: 'section', payload: 'built', keywords: 'systems canvas graphql rbac auth notification multi tenant' },
-    { id: 'go-work', kind: 'jump', label: 'Work', hint: 'section', payload: 'work', keywords: 'projects portfolio cases home server cloud infra immich cloudflare' },
-    { id: 'go-philosophy', kind: 'jump', label: 'Engineering Philosophy', hint: 'section', payload: 'philosophy', keywords: 'approach principles values how i build maintainable scalable performance' },
-    { id: 'go-skills', kind: 'jump', label: 'Stack', hint: 'section', payload: 'skills', keywords: 'skills tools technologies' },
-    { id: 'go-contact', kind: 'jump', label: 'Contact', hint: 'section', payload: 'contact', keywords: 'email phone reach' },
-    { id: 'copy-email', kind: 'copy', label: 'Copy email address', hint: 'clipboard', payload: 'p.gopinath.work@gmail.com', keywords: 'mail gmail address' },
-    { id: 'copy-phone', kind: 'copy', label: 'Copy phone number', hint: 'clipboard', payload: '+91 63693 26257', keywords: 'tel mobile call' },
-    { id: 'dl-resume', kind: 'download', label: 'Download resume as PDF', hint: '.pdf', payload: '/assets/Gopinath_P_Software_Developer.pdf', keywords: 'cv resume' },
-    { id: 'open-github', kind: 'open', label: 'GitHub · @Gopi-p', hint: 'external', payload: 'https://github.com/Gopi-p', keywords: 'code repos github' },
-    { id: 'open-linkedin', kind: 'open', label: 'LinkedIn · /in/p-gopinath', hint: 'external', payload: 'https://www.linkedin.com/in/p-gopinath/', keywords: 'linkedin profile' },
-    { id: 'open-craft', kind: 'open', label: 'gopicraft.dev', hint: 'external', payload: 'https://gopicraft.dev', keywords: 'site blog craft workshop' },
-    { id: 'mail-direct', kind: 'open', label: 'Compose new email', hint: 'mailto', payload: 'mailto:p.gopinath.work@gmail.com', keywords: 'email write compose' },
+    {
+      id: 'go-home',
+      kind: 'jump',
+      label: 'Top of the page',
+      hint: 'section',
+      payload: 'top',
+      keywords: 'hero home start',
+    },
+    {
+      id: 'go-about',
+      kind: 'jump',
+      label: 'About',
+      hint: 'section',
+      payload: 'about',
+      keywords: 'bio chapters experience',
+    },
+    {
+      id: 'go-built',
+      kind: 'jump',
+      label: "Things I've Built",
+      hint: 'section',
+      payload: 'built',
+      keywords: 'systems canvas graphql rbac auth notification multi tenant',
+    },
+    {
+      id: 'go-work',
+      kind: 'jump',
+      label: 'Work',
+      hint: 'section',
+      payload: 'work',
+      keywords: 'projects portfolio cases home server cloud infra immich cloudflare',
+    },
+    {
+      id: 'go-philosophy',
+      kind: 'jump',
+      label: 'Engineering Philosophy',
+      hint: 'section',
+      payload: 'philosophy',
+      keywords: 'approach principles values how i build maintainable scalable performance',
+    },
+    {
+      id: 'go-skills',
+      kind: 'jump',
+      label: 'Stack',
+      hint: 'section',
+      payload: 'skills',
+      keywords: 'skills tools technologies',
+    },
+    {
+      id: 'go-contact',
+      kind: 'jump',
+      label: 'Contact',
+      hint: 'section',
+      payload: 'contact',
+      keywords: 'email phone reach',
+    },
+    {
+      id: 'copy-email',
+      kind: 'copy',
+      label: 'Copy email address',
+      hint: 'clipboard',
+      payload: 'p.gopinath.work@gmail.com',
+      keywords: 'mail gmail address',
+    },
+    {
+      id: 'copy-phone',
+      kind: 'copy',
+      label: 'Copy phone number',
+      hint: 'clipboard',
+      payload: '+91 63693 26257',
+      keywords: 'tel mobile call',
+    },
+    {
+      id: 'dl-resume',
+      kind: 'download',
+      label: 'Download resume as PDF',
+      hint: '.pdf',
+      payload: '/assets/Gopinath_P_Software_Developer.pdf',
+      keywords: 'cv resume',
+    },
+    {
+      id: 'open-github',
+      kind: 'open',
+      label: 'GitHub · @Gopi-p',
+      hint: 'external',
+      payload: 'https://github.com/Gopi-p',
+      keywords: 'code repos github',
+    },
+    {
+      id: 'open-linkedin',
+      kind: 'open',
+      label: 'LinkedIn · /in/p-gopinath',
+      hint: 'external',
+      payload: 'https://www.linkedin.com/in/p-gopinath/',
+      keywords: 'linkedin profile',
+    },
+    {
+      id: 'open-craft',
+      kind: 'open',
+      label: 'gopicraft.dev',
+      hint: 'external',
+      payload: 'https://gopicraft.dev',
+      keywords: 'site blog craft workshop',
+    },
+    {
+      id: 'mail-direct',
+      kind: 'open',
+      label: 'Compose new email',
+      hint: 'mailto',
+      payload: 'mailto:p.gopinath.work@gmail.com',
+      keywords: 'email write compose',
+    },
   ];
 
   readonly filtered = computed<Action[]>(() => {
@@ -180,10 +284,14 @@ export class CommandPaletteComponent implements AfterViewInit {
 
   kindLabel(kind: Action['kind']): string {
     switch (kind) {
-      case 'jump': return 'jump';
-      case 'copy': return 'copy';
-      case 'open': return 'open';
-      case 'download': return 'pdf';
+      case 'jump':
+        return 'jump';
+      case 'copy':
+        return 'copy';
+      case 'open':
+        return 'open';
+      case 'download':
+        return 'pdf';
     }
   }
 
@@ -201,7 +309,11 @@ export class CommandPaletteComponent implements AfterViewInit {
         }
         break;
       case 'open':
-        window.open(action.payload, action.payload.startsWith('mailto:') ? '_self' : '_blank', 'noopener,noreferrer');
+        window.open(
+          action.payload,
+          action.payload.startsWith('mailto:') ? '_self' : '_blank',
+          'noopener,noreferrer',
+        );
         break;
       case 'download': {
         const a = document.createElement('a');
@@ -216,6 +328,11 @@ export class CommandPaletteComponent implements AfterViewInit {
   }
 
   private scrollTo(id: string) {
+    // On a sub-page (e.g. a case study) the sections don't exist: route home instead.
+    if (!document.getElementById('top')) {
+      this.router.navigate(['/'], { fragment: id === 'top' ? undefined : id });
+      return;
+    }
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
