@@ -1,0 +1,856 @@
+<article class="story">
+  <!-- Story hero -->
+  <header class="story-hero">
+    <div appReveal class="story-hero-inner">
+      <a routerLink="/" fragment="work" class="back-link">
+        <span aria-hidden="true">←</span> all work
+      </a>
+
+      <div class="hero-eyebrow">Case Study · Home Server Build</div>
+
+      <h1 class="font-display">
+        I stopped paying for cloud storage.<br />
+        <span class="text-coral italic">Built my own instead.</span>
+      </h1>
+
+      <p class="hero-sub">
+        One old HP laptop, one bored weekend, and a storage problem I was tired of dealing with.
+        Here is how gopicraft.dev came to life.
+      </p>
+
+      <div class="hero-meta font-mono">
+        <span>Chennai, India</span>
+        <span aria-hidden="true">·</span>
+        <span>One weekend build</span>
+        <span aria-hidden="true">·</span>
+        <span>Only cost: a domain name</span>
+      </div>
+
+      <div class="hero-stack">
+        <span class="tag accent">Ubuntu Server</span>
+        <span class="tag accent">CasaOS</span>
+        <span class="tag green">Immich</span>
+        <span class="tag green">Jellyfin</span>
+        <span class="tag green">Cloudflare Tunnel</span>
+        <span class="tag gold">gopicraft.dev</span>
+        <span class="tag">Docker</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY -->
+  <section id="why">
+    <div appReveal class="container">
+      <div class="section-label">Why this happened</div>
+      <h2 class="font-display">I have been collecting memories for years</h2>
+
+      <p>
+        Photos since childhood. Family trips. School friends. College. Office. Everything. Then
+        videos too. Movies, series, anime. A lot of it. At some point it got big enough that I
+        bought an external SSD with a connector just to store everything in one place.
+      </p>
+
+      <p>
+        That worked for a while. But it had real problems. If I wanted to back up photos from my
+        phone I had to physically connect the drive. If I wanted to share an album with family I had
+        to send files on WhatsApp or upload to Google Drive. If I wanted to watch something I had to
+        carry the SSD around. Not convenient at all.
+      </p>
+
+      <p>
+        I was paying for Google Photos to back up my phone and share albums. But it always felt
+        wrong to hand over personal photos and memories to someone else's server. And every year
+        they find a new reason to reduce free storage or change the pricing.
+      </p>
+
+      <p>
+        So one weekend I had nothing useful going on and I thought about this properly. I already
+        had an old HP laptop sitting unused. Decent specs. 12th gen i3, 16GB RAM, 250GB SSD, 1TB
+        HDD. Just collecting dust in the corner. What if I just turned it into a server?
+      </p>
+
+      <p>
+        That weekend I decided to do exactly that. Full private cloud. Photos, videos, remote
+        access. On hardware I already owned. No new purchases, no monthly subscriptions.
+      </p>
+    </div>
+  </section>
+
+  <!-- REQUIREMENTS -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Before you start</div>
+      <h2 class="font-display">What you actually need for this</h2>
+
+      <p>The requirements are simpler than most people expect.</p>
+
+      <div class="req-list">
+        <h4 class="font-mono">Requirements</h4>
+        <ul>
+          <li>
+            <span class="num font-mono">01</span>
+            <div>
+              An old laptop or desktop. Mine had 16GB RAM but 8GB works fine for basic setups. Any
+              machine that can run Linux is enough.
+            </div>
+          </li>
+          <li>
+            <span class="num font-mono">02</span>
+            <div>
+              WiFi at home. Ethernet is more stable but WiFi works. The server connects to your home
+              network and that is it.
+            </div>
+          </li>
+          <li>
+            <span class="num font-mono">03</span>
+            <div>A USB drive, at least 8GB, to install Ubuntu Server from.</div>
+          </li>
+          <li>
+            <span class="num font-mono">04</span>
+            <div>
+              A domain name. <span class="optional font-mono">// optional but worth it</span>
+              Without it everything still works on your home network. With it you get a proper URL
+              accessible from anywhere.
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <p>
+        That is the full list. No server rack. No special hardware. The laptop I used was an HP
+        DA0077TX that had been sitting unused for months. The whole build cost me exactly the price
+        of a domain name.
+      </p>
+    </div>
+  </section>
+
+  <!-- UBUNTU INSTALL -->
+  <section id="install">
+    <div appReveal class="container">
+      <div class="section-label">Step 01</div>
+      <h2 class="font-display">Wiping the laptop and installing Ubuntu Server</h2>
+
+      <p>
+        The laptop had some old stuff on it that I did not care about. Formatted it completely.
+        Clean slate before anything else.
+      </p>
+
+      <p>
+        For the OS I went with Ubuntu Server 22.04 LTS. No desktop, no GUI, just a lean
+        terminal-based server. It is the standard choice for home servers for a reason. Stable, well
+        documented, huge community.
+      </p>
+
+      <p>
+        The installation process looks like this. I used Balena Etcher to flash the Ubuntu Server
+        ISO onto a USB drive. It is free, straightforward, and works on Windows and Mac.
+      </p>
+
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="step-num font-mono">01</div>
+          <div class="step-content">
+            <h4>Download Ubuntu Server ISO</h4>
+            <p>Go to ubuntu.com/download/server and grab the latest 22.04 LTS ISO. About 1.5GB.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">02</div>
+          <div class="step-content">
+            <h4>Flash it to USB with Balena Etcher</h4>
+            <p>
+              Download Balena Etcher from balena.io/etcher. Select the ISO, select your USB drive,
+              click Flash. Takes about 5 minutes.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">03</div>
+          <div class="step-content">
+            <h4>Boot from USB on the laptop</h4>
+            <p>
+              Plug the USB into the server laptop. Boot and press F9 on HP to get the boot menu.
+              Select the USB drive.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">04</div>
+          <div class="step-content">
+            <h4>Follow the Ubuntu installer</h4>
+            <p>
+              Set your language, storage layout, username and password. I set my username as
+              <code>rookie</code> since it is a home server and the name felt right. The whole
+              install takes about 15 minutes.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">05</div>
+          <div class="step-content">
+            <h4>Install CasaOS</h4>
+            <p>
+              Once Ubuntu is up, SSH in and run the one-line CasaOS installer. It sets up a clean
+              web dashboard for managing everything.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot r"></div>
+          <div class="dot y"></div>
+          <div class="dot g"></div>
+          <div class="t-title font-mono">rookie&#64;rookie: ~</div>
+        </div>
+        <div class="terminal-body font-mono">
+          <div class="cmt"># SSH into your server from another machine on the same WiFi</div>
+          <div class="cmd">ssh rookie&#64;192.168.1.37</div>
+          <div class="gap" aria-hidden="true"></div>
+          <div class="cmt"># Install CasaOS with one command</div>
+          <div class="cmd">curl -fsSL https://get.casaos.io | sudo bash</div>
+          <div class="out">CasaOS is running at http://192.168.1.37</div>
+          <div class="gap" aria-hidden="true"></div>
+          <div class="cmt"># Open that IP in your browser — you have a server dashboard now</div>
+        </div>
+      </div>
+
+      <p>
+        After this, open a browser on any device connected to the same WiFi and go to your server's
+        IP. You get the CasaOS dashboard. That is your server's home from here on.
+      </p>
+
+      <div class="callout">
+        <p>
+          On the username: I set mine as <code>rookie</code> during the Ubuntu install. It is just a
+          label for the server. Pick whatever makes sense to you. It shows up in your terminal
+          prompt as <code>rookie&#64;rookie:~$</code> which is just username&#64;hostname.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOMAIN -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 02</div>
+      <h2 class="font-display">Picking a domain name</h2>
+
+      <p>
+        I wanted one domain for everything. Not just the server. Portfolio, side projects, apps,
+        home server. One name that grows with me.
+      </p>
+
+      <p>
+        My name is Gopinath. Most popular extensions with that name are already taken. So I had to
+        think. Looked at <code>gopi.sh</code>, <code>gopilabs.dev</code>,
+        <code>gopiforge.dev</code>. All decent. I landed on <strong>gopicraft.dev</strong>.
+      </p>
+
+      <p>
+        Craft felt right. I build things and I care about how they are made. Not just shipping
+        something and moving on, actually crafting it properly. The .dev extension enforces HTTPS by
+        default which is a nice technical bonus for a developer's domain.
+      </p>
+
+      <p>
+        Registered it on Cloudflare Registrar for $12.20 a year. Around 1020 rupees. No first year
+        discount tricks, no renewal price hikes. Cloudflare charges at cost. Since I was going to
+        use their tunnel and DNS anyway, this was the obvious choice.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/01-domain-registration.png"
+          width="1908"
+          height="820"
+          alt="Registering gopicraft.dev on Cloudflare"
+        />
+        <div class="screenshot-caption font-mono">
+          // gopicraft.dev — $12.20/yr, renews at same price, HTTPS enforced on .dev
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATIC IP -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 03</div>
+      <h2 class="font-display">Giving the server a fixed address on the network</h2>
+
+      <p>
+        By default routers assign IPs to devices dynamically. Every time the router restarts it can
+        give your server a different IP. That breaks SSH configs, tunnel setups, everything that
+        references the server by address.
+      </p>
+
+      <p>
+        The fix is reserving a specific IP for the server's MAC address in the router settings. From
+        that point on the server always gets the same address no matter how many times the router
+        restarts. I set mine to 192.168.1.37.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/02-router-static-ip.png"
+          width="1373"
+          height="861"
+          alt="Router dashboard for static IP reservation"
+        />
+        <div class="screenshot-caption font-mono">
+          // Syrotech router that comes with Railwire fiber — reserved a fixed IP for the server
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORAGE -->
+  <section id="setup">
+    <div appReveal class="container">
+      <div class="section-label">Step 04</div>
+      <h2 class="font-display">Getting storage right before anything else</h2>
+
+      <p>
+        My laptop has two drives. A 250GB SSD and a 1TB HDD. By default CasaOS was writing
+        everything to the SSD. Photos, databases, all of it. That needed to change.
+      </p>
+
+      <p>
+        SSD is fast but limited. It is for the OS and Docker only. The HDD is where all the actual
+        data goes. I set that rule early and stuck to it.
+      </p>
+
+      <div class="storage-grid">
+        <div class="storage-card ssd">
+          <h4 class="font-mono">SSD — 250GB</h4>
+          <div class="sz font-display">250GB</div>
+          <ul class="font-mono">
+            <li>Ubuntu Server</li>
+            <li>Docker engine</li>
+            <li>Container images</li>
+            <li>App configs</li>
+          </ul>
+        </div>
+        <div class="storage-card hdd">
+          <h4 class="font-mono">HDD — /storage</h4>
+          <div class="sz font-display">1TB</div>
+          <ul class="font-mono">
+            <li>appdata/immich/pgdata</li>
+            <li>media/library (photos+videos)</li>
+            <li>media/movies</li>
+            <li>backups</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="screenshot-grid">
+        <div class="screenshot">
+          <img
+            ngSrc="/assets/gopicraft/03-lsblk-drives.png"
+            width="1818"
+            height="928"
+            alt="lsblk showing drive layout"
+          />
+          <div class="screenshot-caption font-mono">
+            // lsblk — SSD on sdb2 at /, HDD on sda2 at /storage
+          </div>
+        </div>
+        <div class="screenshot">
+          <img
+            ngSrc="/assets/gopicraft/04-fstab-df.png"
+            width="1341"
+            height="987"
+            alt="fstab and df output"
+          />
+          <div class="screenshot-caption font-mono">
+            // HDD in fstab with UUID — mounts automatically on every boot
+          </div>
+        </div>
+      </div>
+
+      <p>
+        The actual work here was finding the docker-compose files CasaOS uses for each app and
+        redirecting all the volume paths from /DATA on the SSD to /storage on the HDD. This is where
+        I hit the most trouble.
+      </p>
+
+      <p>
+        Postgres kept getting stuck in "health: starting" for almost an hour. Eventually figured out
+        the container runs as user 999 internally, not 1000 like most others. Had to set the right
+        ownership on the data folder. Then hit a version mismatch between the Immich server and the
+        postgres image that needed a full reinstall. Spent a lot of time on this with Claude's help
+        going through it step by step.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/05-compose-storage.png"
+          width="1919"
+          height="247"
+          alt="docker-compose updated to use /storage"
+        />
+        <div class="screenshot-caption font-mono">
+          // Both volume sources now pointing to /storage on the HDD
+        </div>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/06-storage-verify.png"
+          width="1919"
+          height="539"
+          alt="Storage verification"
+        />
+        <div class="screenshot-caption font-mono">
+          // 307MB postgres + 15MB media both confirmed on HDD
+        </div>
+      </div>
+
+      <div class="callout orange">
+        <p>
+          Postgres inside Docker runs as user 999. Not 1000. If you <code>chown 1000:1000</code> the
+          pgdata folder, it silently fails its healthcheck. You need <code>chown 999:999</code>
+          for that specific folder. Took me longer than I would like to admit to figure this out.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMMICH -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 05</div>
+      <h2 class="font-display">Immich — finally done with Google Photos</h2>
+
+      <p>
+        Immich is the best self-hosted photo library right now. Proper mobile app, auto-backup, face
+        detection, shared albums, timeline view. Everything Google Photos has but on your own
+        hardware.
+      </p>
+
+      <p>
+        Installed it from the CasaOS app store. After sorting out all the storage issues it came up
+        cleanly on v2.6.3.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/07-immich-healthy.png"
+          width="1919"
+          height="403"
+          alt="Immich containers all healthy"
+        />
+        <div class="screenshot-caption font-mono">
+          // Immich v2.6.3 — server, postgres, redis all healthy and running
+        </div>
+      </div>
+
+      <p>
+        Installed the Immich app on my iPhone, pointed it to photos.gopicraft.dev, turned on
+        auto-backup. Every photo I take now syncs automatically to my own server. Deleted Google
+        Photos off my phone the same day.
+      </p>
+
+      <p>
+        Sharing works exactly how I wanted. Create an album, add photos and videos, generate a share
+        link, send it on WhatsApp. The other person just opens it in their browser. No app to
+        download, no account needed, no Google login. Just a link.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/08-casaos-files.png"
+          width="1908"
+          height="820"
+          alt="CasaOS file manager with GOPI SSD"
+        />
+        <div class="screenshot-caption font-mono">
+          // CasaOS file manager picked up my external SSD automatically — can browse and copy from
+          the browser itself
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JELLYFIN -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 06</div>
+      <h2 class="font-display">Jellyfin for movies, series and anime</h2>
+
+      <p>
+        All those movies and series sitting on the external SSD, barely accessible. Now they live on
+        the 1TB HDD and stream through Jellyfin.
+      </p>
+
+      <p>
+        Jellyfin is a free open source media server. It reads your files, pulls in metadata,
+        posters, subtitles, everything automatically. You get a proper streaming UI that works from
+        any browser or the Jellyfin app. Think of it as a self-hosted Netflix for your own
+        collection.
+      </p>
+
+      <p>
+        Installed it from the CasaOS app store. Pointed it to the movies and TV folders on /storage.
+        It scanned everything and built the library on its own. Now I can stream anything from my
+        collection from any device, anywhere.
+      </p>
+
+      <div class="callout green">
+        <p>
+          Jellyfin is completely free. No subscription, no license fees, no limits on users or
+          streams. It is the honest answer to paying for multiple streaming platforms just to watch
+          stuff you already have downloaded.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TUNNEL -->
+  <section id="access">
+    <div appReveal class="container">
+      <div class="section-label">Step 07</div>
+      <h2 class="font-display">Access from anywhere without opening a single port</h2>
+
+      <p>
+        My ISP is Railwire. Dynamic IP that changes every few days. Port forwarding would
+        technically work but every IP change would break external access. Not a real solution.
+      </p>
+
+      <p>
+        Cloudflare Tunnel is the right answer here. The server reaches out to Cloudflare, not the
+        other way around. No inbound ports to open, no firewall rules, no IP dependency. Just a
+        persistent outbound connection to Cloudflare's edge that all traffic flows through.
+      </p>
+
+      <div class="arch">
+        <div class="arch-flow font-mono">
+          <div class="arch-node a">photos.gopicraft.dev</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">
+            Cloudflare Edge<br /><small class="arch-sub">Chennai / Mumbai</small>
+          </div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">cloudflared daemon</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node g">
+            Immich / Jellyfin<br /><small class="arch-sub">on the server</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/09-tunnel-list.png"
+          width="1609"
+          height="227"
+          alt="cloudflared tunnel list showing gopicraft tunnel"
+        />
+        <div class="screenshot-caption font-mono">
+          // gopicraft tunnel created and registered — UUID blurred for security
+        </div>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/10-tunnel-config.png"
+          width="1349"
+          height="512"
+          alt="Cloudflare tunnel config file"
+        />
+        <div class="screenshot-caption font-mono">
+          // config.yml — mapping subdomains to local services
+        </div>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/11-tunnel-connections.png"
+          width="1919"
+          height="1079"
+          alt="Tunnel connecting to Cloudflare edge"
+        />
+        <div class="screenshot-caption font-mono">
+          // 4 connections to Chennai (maa03) and Mumbai (bom12) edge nodes — Indian servers, good
+          latency
+        </div>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/gopicraft/12-tunnel-systemd.png"
+          width="1919"
+          height="1020"
+          alt="cloudflared systemd service running"
+        />
+        <div class="screenshot-caption font-mono">
+          // cloudflared running as a systemd service — starts automatically on every reboot
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 08</div>
+      <h2 class="font-display">Locking the dashboard behind email verification</h2>
+
+      <p>
+        Immich has its own login so the photo library is reasonably protected. But the CasaOS
+        dashboard gives full control over the server. Files, apps, Docker containers, everything.
+        That needed a stronger gate.
+      </p>
+
+      <p>
+        Cloudflare Access is free with their Zero Trust plan. It intercepts any request to a URL and
+        asks for email verification before letting anyone through. Only my email gets in. Everyone
+        else is blocked before they even see a login page.
+      </p>
+
+      <div class="screenshot-grid">
+        <div class="screenshot">
+          <img
+            ngSrc="/assets/gopicraft/13-zero-trust-setup.png"
+            width="1912"
+            height="723"
+            alt="Cloudflare Zero Trust setup"
+          />
+          <div class="screenshot-caption font-mono">// Setting up Cloudflare Access</div>
+        </div>
+        <div class="screenshot">
+          <img
+            ngSrc="/assets/gopicraft/14-zero-trust-active.png"
+            width="1736"
+            height="759"
+            alt="Zero Trust setup complete"
+          />
+          <div class="screenshot-caption font-mono">
+            // Email OTP gate active on home.gopicraft.dev
+          </div>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <p>
+          Final security state: no open ports on the router, CasaOS behind Cloudflare email OTP,
+          Immich behind a strong password, HTTPS enforced on the .dev domain, all traffic going
+          through Cloudflare. For a home server this is more than solid.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24/7 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Something I was skeptical about</div>
+      <h2 class="font-display">Can a laptop actually run 24/7?</h2>
+
+      <p>
+        I was not sure about this. Keeping a laptop plugged in and running continuously felt like it
+        would kill the hardware fast. So I researched it properly before committing.
+      </p>
+
+      <p>
+        Turns out most components handle 24/7 operation fine. CPUs, RAM, SSDs are all designed for
+        continuous use. The HDD actually prefers staying spun up rather than frequent start and stop
+        cycles. The real enemy is heat. Poor ventilation is what degrades things over time, not
+        continuous operation itself.
+      </p>
+
+      <p>
+        The first component to go on an always-on laptop is the battery. Mine was already pretty
+        degraded so that is not a concern. After that it is usually the cooling fan and eventually
+        the power adapter. Both are cheap and easy to replace if they give out after a few years.
+      </p>
+
+      <p>
+        I placed the laptop on a hard surface with good airflow on all sides. Set up a temperature
+        alert so if the CPU crosses a certain threshold it sends me an email. Temperatures have been
+        completely normal under regular server load so far.
+      </p>
+
+      <p>
+        Still exploring wake-on-LAN over ethernet to wake it remotely if needed, and maybe a
+        scheduled shutdown during late night when nothing is running. But honestly at around 100
+        rupees a month in electricity, the convenience of having it always on outweighs the cost.
+      </p>
+
+      <div class="callout">
+        <p>
+          If you are running a laptop as a server full time, consider removing the battery if it is
+          easily removable. A battery always at 100% charge can swell over time and that can damage
+          the motherboard. Running directly on the adapter is actually safer for this use case.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result">
+    <div appReveal class="container">
+      <div class="section-label">Where it stands now</div>
+      <h2 class="font-display">What I ended up with</h2>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">📸</div>
+          <h4>photos.gopicraft.dev</h4>
+          <p>
+            Immich with iPhone auto-backup. Share albums via link. Replaced Google Photos
+            completely.
+          </p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🎬</div>
+          <h4>Jellyfin streaming</h4>
+          <p>Movies, series, anime. All streaming from the HDD. Works from any device.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🏠</div>
+          <h4>home.gopicraft.dev</h4>
+          <p>CasaOS dashboard behind Cloudflare Access. Full server control from anywhere.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🌐</div>
+          <h4>Works from anywhere</h4>
+          <p>Cloudflare Tunnel. Dynamic IP does not matter. No port forwarding needed.</p>
+        </div>
+      </div>
+
+      <h3 class="font-display">The actual cost</h3>
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Cost</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hardware</td>
+            <td class="hl">₹0</td>
+            <td>Already owned the laptop</td>
+          </tr>
+          <tr>
+            <td>gopicraft.dev domain</td>
+            <td class="hl">₹1,020/yr</td>
+            <td>Only actual purchase. ~₹85/month.</td>
+          </tr>
+          <tr>
+            <td>Electricity</td>
+            <td class="hl">~₹100/mo</td>
+            <td>~25W average, 24/7 operation</td>
+          </tr>
+          <tr>
+            <td>Internet</td>
+            <td class="hl">₹0 extra</td>
+            <td>Already paying for it anyway</td>
+          </tr>
+          <tr>
+            <td>Google One (replaced)</td>
+            <td class="save">₹650/mo saved</td>
+            <td>No longer needed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The domain pays for itself in the first two weeks of Google One savings. After that it is
+        roughly 100 rupees a month in electricity for 1TB of fully owned cloud storage that I
+        control completely.
+      </p>
+    </div>
+  </section>
+
+  <!-- POTENTIAL -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">What this can become</div>
+      <h2 class="font-display">A home server has a lot more potential</h2>
+
+      <p>
+        Photos and movies are just the start. Once the foundation is there, a lot of other things
+        become possible without buying any new hardware.
+      </p>
+
+      <ul class="checklist">
+        <li>
+          Run a local AI model with Ollama. Install something like Llama or Mistral and you have
+          your own private AI assistant that never sends your data anywhere. No usage limits, no
+          subscription. On an i3 it is not fast, but it works for personal use.
+        </li>
+        <li>
+          Host personal projects and web apps directly. Each one gets a subdomain.
+          gopi.gopicraft.dev, tools.gopicraft.dev, whatever you are building.
+        </li>
+        <li>
+          Self-host a password manager like Vaultwarden. Your passwords on your own server, not a
+          company's cloud.
+        </li>
+        <li>
+          Add more storage by plugging in an external HDD. The setup scales without reinstalling
+          anything.
+        </li>
+        <li>Run a VPN server to secure your phone traffic on public WiFi.</li>
+        <li>
+          Automated backups with rsync. Mirror everything on the HDD to an external drive on a
+          schedule.
+        </li>
+      </ul>
+
+      <p>
+        The one I am most interested in next is Ollama for running local AI models. The idea of
+        having a private AI assistant with no data leaving the house, no API costs, no limits,
+        running on old hardware that was just sitting there, is exactly the kind of thing that makes
+        this whole setup worth building.
+      </p>
+    </div>
+  </section>
+
+  <!-- LESSONS -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Honest takeaways</div>
+      <h2 class="font-display">What I would tell someone starting this</h2>
+
+      <p>
+        <strong>Sort out storage before you install any apps.</strong> Decide where your data lives
+        and set it up properly first. If you get this wrong everything you build on top of it is
+        wrong too. I wish I had done this from day one instead of fixing it mid-setup.
+      </p>
+
+      <p>
+        <strong>Cloudflare Tunnel is the right answer for Indian home servers.</strong> Dynamic IPs
+        from Railwire, Jio, Airtel, does not matter. Tunnel does not care about your IP. No port
+        forwarding, free SSL, and the edge nodes are in India so latency is actually decent.
+      </p>
+
+      <p>
+        <strong>Container internals matter.</strong> Postgres runs as user 999 inside its container.
+        Not 1000. That one detail caused the most debugging time in this entire project. Always
+        check what user a container actually runs as before setting folder permissions.
+      </p>
+
+      <p>
+        <strong>An old laptop is genuinely enough.</strong> You do not need to buy anything new. If
+        you have a laptop sitting around with 8GB or more of RAM, that is your server. The only
+        purchase in this entire build was a domain name.
+      </p>
+    </div>
+  </section>
+
+  <!-- STORY FOOTER -->
+  <footer class="story-footer">
+    <div appReveal class="container">
+      <a routerLink="/" fragment="work" class="footer-cta">
+        <span aria-hidden="true">←</span>
+        <span>back to all work</span>
+      </a>
+    </div>
+  </footer>
+</article>

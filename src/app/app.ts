@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from './navigation/navigation';
 import { CommandPaletteComponent } from './shared/command-palette';
@@ -20,4 +21,9 @@ import { ToastOutletComponent } from './shared/toast-outlet';
     </div>
   `,
 })
-export class App {}
+export class App {
+  constructor() {
+    // Router anchor scrolling ignores CSS scroll-margin-top; offset for the fixed header.
+    inject(ViewportScroller).setOffset([0, 96]);
+  }
+}

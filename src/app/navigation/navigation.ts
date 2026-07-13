@@ -3,8 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
+  inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 interface NavTarget {
   id: string;
@@ -50,7 +54,8 @@ interface NavTarget {
             class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-edge-hi text-fog hover:text-ivory transition-colors text-xs font-mono"
           >
             <span>jump to</span>
-            <span class="kbd" aria-hidden="true">⌘</span><span class="kbd" aria-hidden="true">K</span>
+            <span class="kbd" aria-hidden="true">⌘</span
+            ><span class="kbd" aria-hidden="true">K</span>
           </button>
 
           <button
@@ -108,7 +113,8 @@ interface NavTarget {
         >
           <span
             class="opacity-0 group-hover:opacity-100 transition-opacity font-mono text-[10px] uppercase tracking-widest text-mist"
-          >{{ target.label }}</span>
+            >{{ target.label }}</span
+          >
           <span
             class="block w-2 h-2 rounded-full transition-all"
             [class.bg-coral]="active() === target.id"
@@ -136,9 +142,58 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
   readonly isOpen = signal(false);
   readonly active = signal<string>('');
 
+  private readonly router = inject(Router);
   private observer?: IntersectionObserver;
 
+  constructor() {
+    // Sections only exist on the home route; re-attach the scroll-spy after each navigation.
+    // Attaching must wait for the router's (smooth) scroll to settle, otherwise the observer's
+    // initial report reads the pre-navigation scroll position and writes a stale hash.
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.active.set('');
+        this.attachWhenScrollSettles();
+      });
+  }
+
   ngAfterViewInit() {
+    this.attachObserver();
+  }
+
+  ngOnDestroy() {
+    this.cancelPendingAttach();
+    this.observer?.disconnect();
+  }
+
+  private settleTimer?: ReturnType<typeof setTimeout>;
+  private readonly onScrollEnd = () => {
+    this.cancelPendingAttach();
+    this.attachObserver();
+  };
+
+  private attachWhenScrollSettles() {
+    this.cancelPendingAttach();
+    window.addEventListener('scrollend', this.onScrollEnd);
+    // Fallback when no scroll happens (or the browser lacks the scrollend event).
+    this.settleTimer = setTimeout(this.onScrollEnd, 900);
+  }
+
+  private cancelPendingAttach() {
+    window.removeEventListener('scrollend', this.onScrollEnd);
+    if (this.settleTimer !== undefined) {
+      clearTimeout(this.settleTimer);
+      this.settleTimer = undefined;
+    }
+  }
+
+  private attachObserver() {
+    this.observer?.disconnect();
+    this.active.set('');
+
     this.observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -150,7 +205,9 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
         this.active.set(id === 'top' ? '' : id);
         this.syncHash(id);
       },
-      { rootMargin: '-30% 0px -50% 0px', threshold: [0.1, 0.25, 0.5] },
+      // Threshold 0 keeps the spy working when a tall section can't reach 10%
+      // visibility inside the band (short viewports).
+      { rootMargin: '-30% 0px -50% 0px', threshold: [0, 0.1, 0.25, 0.5] },
     );
 
     for (const id of this.trackedIds) {
@@ -159,15 +216,20 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.observer?.disconnect();
+  toggleMenu() {
+    this.isOpen.update((v) => !v);
   }
-
-  toggleMenu() { this.isOpen.update((v) => !v); }
-  closeMenu() { this.isOpen.set(false); }
+  closeMenu() {
+    this.isOpen.set(false);
+  }
 
   scrollToId(id: string, event: Event) {
     event.preventDefault();
+    // On a sub-page (e.g. a case study) the sections don't exist: route home instead.
+    if (!document.getElementById('top')) {
+      this.router.navigate(['/'], { fragment: id === 'top' ? undefined : id });
+      return;
+    }
     if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
