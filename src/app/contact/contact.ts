@@ -26,9 +26,8 @@ interface Channel {
               worth <span class="text-coral italic">solving?</span>
             </h2>
             <p class="mt-6 text-mist text-lg max-w-xl">
-              I read every message. Quickest path is email. Or hit
-              <span class="kbd">⌘</span><span class="kbd">K</span> and search
-              "copy email", or pick any channel below.
+              I read every message. Quickest path is email. Copy any detail below,
+              or pick a channel that suits you.
             </p>
           </div>
 
@@ -98,7 +97,7 @@ interface Channel {
             class="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-night-3 border border-edge-hi hover:border-amber transition-colors"
           >
             <span class="font-mono text-[11px] uppercase tracking-widest text-amber">↓ pdf</span>
-            <span class="font-display text-lg">Download résumé</span>
+            <span class="font-display text-lg">Download resume</span>
           </a>
         </div>
       </div>

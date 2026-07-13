@@ -50,16 +50,6 @@ interface NavTarget {
         <div class="flex items-center gap-3">
           <button
             type="button"
-            (click)="openPalette()"
-            class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-edge-hi text-fog hover:text-ivory transition-colors text-xs font-mono"
-          >
-            <span>jump to</span>
-            <span class="kbd" aria-hidden="true">⌘</span
-            ><span class="kbd" aria-hidden="true">K</span>
-          </button>
-
-          <button
-            type="button"
             (click)="toggleMenu()"
             class="md:hidden font-mono text-xs uppercase tracking-widest text-mist hover:text-coral"
             aria-controls="mobile-menu"
@@ -87,14 +77,6 @@ interface NavTarget {
               {{ target.label }}
             </a>
           }
-          <button
-            type="button"
-            (click)="closeMenu(); openPalette()"
-            class="self-start mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-edge text-mist text-xs font-mono"
-          >
-            <span>open palette</span>
-            <span class="kbd" aria-hidden="true">⌘K</span>
-          </button>
         </nav>
       }
     </header>
@@ -129,9 +111,9 @@ interface NavTarget {
 export class NavigationComponent implements AfterViewInit, OnDestroy {
   readonly targets: NavTarget[] = [
     { id: 'about', label: 'about' },
-    { id: 'built', label: 'built' },
+    { id: 'systems', label: 'systems' },
     { id: 'work', label: 'work' },
-    { id: 'philosophy', label: 'approach' },
+    { id: 'approach', label: 'approach' },
     { id: 'skills', label: 'stack' },
     { id: 'contact', label: 'contact' },
   ];
@@ -247,11 +229,5 @@ export class NavigationComponent implements AfterViewInit, OnDestroy {
     if (current !== next) {
       history.replaceState(history.state, '', next);
     }
-  }
-
-  openPalette() {
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true }),
-    );
   }
 }

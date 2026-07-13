@@ -1,0 +1,279 @@
+<article class="story">
+  <!-- Story hero -->
+  <header class="story-hero">
+    <div appReveal class="story-hero-inner">
+      <a routerLink="/" fragment="work" class="back-link">
+        <span aria-hidden="true">←</span> all work
+      </a>
+
+      <div class="hero-eyebrow">Case Study · ShipDesk</div>
+
+      <h1 class="font-display">
+        Taking releases out of a chat thread,<br />
+        <span class="text-coral italic">into one calm flow.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Releases here move through a few manual steps and a few people, all coordinated in a chat
+        channel. New to the team, I chose to tidy the flow rather than automate it. This is
+        ShipDesk, an internal tool, so I will keep the specifics light.
+      </p>
+
+      <div class="hero-meta font-mono">
+        <span>Tango Eye</span>
+        <span aria-hidden="true">·</span>
+        <span>2025 to Now</span>
+        <span aria-hidden="true">·</span>
+        <span>Internal tool</span>
+      </div>
+
+      <div class="hero-stack">
+        <span class="tag accent">Next.js</span>
+        <span class="tag accent">React</span>
+        <span class="tag green">MongoDB</span>
+        <span class="tag green">NextAuth</span>
+        <span class="tag gold">AI-assisted build</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY -->
+  <section id="why">
+    <div appReveal class="container">
+      <div class="section-label">Why this happened</div>
+      <h2 class="font-display">The release lived in a chat channel</h2>
+
+      <p>
+        Almost every company has its own way of building and shipping, and this one is no exception.
+        When I joined I noticed the release flow had a lot of small steps and pulled in a few people,
+        even though the actual CI/CD was already automated.
+      </p>
+
+      <p>
+        Developers work on different modules, and each module is published as its own package. To
+        get a release out, someone posts package names into a chat channel, a maintainer scans the
+        thread and pulls them together, and eventually someone types "done" to close it out.
+        Packages get missed. Late additions cause confusion. And there is no record of what actually
+        went out.
+      </p>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section id="flow">
+    <div appReveal class="container">
+      <div class="section-label">How a release moved</div>
+      <h2 class="font-display">A few hand-offs, all over chat</h2>
+
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="step-num font-mono">01</div>
+          <div class="step-content">
+            <h4>Dev publishes a package</h4>
+            <p>
+              A developer finishes a module, publishes the package, and posts the name and version
+              into the channel.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">02</div>
+          <div class="step-content">
+            <h4>Maintainer collects and tags</h4>
+            <p>
+              A maintainer reads through the thread, gathers the packages, updates the root project,
+              and cuts a tag version.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">03</div>
+          <div class="step-content">
+            <h4>Tag goes to DevOps</h4>
+            <p>The tag is shared back in the channel, with DevOps mentioned.</p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">04</div>
+          <div class="step-content">
+            <h4>DevOps runs the pipeline</h4>
+            <p>DevOps kicks off the build against that tag, and the release ships.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISION -->
+  <section id="decision">
+    <div appReveal class="container">
+      <div class="section-label">The judgment call</div>
+      <h2 class="font-display">Tidy the flow, do not automate it</h2>
+
+      <p>
+        I was completely new, so I did not fully understand why the flow was built this way. That
+        mattered. Instead of assuming it was wrong and automating it away, I assumed it suited the
+        team for reasons I had not learned yet.
+      </p>
+
+      <div class="callout">
+        <p>
+          So I did not touch the pipeline. I set out to close the communication gap and keep a
+          record of every release, nothing more. A smaller, safer change that respects a process I
+          did not build. I called it ShipDesk, and built it with AI-assisted development so it came
+          together fast without pulling focus off my main work.
+        </p>
+      </div>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/shipdesk/01-login.png"
+          width="1351"
+          height="824"
+          alt="ShipDesk sign-in screen"
+        />
+        <div class="screenshot-caption font-mono">// ShipDesk, a small internal app to run releases</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 01 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 01</div>
+      <h2 class="font-display">A release with a deadline</h2>
+
+      <p>
+        A release starts with a project manager creating it and setting a submission deadline.
+        Everything after that hangs off this one object, so there is always a single place to look
+        instead of scrolling a chat.
+      </p>
+
+      <p>
+        When the deadline passes, submissions close on their own. There is no cron job behind it,
+        the release just checks its own deadline the next time anyone opens it and closes itself if
+        the time is up.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/shipdesk/02-new-release.png"
+          width="1629"
+          height="824"
+          alt="Creating a new release with a submission deadline"
+        />
+        <div class="screenshot-caption font-mono">
+          // A release is one object with a name and a deadline
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 02 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 02</div>
+      <h2 class="font-display">Developers add packages, behind a checklist</h2>
+
+      <p>
+        Before the deadline, each developer adds their packages to the release. Instead of a
+        free-form chat message, it is a structured entry, so nothing is ambiguous later.
+      </p>
+
+      <p>
+        The part I like most is the checklist. Before a developer can finalise, they have to confirm
+        a short list of release-hygiene questions. The checklist itself is editable, so the team can
+        shape it around the mistakes they actually tend to make.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/shipdesk/04-checklist.png"
+          width="1689"
+          height="831"
+          alt="A mandatory release checklist before a developer can finalise"
+        />
+        <div class="screenshot-caption font-mono">
+          // Nothing gets finalised until the checklist is confirmed
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 03 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 03</div>
+      <h2 class="font-display">The release comes together in one view</h2>
+
+      <p>
+        Every submission rolls up onto the release page. The project manager can see what is in,
+        close submissions early, or re-open a release with a new deadline if something was missed.
+        The state everyone used to reconstruct from chat is now just the page.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/shipdesk/03-release-page.png"
+          width="1604"
+          height="828"
+          alt="The release page showing submissions and manager controls"
+        />
+        <div class="screenshot-caption font-mono">
+          // One page holds the whole release, no thread to piece together
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 04 -->
+  <section id="result">
+    <div appReveal class="container">
+      <div class="section-label">Step 04</div>
+      <h2 class="font-display">Maintainers hand off cleanly</h2>
+
+      <p>
+        When submissions close, the frontend and backend maintainers get their side laid out for
+        them: the exact package block, the dependency lines ready to paste, and a formatted
+        announcement to drop into the channel. They enter the tag version they cut and mark their
+        side ready, and the build order stays sensible (backend first, then frontend).
+      </p>
+
+      <p>
+        The chat channel does not disappear, but the message posted into it is now generated, not
+        typed by hand. That is the whole point: the same flow the team already trusted, with the
+        error-prone copy-paste taken out of it.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/shipdesk/05-maintainer.png"
+          width="1557"
+          height="838"
+          alt="Maintainer view with copyable dependencies and a generated announcement"
+        />
+        <div class="screenshot-caption font-mono">
+          // Copy the dependency block and the announcement, enter the tag, mark ready
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Every release is one object with a deadline, not a scroll of messages</li>
+        <li>A mandatory checklist catches the usual misses before they ship</li>
+        <li>Dependency blocks and channel announcements are generated, not hand-typed</li>
+        <li>Backend-first build order is enforced instead of remembered</li>
+        <li>Every release is recorded, so there is finally a history to look back on</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- STORY FOOTER -->
+  <footer class="story-footer">
+    <div appReveal class="container">
+      <a routerLink="/" fragment="work" class="footer-cta">
+        <span aria-hidden="true">←</span>
+        <span>back to all work</span>
+      </a>
+    </div>
+  </footer>
+</article>

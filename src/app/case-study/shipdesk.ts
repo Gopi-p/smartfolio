@@ -4,10 +4,10 @@ import { RouterLink } from '@angular/router';
 import { RevealDirective } from '../shared/reveal.directive';
 
 @Component({
-  selector: 'app-gopicraft-story',
+  selector: 'app-shipdesk-story',
   imports: [NgOptimizedImage, RouterLink, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './gopicraft.html',
+  templateUrl: './shipdesk.html',
   styleUrl: './story.css',
 })
-export class GopicraftStoryComponent {}
+export class ShipdeskStoryComponent {}

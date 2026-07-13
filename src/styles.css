@@ -270,6 +270,34 @@ section[id] { scroll-margin-top: 96px; }
 /* Don't show the focus outline when focus is moved programmatically to <main> */
 main:focus { outline: none; }
 
+/* ---- Custom pointer: a unique minimal coral arrow (SVG cursor) ---- */
+/* Unlayered rules deliberately beat Tailwind's layered cursor-* utilities. */
+html,
+body {
+  cursor: url("/assets/cursor.svg") 2 2, auto;
+}
+a,
+button,
+summary,
+[role="button"],
+.chip,
+.cursor-pointer {
+  cursor: url("/assets/cursor-pointer.svg") 2 2, pointer;
+}
+.skill-tag {
+  cursor: url("/assets/cursor.svg") 2 2, default;
+}
+
+/* Subtle fluid trail that follows the pointer, drawn behind the content. */
+.cursor-fluid {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Respect reduced-motion: keep the experience calm and static */
 @media (prefers-reduced-motion: reduce) {
   *,

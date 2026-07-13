@@ -1,0 +1,279 @@
+<article class="story">
+  <!-- Story hero -->
+  <header class="story-hero">
+    <div appReveal class="story-hero-inner">
+      <a routerLink="/" fragment="work" class="back-link">
+        <span aria-hidden="true">←</span> all work
+      </a>
+
+      <div class="hero-eyebrow">Case Study · LogDesk</div>
+
+      <h1 class="font-display">
+        Full request logging<br />
+        <span class="text-coral italic">without editing 100 APIs.</span>
+      </h1>
+
+      <p class="hero-sub">
+        A large app with a big team and no logging, so nobody could tell who changed what. One
+        middleware captured every write, and LogDesk made it readable. This is an internal tool, so
+        I will keep the specifics light.
+      </p>
+
+      <div class="hero-meta font-mono">
+        <span>Tango Eye</span>
+        <span aria-hidden="true">·</span>
+        <span>2025 to Now</span>
+        <span aria-hidden="true">·</span>
+        <span>Internal tool</span>
+      </div>
+
+      <div class="hero-stack">
+        <span class="tag accent">Node.js</span>
+        <span class="tag accent">Express</span>
+        <span class="tag green">OpenSearch</span>
+        <span class="tag green">Angular</span>
+        <span class="tag gold">AsyncLocalStorage</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY -->
+  <section id="why">
+    <div appReveal class="container">
+      <div class="section-label">Why this happened</div>
+      <h2 class="font-display">No logging, and no way to answer basic questions</h2>
+
+      <p>
+        One of the apps I worked on had no activity logging at all. When something went wrong, we
+        could not tell who made a change, or when it happened. We were debugging blind.
+      </p>
+
+      <p>
+        The support cases were the worst part. Someone would say they clicked a button a few times
+        and nothing updated. Or that something saved fine, but on reload the data was old again.
+        Without logs, all we could do was guess.
+      </p>
+
+      <div class="callout">
+        <p>
+          So I decided to build a proper activity logging system. The hard part was never the
+          logging itself. It was doing it <strong>without rewriting the whole codebase</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSTRAINTS -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">The constraints</div>
+      <h2 class="font-display">Minimal changes, on a very big app</h2>
+
+      <p>
+        The app was large: a big team, many modules, and a lot of API endpoints. The obvious
+        approach, adding logging to each endpoint by hand, would have meant huge changes everywhere
+        and a lot of overhead. I wanted something that touched as little code as possible.
+      </p>
+
+      <div class="req-list">
+        <h4 class="font-mono">What I was working around</h4>
+        <ul>
+          <li>
+            <span class="num font-mono">01</span>
+            <div>A big team all working in the same codebase at once.</div>
+          </li>
+          <li>
+            <span class="num font-mono">02</span>
+            <div>Many modules and a lot of API endpoints in play.</div>
+          </li>
+          <li>
+            <span class="num font-mono">03</span>
+            <div>No appetite for editing every single endpoint by hand.</div>
+          </li>
+          <li>
+            <span class="num font-mono">04</span>
+            <div>It had to be reusable, so other teams could adopt it later without my help.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHT -->
+  <section id="insight">
+    <div appReveal class="container">
+      <div class="section-label">The insight</div>
+      <h2 class="font-display">Two layers everything already went through</h2>
+
+      <p>
+        Instead of the endpoints, I looked at the layers around them. Every request came in through
+        the routes, and every module did its database work through a shared service layer, the same
+        set of helpers wrapped around the usual create, update and delete operations.
+      </p>
+
+      <p>
+        If I could watch those two layers, the way in and the database calls underneath, I could
+        capture almost everything without touching the endpoints themselves.
+      </p>
+    </div>
+  </section>
+
+  <!-- STEP 01 -->
+  <section id="build">
+    <div appReveal class="container">
+      <div class="section-label">Step 01</div>
+      <h2 class="font-display">One middleware, on the write routes</h2>
+
+      <p>
+        The first piece is a single middleware, added only to the routes that change data (the POST,
+        PUT, PATCH and DELETE calls). Reads are left alone. When a write comes in, it opens a small
+        per-request context that carries who made the call, the time, the path, and the request
+        body, with obvious secrets like passwords and tokens stripped out before anything is stored.
+      </p>
+
+      <p>
+        That context rides along with the request for its whole life using async local storage, so
+        any code deeper in the stack can add to the same log entry without me passing anything
+        around by hand.
+      </p>
+
+      <div class="arch">
+        <div class="arch-flow font-mono">
+          <div class="arch-node a">Write request</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">middleware opens a request context</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node g">who · when · path · body</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 02 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 02</div>
+      <h2 class="font-display">The service layer records itself</h2>
+
+      <p>
+        The second piece wraps the shared database service. Each write operation it runs quietly
+        adds a step to the current request's log: which collection was touched, which operation, and
+        how long it took. Because everything already went through this one layer, I got that for
+        free across every module, without editing a single query.
+      </p>
+
+      <p>
+        When the same operation repeats in a loop, the steps collapse into one line with a count, so
+        a request that updates fifty rows reads as one clear step instead of fifty noisy ones.
+      </p>
+
+      <div class="callout green">
+        <p>
+          This is the part I am happiest with. The middleware knows the request, and the wrapped
+          service knows the database work, so together they explain exactly what a request did, and
+          neither one needed the endpoints to change.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 03 -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Step 03</div>
+      <h2 class="font-display">A non-blocking flush to OpenSearch</h2>
+
+      <p>
+        When the response goes out, the whole thing is assembled into one JSON log: who, when, the
+        request, the response, the ordered steps, the total duration, and whether it succeeded or
+        failed. That document is written to OpenSearch just after the response is sent, so logging
+        never slows a request down. If a log fails to write, it is swallowed quietly, because
+        logging should never be the reason a real request breaks.
+      </p>
+
+      <p>
+        The whole thing is reusable. Another team can drop in the same middleware, point it at their
+        own index, and get end-to-end logging without building any of this. It is an import, not a
+        project.
+      </p>
+    </div>
+  </section>
+
+  <!-- LOGDESK -->
+  <section id="result">
+    <div appReveal class="container">
+      <div class="section-label">The viewer</div>
+      <h2 class="font-display">LogDesk: the logs, made usable</h2>
+
+      <p>
+        Logs sitting in OpenSearch are only half the job. So I built LogDesk, a small internal web
+        app to read them. You sign in, and it talks to the log store directly from the browser, with
+        no backend of its own to maintain.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/logdesk/01-login.png"
+          width="1395"
+          height="826"
+          alt="LogDesk sign-in screen"
+        />
+        <div class="screenshot-caption font-mono">// Sign in and point it at a log index</div>
+      </div>
+
+      <p>
+        The main view is a table of recent writes, newest first, with filters for time range, user,
+        and API path, plus a search box. It is the view I wished I had during those support cases:
+        who did what, and when.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/logdesk/02-logs-table.png"
+          width="1894"
+          height="824"
+          alt="LogDesk table of recent write requests with filters"
+        />
+        <div class="screenshot-caption font-mono">
+          // Filter by time, user or path, then scan the writes
+        </div>
+      </div>
+
+      <p>
+        Click any row and it opens up: the ordered steps the request ran, how long each took, and
+        the original request and response bodies, pretty-printed. That is usually enough to settle a
+        "did my change actually save" question in seconds instead of guesswork.
+      </p>
+
+      <div class="screenshot">
+        <img
+          ngSrc="/assets/logdesk/03-log-detail.png"
+          width="1659"
+          height="788"
+          alt="An expanded log showing steps and request and response bodies"
+        />
+        <div class="screenshot-caption font-mono">
+          // One request, expanded: its steps, timing, and payloads
+        </div>
+      </div>
+
+      <ul class="checklist">
+        <li>Full write logging added by wiring in two layers, not editing endpoints</li>
+        <li>Every log says who, when, what changed, and how long it took</li>
+        <li>Logging runs after the response, so it never slows a request</li>
+        <li>Reusable across teams by pointing it at a different index</li>
+        <li>LogDesk turned "we have no idea what happened" into a searchable record</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- STORY FOOTER -->
+  <footer class="story-footer">
+    <div appReveal class="container">
+      <a routerLink="/" fragment="work" class="footer-cta">
+        <span aria-hidden="true">←</span>
+        <span>back to all work</span>
+      </a>
+    </div>
+  </footer>
+</article>

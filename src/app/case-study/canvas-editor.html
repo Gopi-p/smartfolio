@@ -1,0 +1,215 @@
+<article class="story">
+  <!-- Story hero -->
+  <header class="story-hero">
+    <div appReveal class="story-hero-inner">
+      <a routerLink="/" fragment="work" class="back-link">
+        <span aria-hidden="true">←</span> all work
+      </a>
+
+      <div class="hero-eyebrow">Case Study · Canvas Layout Editor</div>
+
+      <h1 class="font-display">
+        From CAD files to a store map<br />
+        <span class="text-coral italic">anyone can edit.</span>
+      </h1>
+
+      <p class="hero-sub">
+        A retail chain ran more than a thousand stores off CAD drawings that only a few people could
+        open. Here is how we moved the whole thing onto the web.
+      </p>
+
+      <div class="hero-meta font-mono">
+        <span>Tango Eye</span>
+        <span aria-hidden="true">·</span>
+        <span>2025 to Now</span>
+        <span aria-hidden="true">·</span>
+        <span>1000+ stores</span>
+      </div>
+
+      <div class="hero-stack">
+        <span class="tag accent">Angular</span>
+        <span class="tag accent">Fabric.js</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag green">MongoDB</span>
+        <span class="tag green">Node.js</span>
+        <span class="tag gold">Real-time analytics</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div appReveal class="container">
+      <div class="section-label">Why this happened</div>
+      <h2 class="font-display">The layouts lived in CAD, and that hurt</h2>
+
+      <p>
+        The company kept every store's layout in CAD. Where the walls are, where the entrance is,
+        how the fixtures are arranged, where each product sits. CAD is great for drafting. It is
+        painful for everything else.
+      </p>
+
+      <p>
+        Updating a layout meant opening a CAD tool. Sharing one meant sending a file. Tracking what
+        actually changed, or connecting a layout to live store data, was more or less impossible.
+        And these layouts are not static. Product placements move around constantly, so the floor
+        plan changes almost every day.
+      </p>
+
+      <p>
+        A format that needs a desktop tool and a trained hand does not fit a business that updates
+        its stores that often. The layout needed to live somewhere the whole team could reach it.
+      </p>
+    </div>
+  </section>
+
+  <!-- IDEA -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">The idea</div>
+      <h2 class="font-display">Put it on the web, inside the app they already use</h2>
+
+      <p>
+        There was already a dashboard the team logged into every day. So instead of a separate tool,
+        the layout editor would live right there. Open a store, see its floor plan, drag things
+        around, save. No CAD, no file transfers, no training.
+      </p>
+
+      <div class="callout">
+        <p>
+          I built the canvas on <strong>Fabric.js</strong>. It gives you real objects to work with,
+          selection, scaling, rotation, grouping, instead of raw canvas drawing calls. That is
+          exactly what a layout editor needs, and it saved me from rebuilding all of that by hand.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILD -->
+  <section id="build">
+    <div appReveal class="container">
+      <div class="section-label">The build</div>
+      <h2 class="font-display">Walls, entrances and fixtures, all draggable</h2>
+
+      <p>
+        The canvas holds the pieces a store is actually made of. You drag them on, position them,
+        resize and rotate, and build the layout up piece by piece. Everything stays editable in
+        place, so it behaves like a design tool, not a form.
+      </p>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🧱</div>
+          <h4>Walls</h4>
+          <p>The shell of the store, drawn and adjusted directly on the canvas.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🚪</div>
+          <h4>Entrances</h4>
+          <p>Placed where customers actually enter, which matters for the analytics later.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🗄️</div>
+          <h4>Fixtures</h4>
+          <p>Shelves, racks and counters that hold products, moved around as placements change.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🏷️</div>
+          <h4>Store elements</h4>
+          <p>The store-specific details that make each floor plan match its real space.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA MODEL -->
+  <section id="data">
+    <div appReveal class="container">
+      <div class="section-label">The data model</div>
+      <h2 class="font-display">The canvas is just JSON underneath</h2>
+
+      <p>
+        The important call was treating the layout as data, not a picture. When you hit save, I pull
+        each object's properties off the canvas, its x and y coordinates, dimensions, angle and
+        colors, and store the whole layout as JSON in MongoDB.
+      </p>
+
+      <p>
+        Next time that store opens, I read the JSON back and re-render the exact same layout on the
+        canvas. Nothing is flattened into an image, so every element stays live and editable, every
+        single time.
+      </p>
+
+      <div class="arch">
+        <div class="arch-flow font-mono">
+          <div class="arch-node a">Canvas objects</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">extract x/y, size, angle, color</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node">JSON in MongoDB</div>
+          <div class="arch-arrow" aria-hidden="true">→</div>
+          <div class="arch-node g">re-render on load</div>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <p>
+          Because the layout is structured data and not a drawing, it is not stuck inside the
+          editor. Any other feature can read the same JSON and know exactly where every fixture
+          sits.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECTED -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Where it connects</div>
+      <h2 class="font-display">One layout, feeding the whole product</h2>
+
+      <p>
+        The store layout is not a standalone drawing. It is connected to the rest of the web and
+        mobile app, and the same layout drives features across the product. It also keeps changing,
+        since product placements shift from one day to the next.
+      </p>
+
+      <p>
+        That connection is what made the layout worth building properly. Once the app knows where
+        everything is, it can start putting real data on top of it.
+      </p>
+    </div>
+  </section>
+
+  <!-- PAYOFF -->
+  <section id="result">
+    <div appReveal class="container">
+      <div class="section-label">The payoff</div>
+      <h2 class="font-display">Real store data, on the actual floor plan</h2>
+
+      <p>
+        With the layout in place, we could map near real-time analytics onto the store itself.
+        Footfall, pickup rate and customer counts, tied to the exact spots on the floor plan instead
+        of sitting in a table somewhere.
+      </p>
+
+      <ul class="checklist">
+        <li>Layouts editable on the web by anyone, with no CAD tool needed</li>
+        <li>Every store's plan saved as re-editable JSON, not a flat file</li>
+        <li>Daily product-placement changes captured without friction</li>
+        <li>Near real-time analytics (footfall, pickup rate, customer counts) mapped to the floor</li>
+        <li>One layout shared across the web and mobile app</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- STORY FOOTER -->
+  <footer class="story-footer">
+    <div appReveal class="container">
+      <a routerLink="/" fragment="work" class="footer-cta">
+        <span aria-hidden="true">←</span>
+        <span>back to all work</span>
+      </a>
+    </div>
+  </footer>
+</article>

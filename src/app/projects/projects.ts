@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TiltDirective } from '../shared/tilt.directive';
 import { RevealDirective } from '../shared/reveal.directive';
 
-type Tag = 'all' | 'canvas' | 'leadership' | 'modernization' | 'infra';
+type Tag = 'all' | 'canvas' | 'leadership' | 'tooling' | 'infra';
 
 interface CaseStudy {
   id: string;
@@ -41,7 +41,7 @@ interface CaseStudy {
           </div>
           <div class="md:col-span-5 md:col-start-8 self-end">
             <p class="text-mist leading-relaxed">
-              Click a card for details. Filter by what you're hiring for.
+              Open any card for the full write-up. Filter by what you're hiring for.
             </p>
           </div>
         </div>
@@ -158,58 +158,62 @@ export class ProjectsComponent {
 
   readonly studies: CaseStudy[] = [
     {
-      id: 'planogram',
+      id: 'canvas',
       no: '01',
-      title: 'A canvas for shelving a thousand stores.',
+      title: 'From CAD files to a store map anyone can edit.',
       org: 'Tango Eye',
       years: '2025 to Now',
-      lead: 'Drag and drop, not a form, for retail planograms.',
+      lead: 'A retail chain ran 1000+ store layouts off CAD files, hard to update, track, or share. I built a drag-and-drop editor into the dashboard they already use daily.',
       highlights: [
-        'Architected a canvas system from scratch with Angular + Fabric.js',
-        'Drag-and-drop fixtures, zoom, pan, layout persistence',
-        'Backend APIs + schema design for planogram management',
-        'OnPush, signals, standalone components, lazy loading',
-        'Integrated near real-time compliance + placement data',
+        'Built the editor on Fabric.js: walls, entrances, and store-specific fixtures you drag to construct a layout',
+        "Extracted each object's x/y coordinates, dimensions, angle, and colors, and stored the whole layout as JSON in MongoDB",
+        'Re-rendered saved layouts on return, and kept them current as product placements change day to day',
+        'Runs fully on the web inside the existing dashboard, and connects to the rest of the web and mobile app',
+        'Powered near real-time analytics on top: footfall, pickup rate, and customer counts',
       ],
-      stack: ['Angular', 'Fabric.js', 'TypeScript', 'Signals', 'Node.js', 'MongoDB'],
+      stack: ['Angular', 'Fabric.js', 'TypeScript', 'MongoDB', 'Node.js'],
       category: 'canvas',
       emoji: '🗺️',
+      page: '/work/canvas-editor',
     },
     {
-      id: 'zone',
+      id: 'crm',
       no: '02',
-      title: 'Rebuilding a SaaS, with a team of seven.',
-      org: 'Tandemloop · Zone Platform',
+      title: 'Rebuilding a four-app CRM suite from scratch.',
+      org: 'Tandemloop',
       years: '2023 to 2025',
-      lead: 'Standards, reviews, and a shift from REST to GraphQL.',
+      lead: 'The legacy suite was slow, fragile, and full of security holes, with no room for new features. I led seven people to rebuild all four apps on a modern stack.',
       highlights: [
-        'Led seven engineers across frontend, backend, and QA',
-        'Redesigned and rebuilt the platform from scratch',
-        'Drove REST → GraphQL migration on a multi-tenant base',
-        'Defined coding standards, ran reviews, owned releases',
-        'Coordinated design + QA + DevOps end to end',
+        'Led seven people across frontend, backend, QA, and UI/UX; gave each person a module to own and research',
+        'Did the up-front R&D and set up the base before handing modules over to the team',
+        'Upgraded Angular 11 to 17, and moved 200+ REST endpoints to GraphQL for querying flexibility',
+        'Chose PrimeNG for streamlined theming, and Firebase JWT auth shared with a Flutter mobile app',
+        "Set coding standards, reviewed the team's code, kept a proper test flow, and monitored deployments",
+        'Shipped a more stable suite: smaller bundles, faster loads, fewer bugs, easier to scale',
       ],
-      stack: ['Angular', 'TypeScript', 'GraphQL', 'Node.js', 'MongoDB', 'Multi-tenant'],
+      stack: ['Angular 11→17', 'GraphQL', 'PrimeNG', 'Firebase', 'Node.js', 'MongoDB'],
       category: 'leadership',
       emoji: '🧭',
+      page: '/work/crm-suite',
     },
     {
-      id: 'ng-modernize',
+      id: 'shipdesk',
       no: '03',
-      title: 'Angular 11 → 17, without stopping the ship.',
-      org: 'Tandemloop · Zone Platform',
-      years: '2021 to 2023',
-      lead: 'Modernize the app while it is still shipping.',
+      title: 'A release tracker for a hand-off-heavy deploy flow.',
+      org: 'Tango Eye',
+      years: '2025 to Now',
+      lead: 'Releases ran through several manual steps and three people over a Teams channel, where details slipped. ShipDesk records every release in one place.',
       highlights: [
-        'Rewrote legacy app from Angular 11 to 17',
-        'Migrated to standalone components and modern patterns',
-        'Built auth, org management, RBAC, order fulfilment',
-        'Reusable component library + standardized data flow',
-        'Cut bundle size, improved render performance',
+        'Mapped the existing flow: devs publish module packages, a maintainer bumps the root package.json and cuts a tag, DevOps runs the CI/CD pipeline against it',
+        'Chose not to automate the pipeline (still new, and not yet sure why the flow exists) and instead streamlined the communication around it',
+        'Built a web tool that captures each release and its published versions in one place, so nothing gets lost in chat',
+        'Keeps a record of every release for later reference',
+        'Developed it with AI-assisted development',
       ],
-      stack: ['Angular 11→17', 'TypeScript', 'RxJS', 'Standalone', 'RBAC'],
-      category: 'modernization',
-      emoji: '🛠',
+      stack: ['Next.js', 'React', 'MongoDB', 'AI-assisted'],
+      category: 'tooling',
+      emoji: '🚀',
+      page: '/work/shipdesk',
     },
     {
       id: 'home-cloud',
@@ -230,6 +234,26 @@ export class ProjectsComponent {
       emoji: '🏠',
       page: '/work/home-server',
     },
+    {
+      id: 'logdesk',
+      no: '05',
+      title: 'Full request logging without editing 100 APIs.',
+      org: 'Tango Eye',
+      years: '2025 to Now',
+      lead: "A large app with 10+ devs had no logging, so nobody could tell who changed what or when. One middleware captured it all into OpenSearch, with a tool to read it back.",
+      highlights: [
+        'Found the shared service layer every module used for Mongo operations (find, aggregate, updateOne)',
+        "Wrote one middleware and added it only to each module's routes, instead of editing hundreds of endpoints",
+        'Captured the user, time, payload, headers, response, and which service helpers ran (so, which collections were touched)',
+        "Wrote a meaningful JSON log per request into OpenSearch, under each module's own index",
+        'Made it reusable: any module owner imports the middleware and points it at their own index',
+        'Built LogDesk to read the logs back with pagination, sorting, filters, and search',
+      ],
+      stack: ['Node.js', 'Express', 'OpenSearch', 'Angular'],
+      category: 'tooling',
+      emoji: '🧾',
+      page: '/work/logdesk',
+    },
   ];
 
   readonly filters = [
@@ -245,9 +269,9 @@ export class ProjectsComponent {
       count: this.studies.filter((s) => s.category === 'leadership').length,
     },
     {
-      id: 'modernization' as const,
-      label: 'Modernization',
-      count: this.studies.filter((s) => s.category === 'modernization').length,
+      id: 'tooling' as const,
+      label: 'Tooling',
+      count: this.studies.filter((s) => s.category === 'tooling').length,
     },
     {
       id: 'infra' as const,

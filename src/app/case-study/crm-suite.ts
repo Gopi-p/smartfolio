@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RevealDirective } from '../shared/reveal.directive';
 
 @Component({
-  selector: 'app-gopicraft-story',
-  imports: [NgOptimizedImage, RouterLink, RevealDirective],
+  selector: 'app-crm-suite-story',
+  imports: [RouterLink, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './gopicraft.html',
+  templateUrl: './crm-suite.html',
   styleUrl: './story.css',
 })
-export class GopicraftStoryComponent {}
+export class CrmSuiteStoryComponent {}

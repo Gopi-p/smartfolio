@@ -1,0 +1,212 @@
+<article class="story">
+  <!-- Story hero -->
+  <header class="story-hero">
+    <div appReveal class="story-hero-inner">
+      <a routerLink="/" fragment="work" class="back-link">
+        <span aria-hidden="true">←</span> all work
+      </a>
+
+      <div class="hero-eyebrow">Case Study · CRM SaaS Suite</div>
+
+      <h1 class="font-display">
+        Rebuilding a four-app CRM suite,<br />
+        <span class="text-coral italic">with a team of seven.</span>
+      </h1>
+
+      <p class="hero-sub">
+        The old platform was slow, fragile, and out of road. I researched and rebuilt the whole
+        suite with the team already running it.
+      </p>
+
+      <div class="hero-meta font-mono">
+        <span>Tandemloop</span>
+        <span aria-hidden="true">·</span>
+        <span>2023 to 2025</span>
+        <span aria-hidden="true">·</span>
+        <span>Team of 7</span>
+      </div>
+
+      <div class="hero-stack">
+        <span class="tag accent">Angular 17</span>
+        <span class="tag accent">GraphQL</span>
+        <span class="tag">PrimeNG</span>
+        <span class="tag green">Firebase</span>
+        <span class="tag green">Flutter</span>
+        <span class="tag gold">MEAN stack</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div appReveal class="container">
+      <div class="section-label">Where it started</div>
+      <h2 class="font-display">A legacy suite that had run out of road</h2>
+
+      <p>
+        The product was a set of CRM apps built years earlier. By the time I picked it up it was
+        slow, bulky, and running on old tech. Bugs were hard to fix, new features were harder to
+        add, and it carried real security vulnerabilities.
+      </p>
+
+      <p>
+        The decision was made to rebuild it from scratch rather than keep patching it. I was
+        assigned to research the new suite and get it built with the existing team, who were already
+        comfortable in the MEAN stack.
+      </p>
+    </div>
+  </section>
+
+  <!-- SETUP -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">Before handing it over</div>
+      <h2 class="font-display">I set the base up first, then split the work</h2>
+
+      <p>
+        Before pulling the team in, I listed every issue the old project had and set up the base of
+        the new one. Getting the foundation right up front meant the team could build on something
+        solid instead of arguing about structure halfway through.
+      </p>
+
+      <p>
+        Then I made each person responsible for one module and asked them to research it properly
+        before building anything. Seven people across frontend, backend, QA, and UI/UX, each owning
+        a piece of the suite.
+      </p>
+
+      <div class="callout">
+        <p>
+          Handing each person a module they owned end to end kept the work clear and the
+          accountability obvious. Nobody was waiting on me for direction on their own area, and I
+          could focus on the parts that cut across everything.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section id="decisions">
+    <div appReveal class="container">
+      <div class="section-label">The decisions</div>
+      <h2 class="font-display">The calls that shaped the rebuild</h2>
+
+      <p>Four decisions set the direction for everything that came after.</p>
+
+      <div class="install-steps">
+        <div class="install-step">
+          <div class="step-num font-mono">01</div>
+          <div class="step-content">
+            <h4>Angular 11 → 17</h4>
+            <p>
+              The old app was stuck on Angular 11. I moved the rebuild to Angular 17 for modern
+              patterns, better performance, and a version we could actually maintain.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">02</div>
+          <div class="step-content">
+            <h4>REST → GraphQL</h4>
+            <p>
+              There were 200+ APIs. Maintaining and scaling that many REST endpoints was hard. We
+              moved to GraphQL because the flexibility of querying exactly what each screen needed
+              was our priority at the time.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">03</div>
+          <div class="step-content">
+            <h4>PrimeNG as the design system</h4>
+            <p>
+              Picked PrimeNG for streamlined theming and a consistent component set across all four
+              apps, so the suite felt like one product instead of four.
+            </p>
+          </div>
+        </div>
+        <div class="install-step">
+          <div class="step-num font-mono">04</div>
+          <div class="step-content">
+            <h4>Firebase JWT auth</h4>
+            <p>
+              We were also building the mobile app in Flutter. To keep authentication common across
+              web and mobile, I went with JWT-based auth on Firebase, so both sat behind one
+              identity.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY ROLE -->
+  <section>
+    <div appReveal class="container">
+      <div class="section-label">What I owned</div>
+      <h2 class="font-display">Research, standards, and keeping it on track</h2>
+
+      <p>
+        I handled the parts that set the direction: the initial R&amp;D, the base setup, and
+        finalizing the tech and systems. From there it was about keeping quality up across seven
+        people.
+      </p>
+
+      <ul class="checklist">
+        <li>Ran the initial R&amp;D and finalized the stack and architecture</li>
+        <li>Built the base setup before handing modules to the team</li>
+        <li>Set the coding standards everyone worked to</li>
+        <li>Reviewed the team's code</li>
+        <li>Kept a proper test flow in place</li>
+        <li>Monitored the deployments</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section id="result">
+    <div appReveal class="container">
+      <div class="section-label">Where it landed</div>
+      <h2 class="font-display">A suite that was actually built to last</h2>
+
+      <p>
+        The rebuild shipped as a more stable, more robust platform with a clean UI. We came out of
+        it with a structure that was genuinely easy to scale, and the day-to-day numbers moved in
+        the right direction.
+      </p>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">📦</div>
+          <h4>Smaller bundles</h4>
+          <p>Leaner builds than the legacy app carried.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h4>Faster loading</h4>
+          <p>Modern Angular and a clean base paid off in load times.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">🐛</div>
+          <h4>Fewer bugs</h4>
+          <p>Standards, reviews, and a real test flow kept regressions down.</p>
+        </div>
+        <div class="result-card">
+          <div class="icon" aria-hidden="true">📈</div>
+          <h4>Easy to scale</h4>
+          <p>A structure the team could keep building on.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY FOOTER -->
+  <footer class="story-footer">
+    <div appReveal class="container">
+      <a routerLink="/" fragment="work" class="footer-cta">
+        <span aria-hidden="true">←</span>
+        <span>back to all work</span>
+      </a>
+    </div>
+  </footer>
+</article>

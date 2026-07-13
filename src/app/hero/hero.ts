@@ -10,17 +10,6 @@ import { RevealDirective } from '../shared/reveal.directive';
   template: `
     <section id="top" class="relative pt-24 md:pt-28 pb-16 md:pb-20 overflow-hidden">
       <div class="max-w-7xl mx-auto px-6 md:px-10">
-        <!-- Status pill -->
-        <div
-          appReveal
-          class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-edge-hi bg-night-2/60 mb-6 md:mb-8"
-        >
-          <span class="pulse-dot"></span>
-          <span class="font-mono text-[11px] tracking-widest uppercase text-mist">
-            Available · Open to new work
-          </span>
-        </div>
-
         <!-- Title grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center lg:items-start">
           <!-- Left column: text -->
@@ -56,16 +45,6 @@ import { RevealDirective } from '../shared/reveal.directive';
               </span>
             </h1>
 
-            <p appReveal class="mt-8 max-w-xl text-mist text-base md:text-lg leading-relaxed">
-              Hi, I'm <span class="text-ivory">Gopinath</span>. I've spent about five years building
-              SaaS products, mostly on the frontend with <span class="text-ivory">Angular</span>. I
-              like the harder parts: keeping a canvas fast when it's full of objects, getting the
-              data model right so features stay simple, and upgrading big apps without freezing
-              everything else. Right now I'm at <span class="text-ivory">Tango Eye</span>
-              working on canvas-based store layouts. Before that I led a team of seven that rebuilt
-              a multi-tenant SaaS platform.
-            </p>
-
             <div appReveal class="mt-10 flex flex-wrap items-center gap-x-3 gap-y-4">
               <a
                 appMagnetic
@@ -73,7 +52,7 @@ import { RevealDirective } from '../shared/reveal.directive';
                 download="Gopinath_P_Software_Developer.pdf"
                 class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-coral text-night font-medium text-sm hover:bg-coral-deep transition-colors"
               >
-                <span>Download résumé</span>
+                <span>Download resume</span>
                 <span class="font-mono">↓</span>
               </a>
               <a
@@ -84,9 +63,6 @@ import { RevealDirective } from '../shared/reveal.directive';
                 <span>Get in touch</span>
                 <span class="font-mono">→</span>
               </a>
-              <span class="font-mono text-[11px] text-fog ml-2">
-                or press <span class="kbd">⌘</span><span class="kbd">K</span>
-              </span>
             </div>
           </div>
 
