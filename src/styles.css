@@ -1,28 +1,28 @@
 @import 'tailwindcss';
 
 /*
-  Design: "the workbench".
-  Not a page, an application: a fixed file-tree rail opens routed views.
-  Violet-black surfaces, lavender accent, Syne display over Sora body with
-  Spline Sans Mono annotations. Token names stay theme-agnostic so the
-  case-study page inherits the palette untouched.
+  Design: "the launch page".
+  Gopinath presented like a product: near-black stage, one gradient accent,
+  huge centered type, generous air, scroll-lit copy. No dashboards, no
+  editor chrome. Token names stay theme-agnostic so the case-study page
+  inherits the palette untouched.
 */
 @theme {
-  --color-board: #0d0c12;
-  --color-panel: #14121c;
-  --color-panel-2: #1a1726;
-  --color-ink: #eceaf5;
-  --color-body: #a7a3bc;
-  --color-meta: #726d8c;
-  --color-line: #211e30;
-  --color-line-hi: #322d49;
-  --color-select: #a48fff;
-  --color-select-deep: #8468f5;
-  --color-ok: #3ecf8e;
-  --color-warn: #ff7a68;
+  --color-board: #0a0a0c;
+  --color-panel: #131318;
+  --color-panel-2: #1b1b21;
+  --color-ink: #f5f5f7;
+  --color-body: #a6a6ae;
+  --color-meta: #71717a;
+  --color-line: #26262e;
+  --color-line-hi: #3f3f48;
+  --color-select: #64d2ff;
+  --color-select-deep: #2fa8e8;
+  --color-ok: #30d158;
+  --color-warn: #ff6961;
 
-  --font-display: 'Syne', 'Sora', system-ui, sans-serif;
-  --font-sans: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'Spline Sans Mono', 'Consolas', 'Courier New', monospace;
 }
 
@@ -40,16 +40,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Quiet lavender bloom at the top of the board */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(900px 480px at 70% -10%, rgba(164, 143, 255, 0.07), transparent 65%);
-}
-
 ::selection {
   background: var(--color-select);
   color: var(--color-board);
@@ -58,76 +48,97 @@ body::before {
 /* Type helpers */
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
 }
 .font-mono {
   font-family: var(--font-mono);
 }
 
-/* Lavender glow, used sparingly */
-.glow {
-  text-shadow: 0 0 20px rgba(164, 143, 255, 0.45);
+/* Gradient accent for a single word or line */
+.grad {
+  background: linear-gradient(100deg, #64d2ff 0%, #a06bfa 55%, #bf5af2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Surface */
+/* Small caps kicker */
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-meta);
+}
+
+/* Soft product-shot halo */
+.halo {
+  position: relative;
+}
+.halo::before {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(
+    closest-side,
+    rgba(100, 210, 255, 0.22),
+    rgba(160, 107, 250, 0.14) 55%,
+    transparent 75%
+  );
+  filter: blur(28px);
+}
+
+/* Scroll-lit copy: lines rest dim and light up as they cross the middle of the screen */
+.scrub {
+  color: var(--color-meta);
+  transition: color 600ms ease;
+}
+.scrub.is-lit {
+  color: var(--color-ink);
+}
+
+/* Spec sheet rows */
+.spec-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: 1.5rem;
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--color-line);
+}
+@media (max-width: 640px) {
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+/* Surface (used sparingly on the landing, heavily by the story page) */
 .panel {
   background: var(--color-panel);
   border: 1px solid var(--color-line);
   border-radius: 10px;
 }
-.panel-hover {
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
   transition:
-    border-color 200ms ease,
-    background-color 200ms ease;
+    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
-.panel-hover:hover {
-  border-color: var(--color-line-hi);
-  background: var(--color-panel-2);
-}
-
-/* Small mono annotation label */
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-meta);
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* View shell: every routed view fades up once on open */
-.view {
-  animation: view-in 360ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-@keyframes view-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Breadcrumb at the top of a view, e.g. "gopinath ~/ work" */
-.crumb {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  color: var(--color-meta);
-}
-.crumb .sep {
-  color: var(--color-select);
-}
-
-/* Status dot (steady) */
-.dot-ok {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--color-ok);
-  box-shadow: 0 0 8px rgba(62, 207, 142, 0.7);
+/* Magnetic button base */
+.magnetic {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
 /* Availability pulse */
@@ -162,27 +173,7 @@ body::before {
   }
 }
 
-/* Scroll-reveal (used inside longer views) */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Magnetic button base */
-.magnetic {
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-/* Keycap */
+/* Keycap (command palette) */
 .kbd {
   display: inline-flex;
   align-items: center;
@@ -198,9 +189,9 @@ body::before {
   border-radius: 5px;
 }
 
-/* Anchor offset inside the story page */
+/* Anchor offset for the fixed nav */
 section[id] {
-  scroll-margin-top: 88px;
+  scroll-margin-top: 84px;
 }
 
 /* Toast animation */
@@ -226,12 +217,11 @@ section[id] {
   z-index: 100;
   transform: translateY(-200%);
   padding: 0.6rem 1rem;
-  border-radius: 8px;
-  background: var(--color-select);
+  border-radius: 999px;
+  background: var(--color-ink);
   color: var(--color-board);
-  font-family: var(--font-mono);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -244,7 +234,7 @@ section[id] {
 :focus-visible {
   outline: 2px solid var(--color-select);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 main:focus {
   outline: none;
@@ -267,8 +257,8 @@ main:focus {
     opacity: 1 !important;
     transform: none !important;
   }
-  .view {
-    animation: none;
+  .scrub {
+    color: var(--color-ink) !important;
   }
   .pulse-dot::after {
     animation: none !important;

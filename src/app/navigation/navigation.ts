@@ -1,307 +1,119 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+
+interface NavTarget {
+  id: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-navigation',
-  imports: [RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <!-- Desktop: file-tree rail -->
-    <aside
-      class="hidden lg:flex fixed inset-y-0 left-0 z-50 w-[288px] flex-col border-r border-line bg-panel/60 backdrop-blur"
-    >
-      <!-- Identity -->
-      <div class="px-6 pt-7 pb-5 border-b border-line">
-        <a routerLink="/" class="font-display font-bold text-xl tracking-tight">
-          gopinath<span class="text-select">.</span>p<span
-            class="caret text-select"
-            aria-hidden="true"
-            >_</span
-          >
-        </a>
-        <div class="mt-1.5 font-mono text-[10px] text-meta">software engineer · chennai</div>
-        <div
-          class="mt-3 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ok"
-        >
-          <span class="pulse-dot" aria-hidden="true"></span>
-          available for new work
-        </div>
-      </div>
-
-      <!-- Tree -->
-      <nav class="flex-1 overflow-y-auto px-4 py-5 font-mono text-[13px]" aria-label="Primary">
+    <header class="fixed top-0 inset-x-0 z-50 border-b border-line/70 bg-board/80 backdrop-blur-md">
+      <div class="max-w-5xl mx-auto px-5 md:px-8 h-14 flex items-center justify-between gap-6">
         <a
-          routerLink="/"
-          routerLinkActive="is-active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="tree-link"
+          href="#top"
+          (click)="closeMenu(); scrollToId('top', $event)"
+          class="font-display font-bold text-[15px] tracking-tight"
+          aria-label="Gopinath, back to top"
         >
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>readme.md</span>
+          Gopinath P
         </a>
 
-        <a routerLink="/work" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>work/</span>
-        </a>
-        <a routerLink="/work" class="tree-link is-child">
-          <span class="glyph" aria-hidden="true">│&nbsp;&nbsp;├</span>
-          <span>001-planogram-canvas</span>
-        </a>
-        <a routerLink="/work" class="tree-link is-child">
-          <span class="glyph" aria-hidden="true">│&nbsp;&nbsp;├</span>
-          <span>002-saas-rebuild</span>
-        </a>
-        <a routerLink="/work" class="tree-link is-child">
-          <span class="glyph" aria-hidden="true">│&nbsp;&nbsp;├</span>
-          <span>003-angular-11-to-17</span>
-        </a>
-        <a routerLink="/work/home-server" routerLinkActive="is-active" class="tree-link is-child">
-          <span class="glyph" aria-hidden="true">│&nbsp;&nbsp;└</span>
-          <span>004-home-server <span class="text-select">↗</span></span>
-        </a>
+        <nav class="hidden md:flex items-center gap-7" aria-label="Primary">
+          @for (target of targets; track target.id) {
+            <a
+              [href]="'#' + target.id"
+              (click)="scrollToId(target.id, $event)"
+              class="text-[13px] text-body hover:text-ink transition-colors"
+            >
+              {{ target.label }}
+            </a>
+          }
+        </nav>
 
-        <a routerLink="/systems" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>systems</span>
-        </a>
-        <a routerLink="/log" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>log</span>
-        </a>
-        <a routerLink="/stack" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>stack.json</span>
-        </a>
-        <a routerLink="/runbook" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">├</span>
-          <span>runbook</span>
-        </a>
-        <a routerLink="/contact" routerLinkActive="is-active" class="tree-link">
-          <span class="glyph" aria-hidden="true">└</span>
-          <span>contact</span>
-        </a>
-      </nav>
-
-      <!-- Rail footer -->
-      <div class="px-6 py-5 border-t border-line space-y-2.5">
-        <div class="flex items-center justify-between font-mono text-[10px] text-meta">
-          <span>up {{ uptime() }}</span>
-          <span class="tabular-nums">{{ clock() }} IST</span>
-        </div>
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3 font-mono text-[10px]">
-            <a
-              href="https://github.com/Gopi-p"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-meta hover:text-select transition-colors"
-              >github</a
-            >
-            <a
-              href="https://www.linkedin.com/in/p-gopinath/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-meta hover:text-select transition-colors"
-              >linkedin</a
-            >
-            <a
-              href="https://gopicraft.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-meta hover:text-select transition-colors"
-              >gopicraft</a
-            >
-          </div>
+        <div class="flex items-center gap-3">
           <button
             type="button"
             (click)="openPalette()"
-            class="inline-flex items-center gap-1 text-meta hover:text-ink transition-colors"
+            class="hidden md:inline-flex items-center gap-1.5 text-meta hover:text-ink transition-colors"
             aria-label="Open command palette"
           >
-            <span class="kbd">⌘</span><span class="kbd">K</span>
+            <span class="kbd" aria-hidden="true">⌘</span
+            ><span class="kbd" aria-hidden="true">K</span>
           </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- Mobile: top bar + tree overlay -->
-    <header
-      class="lg:hidden fixed top-0 inset-x-0 z-50 border-b border-line bg-board/90 backdrop-blur"
-    >
-      <div class="h-14 px-5 flex items-center justify-between">
-        <a routerLink="/" (click)="closeMenu()" class="font-display font-bold text-lg">
-          gopinath<span class="text-select">.</span>p
-        </a>
-        <div class="flex items-center gap-4">
-          <span
-            class="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ok"
+          <a
+            href="#contact"
+            (click)="closeMenu(); scrollToId('contact', $event)"
+            class="inline-flex items-center px-4 py-1.5 rounded-full bg-ink text-board text-[13px] font-semibold hover:bg-select transition-colors"
           >
-            <span class="pulse-dot" aria-hidden="true"></span>
-            available
-          </span>
+            Get in touch
+          </a>
           <button
             type="button"
             (click)="toggleMenu()"
-            class="font-mono text-[11px] uppercase tracking-[0.14em] text-body hover:text-select"
-            aria-controls="mobile-tree"
+            class="md:hidden text-[13px] font-medium text-body hover:text-ink"
+            aria-controls="mobile-menu"
             [attr.aria-expanded]="isOpen()"
             [attr.aria-label]="isOpen() ? 'Close menu' : 'Open menu'"
           >
-            {{ isOpen() ? 'close' : 'menu' }}
+            {{ isOpen() ? 'Close' : 'Menu' }}
           </button>
         </div>
       </div>
 
       @if (isOpen()) {
         <nav
-          id="mobile-tree"
-          class="border-t border-line bg-panel px-5 py-4 font-mono text-sm flex flex-col"
+          id="mobile-menu"
+          class="md:hidden border-t border-line bg-board/95 backdrop-blur px-6 py-6 flex flex-col gap-5"
           aria-label="Mobile navigation"
         >
-          <a
-            routerLink="/"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">├</span><span>readme.md</span>
-          </a>
-          <a
-            routerLink="/work"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">├</span><span>work/</span>
-          </a>
-          <a
-            routerLink="/work/home-server"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            class="tree-link is-child"
-          >
-            <span class="glyph" aria-hidden="true">│&nbsp;&nbsp;└</span>
-            <span>004-home-server <span class="text-select">↗</span></span>
-          </a>
-          <a
-            routerLink="/systems"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">├</span><span>systems</span>
-          </a>
-          <a routerLink="/log" (click)="closeMenu()" routerLinkActive="is-active" class="tree-link">
-            <span class="glyph" aria-hidden="true">├</span><span>log</span>
-          </a>
-          <a
-            routerLink="/stack"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">├</span><span>stack.json</span>
-          </a>
-          <a
-            routerLink="/runbook"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">├</span><span>runbook</span>
-          </a>
-          <a
-            routerLink="/contact"
-            (click)="closeMenu()"
-            routerLinkActive="is-active"
-            class="tree-link"
-          >
-            <span class="glyph" aria-hidden="true">└</span><span>contact</span>
-          </a>
+          @for (target of targets; track target.id) {
+            <a
+              [href]="'#' + target.id"
+              (click)="closeMenu(); scrollToId(target.id, $event)"
+              class="font-display text-2xl font-bold text-ink hover:text-select transition-colors"
+            >
+              {{ target.label }}
+            </a>
+          }
         </nav>
       }
     </header>
   `,
-  styles: `
-    .tree-link {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      padding: 0.4rem 0.5rem;
-      border-radius: 6px;
-      color: var(--color-body);
-      transition:
-        color 150ms ease,
-        background-color 150ms ease;
-    }
-    .tree-link:hover {
-      color: var(--color-ink);
-      background: var(--color-panel-2);
-    }
-    .tree-link.is-active {
-      color: var(--color-select);
-      background: var(--color-panel-2);
-    }
-    .tree-link .glyph {
-      color: var(--color-line-hi);
-      flex-shrink: 0;
-    }
-    .tree-link.is-child {
-      font-size: 0.86em;
-    }
-    .caret {
-      animation: blink 1.1s steps(1) infinite;
-    }
-    @keyframes blink {
-      50% {
-        opacity: 0;
-      }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .caret {
-        animation: none;
-      }
-    }
-  `,
 })
 export class NavigationComponent {
+  readonly targets: NavTarget[] = [
+    { id: 'work', label: 'Work' },
+    { id: 'journey', label: 'Journey' },
+    { id: 'principles', label: 'Principles' },
+    { id: 'specs', label: 'Specs' },
+  ];
+
   readonly isOpen = signal(false);
-  readonly clock = signal('--:--:--');
-  readonly uptime = signal('0y 000d');
 
-  /** Career start, used by the uptime readout in the rail footer. */
-  private readonly epoch = new Date('2021-06-01T00:00:00+05:30').getTime();
-
-  constructor() {
-    const tick = () => {
-      this.clock.set(
-        new Intl.DateTimeFormat('en-GB', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-          timeZone: 'Asia/Kolkata',
-        }).format(new Date()),
-      );
-      let sec = Math.max(0, Math.floor((Date.now() - this.epoch) / 1000));
-      const years = Math.floor(sec / 31557600);
-      sec -= years * 31557600;
-      const days = Math.floor(sec / 86400);
-      this.uptime.set(`${years}y ${String(days).padStart(3, '0')}d`);
-    };
-    tick();
-    const timer = setInterval(tick, 1000);
-    inject(DestroyRef).onDestroy(() => clearInterval(timer));
-  }
+  private readonly router = inject(Router);
 
   toggleMenu() {
     this.isOpen.update((v) => !v);
   }
   closeMenu() {
     this.isOpen.set(false);
+  }
+
+  scrollToId(id: string, event: Event) {
+    event.preventDefault();
+    // On the story page the landing sections don't exist: route home instead.
+    if (!document.getElementById('top')) {
+      this.router.navigate(['/'], { fragment: id === 'top' ? undefined : id });
+      return;
+    }
+    if (id === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   openPalette() {

@@ -119,67 +119,58 @@ export class CommandPaletteComponent implements AfterViewInit {
     {
       id: 'go-home',
       kind: 'jump',
-      label: 'readme.md',
-      hint: '~/',
-      payload: '/',
-      keywords: 'hero home start intro about me readme',
+      label: 'Top of the page',
+      hint: 'section',
+      payload: 'top',
+      keywords: 'hero home start intro',
     },
     {
       id: 'go-work',
       kind: 'jump',
-      label: 'Case files',
-      hint: '~/work',
-      payload: '/work',
-      keywords: 'projects portfolio cases home server cloud infra immich cloudflare',
+      label: 'The work',
+      hint: 'section',
+      payload: 'work',
+      keywords: 'projects portfolio cases canvas planogram saas migration home server',
     },
     {
       id: 'go-story',
       kind: 'jump',
       label: 'Home server build story',
-      hint: '~/work/home-server',
+      hint: 'page',
       payload: '/work/home-server',
       keywords: 'home server cloud immich jellyfin cloudflare tunnel gopicraft story',
     },
     {
-      id: 'go-systems',
+      id: 'go-journey',
       kind: 'jump',
-      label: "Things I've built",
-      hint: '~/systems',
-      payload: '/systems',
-      keywords: 'built systems canvas graphql rbac auth notification multi tenant',
+      label: 'The journey',
+      hint: 'section',
+      payload: 'journey',
+      keywords: 'about bio experience education timeline career record',
     },
     {
-      id: 'go-log',
+      id: 'go-principles',
       kind: 'jump',
-      label: 'The record',
-      hint: '~/log',
-      payload: '/log',
-      keywords: 'about bio chapters experience education timeline career',
+      label: 'Principles',
+      hint: 'section',
+      payload: 'principles',
+      keywords: 'approach philosophy values how i build maintainable scalable performance',
     },
     {
-      id: 'go-stack',
+      id: 'go-specs',
       kind: 'jump',
-      label: 'The working set',
-      hint: '~/stack.json',
-      payload: '/stack',
-      keywords: 'skills stack tools technologies working set manifest',
-    },
-    {
-      id: 'go-runbook',
-      kind: 'jump',
-      label: 'The runbook',
-      hint: '~/runbook',
-      payload: '/runbook',
-      keywords:
-        'approach philosophy principles values how i build maintainable scalable performance',
+      label: 'Tech specs',
+      hint: 'section',
+      payload: 'specs',
+      keywords: 'skills stack tools technologies working set systems built',
     },
     {
       id: 'go-contact',
       kind: 'jump',
-      label: 'Open a connection',
-      hint: '~/contact',
-      payload: '/contact',
-      keywords: 'email phone reach contact',
+      label: 'Contact',
+      hint: 'section',
+      payload: 'contact',
+      keywords: 'email phone reach contact say hi',
     },
     {
       id: 'copy-email',
@@ -309,7 +300,7 @@ export class CommandPaletteComponent implements AfterViewInit {
   async run(action: Action) {
     switch (action.kind) {
       case 'jump':
-        this.router.navigateByUrl(action.payload);
+        this.jumpTo(action.payload);
         break;
       case 'copy':
         try {
@@ -336,5 +327,23 @@ export class CommandPaletteComponent implements AfterViewInit {
       }
     }
     this.close();
+  }
+
+  private jumpTo(payload: string) {
+    // Route payloads start with "/"; the rest are landing-page sections.
+    if (payload.startsWith('/')) {
+      this.router.navigateByUrl(payload);
+      return;
+    }
+    // On the story page the landing sections don't exist: route home instead.
+    if (!document.getElementById('top')) {
+      this.router.navigate(['/'], { fragment: payload === 'top' ? undefined : payload });
+      return;
+    }
+    if (payload === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    document.getElementById(payload)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
