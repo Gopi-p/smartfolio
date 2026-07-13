@@ -1,90 +1,179 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
+/*
+  Design: "the workbench".
+  Not a page, an application: a fixed file-tree rail opens routed views.
+  Violet-black surfaces, lavender accent, Syne display over Sora body with
+  Spline Sans Mono annotations. Token names stay theme-agnostic so the
+  case-study page inherits the palette untouched.
+*/
 @theme {
-  --color-night: #0f0e17;
-  --color-night-2: #1a1726;
-  --color-night-3: #252339;
-  --color-edge: #2a2737;
-  --color-edge-hi: #3a3650;
-  --color-ivory: #fffffe;
-  --color-mist: #c5c6d8;
-  --color-fog: #a7a9be;
-  --color-haze: #5a5870;
-  --color-coral: #ff6f61;
-  --color-coral-deep: #e8553f;
-  --color-amber: #ffd166;
-  --color-mint: #7ee8b6;
+  --color-board: #0d0c12;
+  --color-panel: #14121c;
+  --color-panel-2: #1a1726;
+  --color-ink: #eceaf5;
+  --color-body: #a7a3bc;
+  --color-meta: #726d8c;
+  --color-line: #211e30;
+  --color-line-hi: #322d49;
+  --color-select: #a48fff;
+  --color-select-deep: #8468f5;
+  --color-ok: #3ecf8e;
+  --color-warn: #ff7a68;
 
-  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
-  --font-hand: 'Caveat', 'Comic Sans MS', cursive;
+  --font-display: 'Syne', 'Sora', system-ui, sans-serif;
+  --font-sans: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Spline Sans Mono', 'Consolas', 'Courier New', monospace;
 }
 
-html, body {
-  background-color: var(--color-night);
-  color: var(--color-ivory);
+html,
+body {
+  background-color: var(--color-board);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html { scroll-behavior: smooth; }
-
-::selection {
-  background: var(--color-coral);
-  color: var(--color-night);
+html {
+  scroll-behavior: smooth;
 }
 
-/* Backdrop noise */
+/* Quiet lavender bloom at the top of the board */
 body::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(255, 111, 97, 0.08), transparent 60%),
-    radial-gradient(1000px 700px at 110% 10%, rgba(255, 209, 102, 0.05), transparent 60%);
+  background: radial-gradient(900px 480px at 70% -10%, rgba(164, 143, 255, 0.07), transparent 65%);
 }
 
-/* Display type helpers */
-.font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
-.font-mono { font-family: var(--font-mono); }
-.font-hand { font-family: var(--font-hand); }
+::selection {
+  background: var(--color-select);
+  color: var(--color-board);
+}
 
-/* Eyebrow / kicker */
+/* Type helpers */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Lavender glow, used sparingly */
+.glow {
+  text-shadow: 0 0 20px rgba(164, 143, 255, 0.45);
+}
+
+/* Surface */
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+}
+.panel-hover {
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+.panel-hover:hover {
+  border-color: var(--color-line-hi);
+  background: var(--color-panel-2);
+}
+
+/* Small mono annotation label */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--color-fog);
+  color: var(--color-meta);
 }
 
-/* Scroll-reveal: starts invisible & slightly translated, animates when .is-visible added */
+/* View shell: every routed view fades up once on open */
+.view {
+  animation: view-in 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes view-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Breadcrumb at the top of a view, e.g. "gopinath ~/ work" */
+.crumb {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--color-meta);
+}
+.crumb .sep {
+  color: var(--color-select);
+}
+
+/* Status dot (steady) */
+.dot-ok {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-ok);
+  box-shadow: 0 0 8px rgba(62, 207, 142, 0.7);
+}
+
+/* Availability pulse */
+.pulse-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-ok);
+}
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: var(--color-ok);
+  opacity: 0.5;
+  animation: pulse-ring 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  80% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Scroll-reveal (used inside longer views) */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-              transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(20px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Tilt card 3D containers */
-.tilt-card {
-  transform-style: preserve-3d;
-  transition: transform 200ms ease-out;
-  will-change: transform;
-}
-.tilt-card-inner {
-  transform: translateZ(20px);
 }
 
 /* Magnetic button base */
@@ -93,67 +182,7 @@ body::before {
   will-change: transform;
 }
 
-/* Status pulse dot */
-.pulse-dot {
-  position: relative;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--color-mint);
-}
-.pulse-dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 999px;
-  background: var(--color-mint);
-  opacity: 0.6;
-  animation: pulse-ring 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-@keyframes pulse-ring {
-  0%   { transform: scale(0.7); opacity: 0.6; }
-  80%  { transform: scale(2.2); opacity: 0; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
-/* Marquee */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.marquee-track { animation: marquee 35s linear infinite; }
-
-/* Polaroid */
-.polaroid {
-  background: #f6f3ee;
-  padding: 14px 14px 56px 14px;
-  border-radius: 3px;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.35),
-    0 18px 44px -12px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.04);
-  transform: rotate(-3deg);
-  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.polaroid:hover {
-  transform: rotate(-1deg) translateY(-6px);
-  box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    0 30px 64px -14px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(255, 111, 97, 0.14);
-}
-.polaroid img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 1px;
-  background: #e7e3dc;
-}
-
-/* Cmd palette overlay */
+/* Keycap */
 .kbd {
   display: inline-flex;
   align-items: center;
@@ -162,81 +191,31 @@ body::before {
   padding: 0.1rem 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  background: var(--color-night-3);
-  color: var(--color-mist);
-  border: 1px solid var(--color-edge-hi);
-  border-radius: 4px;
-  box-shadow: 0 1px 0 var(--color-edge);
+  background: var(--color-panel-2);
+  color: var(--color-body);
+  border: 1px solid var(--color-line-hi);
+  border-bottom-width: 2px;
+  border-radius: 5px;
 }
 
-/* Filter chip */
-.chip {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  border: 1px solid var(--color-edge);
-  color: var(--color-fog);
-  cursor: pointer;
-  transition: all 250ms ease;
+/* Anchor offset inside the story page */
+section[id] {
+  scroll-margin-top: 88px;
 }
-.chip:hover { color: var(--color-ivory); border-color: var(--color-edge-hi); }
-.chip.is-active {
-  color: var(--color-night);
-  background: var(--color-coral);
-  border-color: var(--color-coral);
-}
-
-/* Skill tag */
-.skill-tag {
-  font-family: var(--font-display);
-  font-weight: 500;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--color-edge);
-  border-radius: 12px;
-  background: var(--color-night-2);
-  color: var(--color-mist);
-  transition: all 250ms cubic-bezier(0.22, 1, 0.36, 1);
-  cursor: default;
-}
-.skill-tag:hover {
-  transform: translateY(-3px) scale(1.04);
-  color: var(--color-ivory);
-  border-color: var(--color-coral);
-  box-shadow: 0 8px 20px -8px rgba(255, 111, 97, 0.4);
-}
-
-/* Section anchor offset for fixed header */
-section[id] { scroll-margin-top: 96px; }
 
 /* Toast animation */
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.toast { animation: toast-in 250ms cubic-bezier(0.22, 1, 0.36, 1); }
-
-/* Accent underline that slides */
-.link-slide {
-  position: relative;
-}
-.link-slide::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.link-slide:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+.toast {
+  animation: toast-in 250ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Skip-to-content link (visible only on keyboard focus) */
@@ -248,8 +227,8 @@ section[id] { scroll-margin-top: 96px; }
   transform: translateY(-200%);
   padding: 0.6rem 1rem;
   border-radius: 8px;
-  background: var(--color-coral);
-  color: var(--color-night);
+  background: var(--color-select);
+  color: var(--color-board);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
@@ -263,14 +242,15 @@ section[id] { scroll-margin-top: 96px; }
 
 /* Visible focus ring for keyboard users */
 :focus-visible {
-  outline: 2px solid var(--color-coral);
+  outline: 2px solid var(--color-select);
   outline-offset: 3px;
   border-radius: 4px;
 }
-/* Don't show the focus outline when focus is moved programmatically to <main> */
-main:focus { outline: none; }
+main:focus {
+  outline: none;
+}
 
-/* Respect reduced-motion: keep the experience calm and static */
+/* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -280,9 +260,17 @@ main:focus { outline: none; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1 !important; transform: none !important; }
-  .marquee-track { animation: none !important; }
-  .pulse-dot::after { animation: none !important; }
-  .polaroid:hover { transform: rotate(-3deg); }
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .view {
+    animation: none;
+  }
+  .pulse-dot::after {
+    animation: none !important;
+  }
 }

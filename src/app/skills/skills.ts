@@ -1,11 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RevealDirective } from '../shared/reveal.directive';
 
-type Group = 'all' | 'frontend' | 'backend' | 'tools' | 'familiar';
-
-interface Skill {
-  name: string;
-  group: Exclude<Group, 'all'>;
+interface ManifestGroup {
+  key: string;
+  items: string[];
 }
 
 @Component({
@@ -13,92 +11,78 @@ interface Skill {
   imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="skills" class="relative py-24 md:py-32" aria-labelledby="skills-heading">
-      <div class="max-w-7xl mx-auto px-6 md:px-10">
-        <!-- Header -->
-        <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
-          <div class="md:col-span-6">
-            <span class="eyebrow">05 · Stack</span>
-            <h2 id="skills-heading" class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
-              The <span class="text-amber italic">working set.</span>
-            </h2>
-          </div>
-          <div class="md:col-span-5 md:col-start-8 self-end">
-            <p class="text-mist leading-relaxed">
-              No percentage bars. A tool is either load bearing or it isn't.
-              Filter to focus on a category.
-            </p>
-          </div>
-        </div>
+    <div class="view max-w-5xl px-6 md:px-12 py-12 md:py-16">
+      <div class="crumb">gopinath <span class="sep">~/</span> stack.json</div>
+      <div class="mt-7 mb-10 flex flex-wrap items-end justify-between gap-4">
+        <h1 class="font-display text-3xl md:text-5xl font-bold">The working set.</h1>
+        <p class="text-body text-sm md:text-base max-w-md">
+          No percentage bars. A tool is either load bearing or it isn't.
+        </p>
+      </div>
 
-        <!-- Filter chips -->
-        <div appReveal class="mb-10 flex flex-wrap items-center gap-2">
-          @for (filter of filters; track filter.id) {
-            <button
-              type="button"
-              (click)="active.set(filter.id)"
-              class="chip"
-              [class.is-active]="active() === filter.id"
-            >
-              {{ filter.label }}
-            </button>
-          }
+      <!-- Manifest file -->
+      <div appReveal class="panel overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-2.5 border-b border-line bg-panel-2">
+          <span class="font-mono text-[11px] text-body">stack.manifest</span>
+          <span class="font-mono text-[10px] text-meta">read-only</span>
         </div>
-
-        <!-- Skills tag cloud -->
-        <div appReveal class="flex flex-wrap gap-3">
-          @for (skill of visible(); track skill.name) {
-            <span class="skill-tag" [attr.data-group]="skill.group">
-              {{ skill.name }}
-            </span>
+        <div class="p-5 md:p-7 font-mono text-[13px] md:text-sm leading-loose overflow-x-auto">
+          @for (group of groups; track group.key) {
+            <div class="flex flex-wrap items-baseline gap-x-1.5">
+              <span class="text-select w-24 md:w-28 shrink-0">{{ group.key }}</span>
+              <span class="text-meta">=</span>
+              <span class="text-meta">[</span>
+              @for (item of group.items; track item; let last = $last) {
+                <span class="text-body hover:text-ink transition-colors cursor-default">{{
+                  item
+                }}</span>
+                @if (!last) {
+                  <span class="text-meta">,</span>
+                }
+              }
+              <span class="text-meta">]</span>
+            </div>
           }
         </div>
       </div>
-    </section>
+    </div>
   `,
 })
 export class SkillsComponent {
-  readonly active = signal<Group>('all');
-
-  readonly skills: Skill[] = [
-    { name: 'Angular', group: 'frontend' },
-    { name: 'TypeScript', group: 'frontend' },
-    { name: 'JavaScript', group: 'frontend' },
-    { name: 'Fabric.js', group: 'frontend' },
-    { name: 'Signals', group: 'frontend' },
-    { name: 'RxJS', group: 'frontend' },
-    { name: 'PrimeNG', group: 'frontend' },
-    { name: 'Flutter', group: 'frontend' },
-    { name: 'Tailwind', group: 'frontend' },
-    { name: 'Node.js', group: 'backend' },
-    { name: 'MongoDB', group: 'backend' },
-    { name: 'GraphQL', group: 'backend' },
-    { name: 'REST APIs', group: 'backend' },
-    { name: 'Microservices', group: 'backend' },
-    { name: 'Schema design', group: 'backend' },
-    { name: 'Multi-tenant', group: 'backend' },
-    { name: 'AWS · S3', group: 'tools' },
-    { name: 'Firebase', group: 'tools' },
-    { name: 'Docker', group: 'tools' },
-    { name: 'CI/CD', group: 'tools' },
-    { name: 'Git', group: 'tools' },
-    { name: 'SQL', group: 'familiar' },
-    { name: 'Unit Testing', group: 'familiar' },
-    { name: 'System Design', group: 'familiar' },
-    { name: 'Agile', group: 'familiar' },
+  readonly groups: ManifestGroup[] = [
+    {
+      key: 'frontend',
+      items: [
+        'Angular',
+        'TypeScript',
+        'JavaScript',
+        'Fabric.js',
+        'Signals',
+        'RxJS',
+        'PrimeNG',
+        'Flutter',
+        'Tailwind',
+      ],
+    },
+    {
+      key: 'backend',
+      items: [
+        'Node.js',
+        'MongoDB',
+        'GraphQL',
+        'REST APIs',
+        'Microservices',
+        'Schema design',
+        'Multi-tenant',
+      ],
+    },
+    {
+      key: 'tools',
+      items: ['AWS S3', 'Firebase', 'Docker', 'CI/CD', 'Git'],
+    },
+    {
+      key: 'familiar',
+      items: ['SQL', 'Unit Testing', 'System Design', 'Agile'],
+    },
   ];
-
-  readonly filters = [
-    { id: 'all' as const, label: 'All' },
-    { id: 'frontend' as const, label: 'Frontend' },
-    { id: 'backend' as const, label: 'Backend' },
-    { id: 'tools' as const, label: 'Tools' },
-    { id: 'familiar' as const, label: 'Familiar' },
-  ];
-
-  readonly visible = computed(() => {
-    const group = this.active();
-    if (group === 'all') return this.skills;
-    return this.skills.filter((s) => s.group === group);
-  });
 }

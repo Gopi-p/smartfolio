@@ -10,10 +10,14 @@ import { ToastOutletComponent } from './shared/toast-outlet';
   imports: [RouterOutlet, NavigationComponent, CommandPaletteComponent, ToastOutletComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="relative min-h-screen text-ivory">
+    <div class="relative min-h-screen text-ink">
       <a href="#main-content" class="skip-link">Skip to content</a>
       <app-navigation />
-      <main id="main-content" class="relative z-10" tabindex="-1">
+      <main
+        id="main-content"
+        class="relative z-10 pt-14 lg:pt-0 lg:pl-[288px] min-h-screen"
+        tabindex="-1"
+      >
         <router-outlet />
       </main>
       <app-command-palette />
@@ -23,7 +27,7 @@ import { ToastOutletComponent } from './shared/toast-outlet';
 })
 export class App {
   constructor() {
-    // Router anchor scrolling ignores CSS scroll-margin-top; offset for the fixed header.
-    inject(ViewportScroller).setOffset([0, 96]);
+    // Router anchor scrolling ignores CSS scroll-margin-top; offset for the story page anchors.
+    inject(ViewportScroller).setOffset([0, 88]);
   }
 }

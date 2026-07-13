@@ -2,15 +2,13 @@
   <!-- Story hero -->
   <header class="story-hero">
     <div appReveal class="story-hero-inner">
-      <a routerLink="/" fragment="work" class="back-link">
-        <span aria-hidden="true">←</span> all work
-      </a>
+      <a routerLink="/work" class="back-link"> <span aria-hidden="true">←</span> all work </a>
 
       <div class="hero-eyebrow">Case Study · Home Server Build</div>
 
       <h1 class="font-display">
         I stopped paying for cloud storage.<br />
-        <span class="text-coral italic">Built my own instead.</span>
+        <span class="text-select italic">Built my own instead.</span>
       </h1>
 
       <p class="hero-sub">
@@ -212,7 +210,7 @@
           <div class="cmd">curl -fsSL https://get.casaos.io | sudo bash</div>
           <div class="out">CasaOS is running at http://192.168.1.37</div>
           <div class="gap" aria-hidden="true"></div>
-          <div class="cmt"># Open that IP in your browser — you have a server dashboard now</div>
+          <div class="cmt"># Open that IP in your browser, you have a server dashboard now</div>
         </div>
       </div>
 
@@ -268,7 +266,7 @@
           alt="Registering gopicraft.dev on Cloudflare"
         />
         <div class="screenshot-caption font-mono">
-          // gopicraft.dev — $12.20/yr, renews at same price, HTTPS enforced on .dev
+          // gopicraft.dev · $12.20/yr, renews at same price, HTTPS enforced on .dev
         </div>
       </div>
     </div>
@@ -300,7 +298,7 @@
           alt="Router dashboard for static IP reservation"
         />
         <div class="screenshot-caption font-mono">
-          // Syrotech router that comes with Railwire fiber — reserved a fixed IP for the server
+          // Syrotech router that comes with Railwire fiber · reserved a fixed IP for the server
         </div>
       </div>
     </div>
@@ -324,7 +322,7 @@
 
       <div class="storage-grid">
         <div class="storage-card ssd">
-          <h4 class="font-mono">SSD — 250GB</h4>
+          <h4 class="font-mono">SSD · 250GB</h4>
           <div class="sz font-display">250GB</div>
           <ul class="font-mono">
             <li>Ubuntu Server</li>
@@ -334,7 +332,7 @@
           </ul>
         </div>
         <div class="storage-card hdd">
-          <h4 class="font-mono">HDD — /storage</h4>
+          <h4 class="font-mono">HDD · /storage</h4>
           <div class="sz font-display">1TB</div>
           <ul class="font-mono">
             <li>appdata/immich/pgdata</li>
@@ -354,7 +352,7 @@
             alt="lsblk showing drive layout"
           />
           <div class="screenshot-caption font-mono">
-            // lsblk — SSD on sdb2 at /, HDD on sda2 at /storage
+            // lsblk · SSD on sdb2 at /, HDD on sda2 at /storage
           </div>
         </div>
         <div class="screenshot">
@@ -365,7 +363,7 @@
             alt="fstab and df output"
           />
           <div class="screenshot-caption font-mono">
-            // HDD in fstab with UUID — mounts automatically on every boot
+            // HDD in fstab with UUID · mounts automatically on every boot
           </div>
         </div>
       </div>
@@ -422,7 +420,7 @@
   <section>
     <div appReveal class="container">
       <div class="section-label">Step 05</div>
-      <h2 class="font-display">Immich — finally done with Google Photos</h2>
+      <h2 class="font-display">Immich, finally done with Google Photos</h2>
 
       <p>
         Immich is the best self-hosted photo library right now. Proper mobile app, auto-backup, face
@@ -443,7 +441,7 @@
           alt="Immich containers all healthy"
         />
         <div class="screenshot-caption font-mono">
-          // Immich v2.6.3 — server, postgres, redis all healthy and running
+          // Immich v2.6.3 · server, postgres, redis all healthy and running
         </div>
       </div>
 
@@ -467,7 +465,7 @@
           alt="CasaOS file manager with GOPI SSD"
         />
         <div class="screenshot-caption font-mono">
-          // CasaOS file manager picked up my external SSD automatically — can browse and copy from
+          // CasaOS file manager picked up my external SSD automatically · can browse and copy from
           the browser itself
         </div>
       </div>
@@ -549,7 +547,7 @@
           alt="cloudflared tunnel list showing gopicraft tunnel"
         />
         <div class="screenshot-caption font-mono">
-          // gopicraft tunnel created and registered — UUID blurred for security
+          // gopicraft tunnel created and registered · UUID blurred for security
         </div>
       </div>
 
@@ -561,7 +559,7 @@
           alt="Cloudflare tunnel config file"
         />
         <div class="screenshot-caption font-mono">
-          // config.yml — mapping subdomains to local services
+          // config.yml · mapping subdomains to local services
         </div>
       </div>
 
@@ -573,7 +571,7 @@
           alt="Tunnel connecting to Cloudflare edge"
         />
         <div class="screenshot-caption font-mono">
-          // 4 connections to Chennai (maa03) and Mumbai (bom12) edge nodes — Indian servers, good
+          // 4 connections to Chennai (maa03) and Mumbai (bom12) edge nodes · Indian servers, good
           latency
         </div>
       </div>
@@ -586,7 +584,7 @@
           alt="cloudflared systemd service running"
         />
         <div class="screenshot-caption font-mono">
-          // cloudflared running as a systemd service — starts automatically on every reboot
+          // cloudflared running as a systemd service · starts automatically on every reboot
         </div>
       </div>
     </div>
@@ -847,7 +845,7 @@
   <!-- STORY FOOTER -->
   <footer class="story-footer">
     <div appReveal class="container">
-      <a routerLink="/" fragment="work" class="footer-cta">
+      <a routerLink="/work" class="footer-cta">
         <span aria-hidden="true">←</span>
         <span>back to all work</span>
       </a>

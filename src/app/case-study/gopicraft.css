@@ -9,12 +9,12 @@
 }
 section {
   padding: 72px 0;
-  border-top: 1px solid var(--color-edge);
+  border-top: 1px solid var(--color-line);
 }
 
 /* ── Story hero ─────────────────────────────────────────── */
 .story-hero {
-  min-height: 88vh;
+  min-height: 82vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@ section {
   position: absolute;
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(255, 111, 97, 0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(164, 143, 255, 0.06) 0%, transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -46,25 +46,25 @@ section {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-fog);
+  color: var(--color-meta);
   margin-bottom: 32px;
   transition: color 0.2s;
 }
 .back-link:hover {
-  color: var(--color-coral);
+  color: var(--color-select);
 }
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 111, 97, 0.08);
-  border: 1px solid rgba(255, 111, 97, 0.25);
+  background: rgba(164, 143, 255, 0.06);
+  border: 1px solid rgba(164, 143, 255, 0.3);
   border-radius: 100px;
   padding: 6px 16px;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 500;
-  color: var(--color-coral);
+  color: var(--color-select);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 32px;
@@ -72,14 +72,14 @@ section {
 .story-hero h1 {
   font-size: clamp(2.4rem, 6vw, 4rem);
   font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
   max-width: 820px;
   margin-bottom: 24px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
 }
 .hero-sub {
-  color: var(--color-mist);
+  color: var(--color-body);
   font-size: 1.05rem;
   max-width: 540px;
   margin: 0 auto 36px;
@@ -90,7 +90,7 @@ section {
   align-items: center;
   gap: 16px;
   font-size: 0.78rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   flex-wrap: wrap;
   justify-content: center;
   letter-spacing: 0.04em;
@@ -103,35 +103,35 @@ section {
   margin-top: 36px;
 }
 .tag {
-  background: var(--color-night-3);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 6px;
   padding: 5px 12px;
   font-size: 0.78rem;
   font-family: var(--font-mono);
-  color: var(--color-fog);
+  color: var(--color-body);
 }
 .tag.accent {
-  color: var(--color-coral);
-  border-color: rgba(255, 111, 97, 0.3);
-  background: rgba(255, 111, 97, 0.06);
+  color: var(--color-select);
+  border-color: rgba(164, 143, 255, 0.35);
+  background: rgba(164, 143, 255, 0.06);
 }
 .tag.green {
-  color: var(--color-mint);
-  border-color: rgba(126, 232, 182, 0.3);
-  background: rgba(126, 232, 182, 0.06);
+  color: var(--color-ok);
+  border-color: rgba(62, 207, 142, 0.35);
+  background: rgba(62, 207, 142, 0.06);
 }
 .tag.gold {
-  color: var(--color-amber);
-  border-color: rgba(255, 209, 102, 0.3);
-  background: rgba(255, 209, 102, 0.06);
+  color: var(--color-warn);
+  border-color: rgba(255, 122, 104, 0.35);
+  background: rgba(255, 122, 104, 0.06);
 }
 
 /* ── Typography ─────────────────────────────────────────── */
 .section-label {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--color-coral);
+  color: var(--color-select);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 16px;
@@ -141,16 +141,16 @@ h2 {
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 28px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
 }
 h3 {
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
   margin: 36px 0 12px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
 }
 p {
-  color: var(--color-mist);
+  color: var(--color-body);
   margin-bottom: 18px;
   font-size: 1rem;
   line-height: 1.85;
@@ -159,16 +159,17 @@ p:last-child {
   margin-bottom: 0;
 }
 p strong {
-  color: var(--color-ivory);
+  color: var(--color-ink);
   font-weight: 600;
 }
 code {
-  background: var(--color-night-3);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   padding: 2px 7px;
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.83rem;
-  color: var(--color-amber);
+  color: var(--color-select);
 }
 
 /* ── Screenshots ────────────────────────────────────────── */
@@ -176,8 +177,9 @@ code {
   margin: 28px 0;
   border-radius: 10px;
   overflow: hidden;
-  border: 1px solid var(--color-edge);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--color-line-hi);
+  background: var(--color-panel);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 .screenshot img {
   width: 100%;
@@ -185,11 +187,11 @@ code {
   display: block;
 }
 .screenshot-caption {
-  background: var(--color-night-3);
+  background: var(--color-panel);
   padding: 9px 16px;
   font-size: 0.74rem;
-  color: var(--color-fog);
-  border-top: 1px solid var(--color-edge);
+  color: var(--color-meta);
+  border-top: 1px solid var(--color-line);
 }
 /* Screenshots stack one by one: differing aspect ratios misalign side-by-side columns. */
 .screenshot-grid {
@@ -202,21 +204,21 @@ code {
   margin: 0;
 }
 
-/* ── Terminal ───────────────────────────────────────────── */
+/* ── Terminal (stays dark, like the real thing) ─────────── */
 .terminal {
-  background: #0a0912;
-  border: 1px solid var(--color-edge);
+  background: #14161c;
+  border: 1px solid #262a33;
   border-radius: 10px;
   overflow: hidden;
   margin: 24px 0;
 }
 .terminal-bar {
-  background: var(--color-night-3);
+  background: #1d2027;
   padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 7px;
-  border-bottom: 1px solid var(--color-edge);
+  border-bottom: 1px solid #262a33;
 }
 .dot {
   width: 10px;
@@ -234,24 +236,24 @@ code {
 }
 .t-title {
   font-size: 0.74rem;
-  color: var(--color-fog);
+  color: #8a90a0;
   margin-left: 6px;
 }
 .terminal-body {
   padding: 20px;
   font-size: 0.82rem;
   line-height: 1.7;
-  color: var(--color-mint);
+  color: #56c993;
   overflow-x: auto;
 }
 .terminal-body .cmd {
-  color: var(--color-ivory);
+  color: #e8eaf0;
 }
 .terminal-body .out {
-  color: var(--color-mint);
+  color: #56c993;
 }
 .terminal-body .cmt {
-  color: var(--color-haze);
+  color: #555b6b;
 }
 .terminal-body .gap {
   height: 1.4em;
@@ -259,18 +261,18 @@ code {
 
 /* ── Callouts ───────────────────────────────────────────── */
 .callout {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
-  border-left: 3px solid var(--color-coral);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-select);
   border-radius: 8px;
   padding: 18px 22px;
   margin: 24px 0;
 }
 .callout.green {
-  border-left-color: var(--color-mint);
+  border-left-color: var(--color-ok);
 }
 .callout.orange {
-  border-left-color: var(--color-coral-deep);
+  border-left-color: var(--color-warn);
 }
 .callout p {
   margin: 0;
@@ -285,14 +287,14 @@ code {
   margin: 28px 0;
 }
 .storage-card {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   padding: 24px;
 }
 .storage-card h4 {
   font-size: 0.75rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 10px;
@@ -301,13 +303,13 @@ code {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 8px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
 }
 .storage-card.ssd .sz {
-  color: var(--color-coral-deep);
+  color: var(--color-warn);
 }
 .storage-card.hdd .sz {
-  color: var(--color-mint);
+  color: var(--color-ok);
 }
 .storage-card ul {
   list-style: none;
@@ -316,18 +318,18 @@ code {
 }
 .storage-card ul li {
   font-size: 0.8rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   padding: 2px 0;
 }
 .storage-card ul li::before {
   content: '/ ';
-  color: var(--color-haze);
+  color: var(--color-line-hi);
 }
 
 /* ── Architecture flow ──────────────────────────────────── */
 .arch {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   padding: 28px;
   margin: 28px 0;
@@ -342,27 +344,27 @@ code {
   font-size: 0.8rem;
 }
 .arch-node {
-  background: var(--color-night-3);
-  border: 1px solid var(--color-edge);
+  background: var(--color-board);
+  border: 1px solid var(--color-line-hi);
   border-radius: 8px;
   padding: 10px 16px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
   line-height: 1.4;
 }
 .arch-node.a {
-  border-color: rgba(255, 111, 97, 0.4);
-  color: var(--color-coral);
+  border-color: rgba(164, 143, 255, 0.45);
+  color: var(--color-select);
 }
 .arch-node.g {
-  border-color: rgba(126, 232, 182, 0.4);
-  color: var(--color-mint);
+  border-color: rgba(62, 207, 142, 0.45);
+  color: var(--color-ok);
 }
 .arch-sub {
-  color: var(--color-fog);
+  color: var(--color-meta);
   font-size: 0.7rem;
 }
 .arch-arrow {
-  color: var(--color-fog);
+  color: var(--color-meta);
   font-size: 1.1rem;
 }
 
@@ -374,14 +376,14 @@ code {
   margin: 28px 0;
 }
 .result-card {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   padding: 22px;
   transition: border-color 0.2s;
 }
 .result-card:hover {
-  border-color: var(--color-coral);
+  border-color: var(--color-select);
 }
 .result-card .icon {
   font-size: 1.6rem;
@@ -391,11 +393,11 @@ code {
   font-size: 0.88rem;
   font-weight: 600;
   margin-bottom: 6px;
-  color: var(--color-ivory);
+  color: var(--color-ink);
 }
 .result-card p {
   font-size: 0.8rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   margin: 0;
 }
 
@@ -405,33 +407,37 @@ code {
   border-collapse: collapse;
   margin: 20px 0 28px;
   font-size: 0.9rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  overflow: hidden;
 }
 .cost-table th {
   text-align: left;
   padding: 11px 14px;
-  background: var(--color-night-3);
-  color: var(--color-fog);
+  background: var(--color-board);
+  color: var(--color-meta);
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  border-bottom: 1px solid var(--color-edge);
+  border-bottom: 1px solid var(--color-line);
 }
 .cost-table td {
   padding: 11px 14px;
-  border-bottom: 1px solid var(--color-edge);
-  color: var(--color-mist);
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-body);
 }
 .cost-table tr:last-child td {
   border-bottom: none;
 }
 .cost-table .hl {
-  color: var(--color-mint);
+  color: var(--color-ok);
   font-weight: 600;
 }
 .cost-table .save {
-  color: var(--color-amber);
+  color: var(--color-warn);
   font-weight: 600;
 }
 
@@ -446,8 +452,8 @@ code {
   align-items: flex-start;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid var(--color-edge);
-  color: var(--color-mist);
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-body);
   font-size: 0.95rem;
   line-height: 1.7;
 }
@@ -456,7 +462,7 @@ code {
 }
 .checklist li::before {
   content: '✓';
-  color: var(--color-mint);
+  color: var(--color-ok);
   font-weight: 700;
   font-size: 0.85rem;
   margin-top: 3px;
@@ -465,15 +471,15 @@ code {
 
 /* ── Requirements list ──────────────────────────────────── */
 .req-list {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   padding: 28px;
   margin: 28px 0;
 }
 .req-list h4 {
   font-size: 0.75rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 16px;
@@ -485,8 +491,8 @@ code {
 }
 .req-list ul li {
   padding: 10px 0;
-  border-bottom: 1px solid var(--color-edge);
-  color: var(--color-mist);
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-body);
   font-size: 0.95rem;
   display: flex;
   gap: 12px;
@@ -496,20 +502,20 @@ code {
   border-bottom: none;
 }
 .req-list .num {
-  color: var(--color-coral);
+  color: var(--color-select);
   font-size: 0.8rem;
   margin-top: 2px;
   flex-shrink: 0;
 }
 .optional {
   font-size: 0.75rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
 }
 
 /* ── Install steps ──────────────────────────────────────── */
 .install-steps {
-  background: var(--color-night-2);
-  border: 1px solid var(--color-edge);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
   border-radius: 10px;
   overflow: hidden;
   margin: 28px 0;
@@ -518,15 +524,15 @@ code {
   display: flex;
   gap: 20px;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--color-edge);
+  border-bottom: 1px solid var(--color-line);
   align-items: flex-start;
 }
 .install-step:last-child {
   border-bottom: none;
 }
 .step-num {
-  background: var(--color-night-3);
-  border: 1px solid var(--color-edge);
+  background: var(--color-board);
+  border: 1px solid var(--color-line-hi);
   border-radius: 6px;
   width: 32px;
   height: 32px;
@@ -534,25 +540,25 @@ code {
   align-items: center;
   justify-content: center;
   font-size: 0.78rem;
-  color: var(--color-coral);
+  color: var(--color-select);
   flex-shrink: 0;
 }
 .step-content h4 {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--color-ivory);
+  color: var(--color-ink);
   margin-bottom: 4px;
 }
 .step-content p {
   font-size: 0.88rem;
-  color: var(--color-fog);
+  color: var(--color-meta);
   margin: 0;
   line-height: 1.6;
 }
 
 /* ── Story footer ───────────────────────────────────────── */
 .story-footer {
-  border-top: 1px solid var(--color-edge);
+  border-top: 1px solid var(--color-line);
   padding: 56px 24px 80px;
   text-align: center;
 }
@@ -562,17 +568,18 @@ code {
   gap: 8px;
   margin-top: 28px;
   padding: 12px 24px;
-  border-radius: 999px;
-  border: 1px solid var(--color-edge-hi);
-  color: var(--color-ivory);
+  border-radius: 8px;
+  border: 1px solid var(--color-line-hi);
+  background: var(--color-panel);
+  color: var(--color-ink);
   font-size: 0.85rem;
   transition:
     color 0.2s,
     border-color 0.2s;
 }
 .footer-cta:hover {
-  border-color: var(--color-coral);
-  color: var(--color-coral);
+  border-color: var(--color-select);
+  color: var(--color-select);
 }
 
 /* ── Responsive ─────────────────────────────────────────── */

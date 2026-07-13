@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RevealDirective } from '../shared/reveal.directive';
 
-interface Chapter {
-  years: string;
-  role: string;
+interface LogEntry {
+  stamp: string;
+  kind: 'role' | 'cert';
+  title: string;
   org: string;
   points: string[];
   tags: string[];
-  accent: 'coral' | 'amber' | 'ivory';
 }
 
 @Component({
@@ -15,146 +15,105 @@ interface Chapter {
   imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section id="about" class="relative py-24 md:py-32" aria-labelledby="about-heading">
-      <div class="max-w-7xl mx-auto px-6 md:px-10">
-        <!-- Section header -->
-        <div appReveal class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-16">
-          <div class="md:col-span-4">
-            <span class="eyebrow">01 · About</span>
-            <h2 id="about-heading" class="mt-4 font-display text-5xl md:text-6xl font-bold leading-none">
-              The <span class="text-coral">why</span><br/>
-              behind the work.
-            </h2>
-          </div>
-          <div class="md:col-span-7 md:col-start-6 self-end">
-            <p class="text-mist text-lg leading-relaxed">
-              Five years in, mostly Angular and SaaS. The work I enjoy most sits
-              between the frontend and the system behind it: data models, render
-              performance, and upgrades that don't turn into rewrites. Here's the
-              short version of how I got here.
-            </p>
-          </div>
-        </div>
-
-        <!-- Timeline -->
-        <div class="relative">
-          <!-- Vertical line -->
-          <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-edge"></div>
-
-          <div class="space-y-12 md:space-y-16">
-            @for (chapter of chapters; track chapter.years; let i = $index) {
-              <article
-                appReveal
-                class="relative grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-start"
-              >
-                <!-- Node dot -->
-                <div class="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-2 w-3 h-3 rounded-full ring-4 ring-night z-10"
-                     [class.bg-coral]="chapter.accent === 'coral'"
-                     [class.bg-amber]="chapter.accent === 'amber'"
-                     [class.bg-ivory]="chapter.accent === 'ivory'"></div>
-
-                <!-- Card position alternating -->
-                @if (i % 2 === 0) {
-                  <div class="pl-12 md:pl-0 md:pr-12 md:text-right">
-                    <div class="font-mono text-xs uppercase tracking-widest text-fog">{{ chapter.years }}</div>
-                    <h3 class="mt-2 font-display text-2xl md:text-3xl font-bold">
-                      {{ chapter.role }}
-                    </h3>
-                    <div class="mt-1 font-mono text-xs text-coral">{{ chapter.org }}</div>
-                    <ul class="mt-4 space-y-2">
-                      @for (point of chapter.points; track point) {
-                        <li class="text-sm text-mist leading-relaxed flex gap-2.5 md:flex-row-reverse md:text-right">
-                          <span class="text-coral mt-px shrink-0" aria-hidden="true">▸</span>
-                          <span>{{ point }}</span>
-                        </li>
-                      }
-                    </ul>
-                    <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1 md:justify-end">
-                      @for (tag of chapter.tags; track tag) {
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-fog">· {{ tag }}</span>
-                      }
-                    </div>
-                  </div>
-                  <div class="hidden md:block"></div>
-                } @else {
-                  <div class="hidden md:block"></div>
-                  <div class="pl-12 md:pl-12">
-                    <div class="font-mono text-xs uppercase tracking-widest text-fog">{{ chapter.years }}</div>
-                    <h3 class="mt-2 font-display text-2xl md:text-3xl font-bold">
-                      {{ chapter.role }}
-                    </h3>
-                    <div class="mt-1 font-mono text-xs text-coral">{{ chapter.org }}</div>
-                    <ul class="mt-4 space-y-2">
-                      @for (point of chapter.points; track point) {
-                        <li class="text-sm text-mist leading-relaxed flex gap-2.5">
-                          <span class="text-coral mt-px shrink-0" aria-hidden="true">▸</span>
-                          <span>{{ point }}</span>
-                        </li>
-                      }
-                    </ul>
-                    <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1">
-                      @for (tag of chapter.tags; track tag) {
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-fog">· {{ tag }}</span>
-                      }
-                    </div>
-                  </div>
-                }
-              </article>
-            }
-          </div>
-        </div>
-
-        <!-- Education row -->
-        <div appReveal class="mt-20 grid grid-cols-1 md:grid-cols-12 gap-6 pt-10 border-t border-edge">
-          <div class="md:col-span-4">
-            <div class="eyebrow">Education</div>
-          </div>
-          <div class="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="p-5 rounded-xl bg-night-2/60 border border-edge hover:border-amber transition-colors">
-              <div class="font-display text-xl font-semibold">MCA</div>
-              <div class="text-sm text-mist mt-1">University of Madras</div>
-              <div class="font-mono text-[11px] text-fog mt-2">2024</div>
-            </div>
-            <div class="p-5 rounded-xl bg-night-2/60 border border-edge hover:border-amber transition-colors">
-              <div class="font-display text-xl font-semibold">B.Sc Physics & CS</div>
-              <div class="text-sm text-mist mt-1">SASTRA University</div>
-              <div class="font-mono text-[11px] text-fog mt-2">2021</div>
-            </div>
-          </div>
-        </div>
+    <div class="view max-w-5xl px-6 md:px-12 py-12 md:py-16">
+      <div class="crumb">gopinath <span class="sep">~/</span> log</div>
+      <div class="mt-7 mb-10 flex flex-wrap items-end justify-between gap-4">
+        <h1 class="font-display text-3xl md:text-5xl font-bold">The why behind the work.</h1>
+        <p class="text-body text-sm md:text-base max-w-md">
+          Five years in, mostly Angular and SaaS. The work I enjoy most sits between the frontend
+          and the system behind it. Here's the short version of how I got here.
+        </p>
       </div>
-    </section>
+
+      <div class="space-y-4">
+        @for (entry of entries; track entry.stamp + entry.title) {
+          <article
+            appReveal
+            class="panel panel-hover grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 p-6 md:p-7"
+          >
+            <!-- Timestamp rail -->
+            <div
+              class="md:col-span-3 flex md:flex-col items-baseline md:items-start gap-3 md:gap-1.5"
+            >
+              <div class="font-mono text-sm text-select tabular-nums">{{ entry.stamp }}</div>
+              <div
+                class="font-mono text-[10px] uppercase tracking-[0.16em]"
+                [class.text-ok]="entry.kind === 'cert'"
+                [class.text-meta]="entry.kind === 'role'"
+              >
+                [{{ entry.kind }}]
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="md:col-span-9">
+              <h3 class="font-display text-lg md:text-xl font-bold">
+                {{ entry.title }} <span class="text-meta font-normal">· {{ entry.org }}</span>
+              </h3>
+              @if (entry.points.length) {
+                <ul class="mt-3 space-y-1.5 max-w-3xl">
+                  @for (point of entry.points; track point) {
+                    <li class="text-sm text-body leading-relaxed flex gap-2.5">
+                      <span class="font-mono text-select shrink-0" aria-hidden="true">></span>
+                      <span>{{ point }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+              @if (entry.tags.length) {
+                <div class="mt-3 flex flex-wrap gap-x-3 gap-y-1">
+                  @for (tag of entry.tags; track tag) {
+                    <span class="font-mono text-[10px] uppercase tracking-[0.12em] text-meta">
+                      · {{ tag }}
+                    </span>
+                  }
+                </div>
+              }
+            </div>
+          </article>
+        }
+      </div>
+    </div>
   `,
 })
 export class AboutComponent {
-  readonly chapters: Chapter[] = [
+  readonly entries: LogEntry[] = [
     {
-      years: '2025 to Now',
-      role: 'Software Engineer',
-      org: 'Tango Eye · Chennai',
+      stamp: '2025 → now',
+      kind: 'role',
+      title: 'Software Engineer',
+      org: 'Tango Eye, Chennai',
       points: [
-        'Built a canvas-based store layout system from scratch with Angular + Fabric.js',
+        'Built a canvas based store layout system from scratch with Angular + Fabric.js',
         'Designed the planogram backend APIs, schema, and data model',
         'Tuned the frontend with OnPush, signals, standalone components, and lazy loading',
       ],
       tags: ['Angular', 'Fabric.js', 'Signals', 'Schema design'],
-      accent: 'coral',
     },
     {
-      years: '2023 to 2025',
-      role: 'Team Lead',
+      stamp: '2023 → 2025',
+      kind: 'role',
+      title: 'Team Lead',
       org: 'Tandemloop Technologies',
       points: [
         'Led seven engineers to rebuild a SaaS platform from scratch',
-        'Drove the REST → GraphQL migration and multi-tenant architecture',
+        'Drove the REST to GraphQL migration and multi-tenant architecture',
         'Set coding standards, ran reviews, and owned releases with design, QA, and DevOps',
       ],
       tags: ['Leadership', 'REST to GraphQL', 'Multi-tenant'],
-      accent: 'amber',
     },
     {
-      years: '2021 to 2023',
-      role: 'Software Engineer',
+      stamp: '2024',
+      kind: 'cert',
+      title: 'MCA',
+      org: 'University of Madras',
+      points: [],
+      tags: [],
+    },
+    {
+      stamp: '2021 → 2023',
+      kind: 'role',
+      title: 'Software Engineer',
       org: 'Tandemloop Technologies',
       points: [
         'Rewrote a legacy Angular app from v11 to v17 with modern patterns',
@@ -162,7 +121,14 @@ export class AboutComponent {
         'Cut bundle size and standardized data handling across modules',
       ],
       tags: ['Angular 11 to 17', 'RBAC', 'Bundle perf'],
-      accent: 'ivory',
+    },
+    {
+      stamp: '2021',
+      kind: 'cert',
+      title: 'B.Sc Physics & CS',
+      org: 'SASTRA University',
+      points: [],
+      tags: [],
     },
   ];
 }

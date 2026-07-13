@@ -27,18 +27,18 @@ interface Action {
   template: `
     @if (isOpen()) {
       <div
-        class="fixed inset-0 z-[70] bg-night/80 backdrop-blur-sm flex items-start justify-center pt-[18vh] px-4"
+        class="fixed inset-0 z-[70] bg-board/70 backdrop-blur-sm flex items-start justify-center pt-[18vh] px-4"
         (click)="close()"
         role="dialog"
         aria-modal="true"
       >
         <div
-          class="w-full max-w-xl bg-night-2 border border-edge-hi rounded-2xl shadow-2xl shadow-night overflow-hidden"
+          class="w-full max-w-xl bg-panel border border-line-hi rounded-xl shadow-2xl shadow-black/50 overflow-hidden"
           (click)="$event.stopPropagation()"
         >
           <!-- Search input -->
-          <div class="flex items-center gap-3 px-5 py-4 border-b border-edge">
-            <span class="font-mono text-xs text-coral">⌘</span>
+          <div class="flex items-center gap-3 px-5 py-4 border-b border-line">
+            <span class="font-mono text-xs text-select">⌘</span>
             <input
               #searchInput
               type="text"
@@ -46,14 +46,14 @@ interface Action {
               (input)="onInput($event)"
               (keydown)="onKey($event)"
               placeholder="Jump anywhere, or do something..."
-              class="flex-1 bg-transparent border-none outline-none text-ivory placeholder:text-haze font-display text-lg"
+              class="flex-1 bg-transparent border-none outline-none text-ink placeholder:text-meta font-display text-lg"
               autocomplete="off"
               spellcheck="false"
             />
             <button
               type="button"
               (click)="close()"
-              class="font-mono text-[10px] text-fog hover:text-ivory uppercase tracking-widest"
+              class="font-mono text-[10px] text-meta hover:text-ink uppercase tracking-widest"
               aria-label="Close command palette"
             >
               esc
@@ -63,7 +63,7 @@ interface Action {
           <!-- Results -->
           <div class="max-h-[50vh] overflow-y-auto py-2">
             @if (filtered().length === 0) {
-              <div class="px-5 py-6 text-fog text-sm">No match for "{{ query() }}".</div>
+              <div class="px-5 py-6 text-meta text-sm">No match for "{{ query() }}".</div>
             }
             @for (action of filtered(); track action.id; let i = $index) {
               <button
@@ -72,17 +72,19 @@ interface Action {
                 (mouseenter)="cursor.set(i)"
                 [attr.aria-selected]="cursor() === i"
                 class="w-full text-left px-5 py-3 flex items-center gap-4 transition-colors"
-                [class.bg-night-3]="cursor() === i"
+                [class.bg-board]="cursor() === i"
               >
                 <span
                   class="font-mono text-[10px] uppercase tracking-widest w-16 shrink-0"
-                  [class.text-coral]="cursor() === i"
-                  [class.text-haze]="cursor() !== i"
+                  [class.text-select]="cursor() === i"
+                  [class.text-meta]="cursor() !== i"
                 >
                   {{ kindLabel(action.kind) }}
                 </span>
-                <span class="flex-1 font-display text-base text-ivory">{{ action.label }}</span>
-                <span class="font-mono text-[11px] text-fog hidden sm:inline">{{
+                <span class="flex-1 font-display text-base font-medium text-ink">{{
+                  action.label
+                }}</span>
+                <span class="font-mono text-[11px] text-meta hidden sm:inline">{{
                   action.hint
                 }}</span>
               </button>
@@ -91,7 +93,7 @@ interface Action {
 
           <!-- Footer hints -->
           <div
-            class="px-5 py-3 border-t border-edge flex items-center justify-between text-[10px] font-mono text-haze"
+            class="px-5 py-3 border-t border-line flex items-center justify-between text-[10px] font-mono text-meta"
           >
             <div class="flex items-center gap-3">
               <span><span class="kbd">↑</span> <span class="kbd">↓</span> navigate</span>
@@ -117,58 +119,67 @@ export class CommandPaletteComponent implements AfterViewInit {
     {
       id: 'go-home',
       kind: 'jump',
-      label: 'Top of the page',
-      hint: 'section',
-      payload: 'top',
-      keywords: 'hero home start',
-    },
-    {
-      id: 'go-about',
-      kind: 'jump',
-      label: 'About',
-      hint: 'section',
-      payload: 'about',
-      keywords: 'bio chapters experience',
-    },
-    {
-      id: 'go-built',
-      kind: 'jump',
-      label: "Things I've Built",
-      hint: 'section',
-      payload: 'built',
-      keywords: 'systems canvas graphql rbac auth notification multi tenant',
+      label: 'readme.md',
+      hint: '~/',
+      payload: '/',
+      keywords: 'hero home start intro about me readme',
     },
     {
       id: 'go-work',
       kind: 'jump',
-      label: 'Work',
-      hint: 'section',
-      payload: 'work',
+      label: 'Case files',
+      hint: '~/work',
+      payload: '/work',
       keywords: 'projects portfolio cases home server cloud infra immich cloudflare',
     },
     {
-      id: 'go-philosophy',
+      id: 'go-story',
       kind: 'jump',
-      label: 'Engineering Philosophy',
-      hint: 'section',
-      payload: 'philosophy',
-      keywords: 'approach principles values how i build maintainable scalable performance',
+      label: 'Home server build story',
+      hint: '~/work/home-server',
+      payload: '/work/home-server',
+      keywords: 'home server cloud immich jellyfin cloudflare tunnel gopicraft story',
     },
     {
-      id: 'go-skills',
+      id: 'go-systems',
       kind: 'jump',
-      label: 'Stack',
-      hint: 'section',
-      payload: 'skills',
-      keywords: 'skills tools technologies',
+      label: "Things I've built",
+      hint: '~/systems',
+      payload: '/systems',
+      keywords: 'built systems canvas graphql rbac auth notification multi tenant',
+    },
+    {
+      id: 'go-log',
+      kind: 'jump',
+      label: 'The record',
+      hint: '~/log',
+      payload: '/log',
+      keywords: 'about bio chapters experience education timeline career',
+    },
+    {
+      id: 'go-stack',
+      kind: 'jump',
+      label: 'The working set',
+      hint: '~/stack.json',
+      payload: '/stack',
+      keywords: 'skills stack tools technologies working set manifest',
+    },
+    {
+      id: 'go-runbook',
+      kind: 'jump',
+      label: 'The runbook',
+      hint: '~/runbook',
+      payload: '/runbook',
+      keywords:
+        'approach philosophy principles values how i build maintainable scalable performance',
     },
     {
       id: 'go-contact',
       kind: 'jump',
-      label: 'Contact',
-      hint: 'section',
-      payload: 'contact',
-      keywords: 'email phone reach',
+      label: 'Open a connection',
+      hint: '~/contact',
+      payload: '/contact',
+      keywords: 'email phone reach contact',
     },
     {
       id: 'copy-email',
@@ -298,7 +309,7 @@ export class CommandPaletteComponent implements AfterViewInit {
   async run(action: Action) {
     switch (action.kind) {
       case 'jump':
-        this.scrollTo(action.payload);
+        this.router.navigateByUrl(action.payload);
         break;
       case 'copy':
         try {
@@ -325,19 +336,5 @@ export class CommandPaletteComponent implements AfterViewInit {
       }
     }
     this.close();
-  }
-
-  private scrollTo(id: string) {
-    // On a sub-page (e.g. a case study) the sections don't exist: route home instead.
-    if (!document.getElementById('top')) {
-      this.router.navigate(['/'], { fragment: id === 'top' ? undefined : id });
-      return;
-    }
-    if (id === 'top') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const el = document.getElementById(id);
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
